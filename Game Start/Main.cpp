@@ -10,7 +10,7 @@ int winX = 1000;
 int winY = 800;
 /*END*/
 
-/*PLAYER CORDS*/
+/*PLAYER CORDS, CHANGE TO CHANGE STARTING POSITION*/
 float playX = 200;
 float playY = 200;
 /*END*/
@@ -37,7 +37,6 @@ int spriteYPos = 0;
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(winX, winY), "SFML works!");
-
 	window.setFramerateLimit(500);
 
 	//BOX TO TEST CHATBOX TRIGGERING
