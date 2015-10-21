@@ -1,7 +1,11 @@
+//*MIGHT BE A GOOD IDEA TO PUT ANY NOTES YOU WANT TO LEAVE UP HERE*//
+
+//TO DO: sprite doesn't animate when moving in diagonals yet, if someone wants to go ahead and implement that, go for it :)
+
 #include <SFML/Graphics.hpp>
 #include "ChatBox.h"
 
-/*CONSTANTS*/
+/*RENDERWINDOW SIZE*/
 int winX = 1000;
 int winY = 800;
 /*END*/
@@ -19,35 +23,41 @@ int health = 1;
 /*END*/
 
 /*SPRITE INFO*/
-int spriteWidth = 16;
-int spriteHeight = 16;
-int spriteMax = 4;
+const int SPRITEWIDTH = 16;
+const int SPRITEHEIGHT = 16;
+const int SPRITEMAX = 4;
+const int SPRITEGAP = 3;
 
 int spriteXPos = 0;
 int spriteYPos = 0;
 
-int spriteGap = 3;
+
 /*END*/
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(winX, winY), "SFML works!");
-    sf::CircleShape shape(10.f);
-    shape.setFillColor(sf::Color::Black);
 
 	window.setFramerateLimit(500);
 
+	//BOX TO TEST CHATBOX TRIGGERING
 	sf::RectangleShape box(sf::Vector2f(30,30));
 	box.setPosition(500,600);
 
-	//ARGS = window x axis size, window y axis size, padding/gap below chatBox
-	ChatBox textBox = ChatBox(winX,winY,30);
-	textBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White,35);
+	//CREATE TEXTBOX
+	ChatBox textBox = ChatBox(winX,winY);
+	textBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
+
+	//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
 	textBox.SetCharaterLineLimit(55);
 
-	sf::Clock timer;
+	//SET CHATBOX MESSAGE
 	textBox.setMessage("Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! >_< Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! ", window);
 
+	//TIMER NOT USED YET
+	sf::Clock timer;
+
+	//BACKGROUND TEXTURE
 	sf::Texture ground;
 	if(!ground.loadFromFile("sand.jpg"))
 	{
@@ -58,13 +68,14 @@ int main()
 	background.setTexture(ground);
 	background.setTextureRect(sf::IntRect(0, 0, winX, winY ));
 
+	//CHARACTER TEXTURE AND SPRITE
 	sf::Texture character;
 	if(!character.loadFromFile("characterSheet.png"))
 	{
 	}
 	sf::Sprite player;
 	player.setTexture(character);
-	player.setTextureRect(sf::IntRect(spriteGap,spriteGap,spriteWidth,spriteHeight));
+	player.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
 	player.setPosition(200,200);
 	player.setScale(1.5,1.5);
 
@@ -75,15 +86,18 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+			//PROGRESS OR CLOSE CHATBOX
 			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
 				textBox.setNext(true);
         }
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		//CHARACTER MOVEMENT EVENTS AND CHECK BOUDNS
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !(playX >= winX-SPRITEWIDTH-5))
 		{
 			playX+=speed;
 
-			spriteYPos = 1;
+			spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
 			if(spriteXPos >= 3)
 			{
 				spriteXPos = 0;
@@ -94,7 +108,7 @@ int main()
 			}
 		}
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !(playX <= 0))
 		{
 			playX-=speed;
 
@@ -109,7 +123,7 @@ int main()
 			}
 		}
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !(playY <= 0))
 		{
 			playY-=speed;
 
@@ -124,7 +138,7 @@ int main()
 			}
 		}
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !(playY >= winY-SPRITEWIDTH-5))
 		{
 			playY+=speed;
 
@@ -139,31 +153,27 @@ int main()
 			}
 		}
 
-		player.setTextureRect(sf::IntRect((spriteXPos * spriteWidth) + (spriteGap * spriteXPos)+spriteGap ,(spriteYPos * spriteWidth) + (spriteGap * spriteYPos)+spriteGap  ,spriteWidth,spriteHeight));
-		//Check bounds
-		if(playX>=1016)
-			playX = 0;
-		else if(playX <= -32)
-			playX = 1000;
-		else if(playY >= 816)
-			playY = 0;
-		else if (playY <= -32)
-			playY = 800;
-
+		//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
+		player.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
 
 		window.clear();
+
+		//ACTUALLY MOVE PLAYER SPRITE BASED ON UPDATE POSITION VALUES
 		player.setPosition(playX,playY);
-		//Display message with text
+
+		//DRAW GAME ELEMENTS
 		window.draw(background);
 		window.draw(player);
 		window.draw(box);
 
+		//CHATBOX TEST EVENT
 		if(box.getGlobalBounds().intersects(player.getGlobalBounds()))
-			textBox.redrawChat(true);
+			textBox.redrawChat(true); //SET IS THE CHATBOX IS REDRAWN OR NOT
 
+		//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 		textBox.displayMessage(window);
 
-
+		//DISPLAY DRAW COMPONENTS
         window.display();
 
 		

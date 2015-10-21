@@ -1,18 +1,17 @@
 #include "ChatBox.h"
 
-ChatBox::ChatBox(int winX, int winY, int botPadding)
+ChatBox::ChatBox(int winX, int winY)
 {
-	renderWindowX = winX;
-	renderWindowY = winY;
+	renderWindowX = (float)winX;
+	renderWindowY = (float)winY;
 	width = renderWindowX*0.8f; //chatBox x axis spans 80% width of screen
 	height = renderWindowY*0.15f; //chatBox y axis spans 20% width of screen
-	bottomPadding = botPadding;
 
 	textBox.setSize(sf::Vector2f(width,height));
 	textBox.setFillColor(sf::Color::Black);
 	textBox.setOutlineColor(sf::Color::White);
 	textBox.setOutlineThickness(5);
-	textBox.setPosition(sf::Vector2f( (renderWindowX - width) / 2, (renderWindowY - height) - botPadding));
+	textBox.setPosition(sf::Vector2f( (renderWindowX - width) / 2, (renderWindowY - height) - 30));
 
 	lineLimit = 72;
 
@@ -22,10 +21,10 @@ ChatBox::ChatBox(int winX, int winY, int botPadding)
 		cout << "ERROR: FONT NOT FOUND" << endl;
 	}
 	text.setFont(font);
-	text.setPosition(sf::Vector2f(width*0.15f,renderWindowY - height - (botPadding - 10)));
+	text.setPosition(sf::Vector2f(width*0.15f,renderWindowY - height - (20)));
 
 	textSpaceMessage.setString("Press R to continue...");
-	textSpaceMessage.setPosition(renderWindowX - (renderWindowX - width) - 45, renderWindowY - (height*0.4));
+	textSpaceMessage.setPosition((float)(renderWindowX - (renderWindowX - width) - 45), (float)(renderWindowY - (height*0.4)));
 	textSpaceMessage.setFont(font);
 	textSpaceMessage.setCharacterSize(8);
 
@@ -46,10 +45,9 @@ void ChatBox::SetCharaterLineLimit(int limit)
 }
 
 
-void ChatBox::setTextSettings(string fontTtf, int size, sf::Color Colour, int botPadding)
+void ChatBox::setTextSettings(string fontTtf, int size, sf::Color Colour)
 {
-	bottomPadding = botPadding;
-	text.setPosition(sf::Vector2f(width*0.15f,renderWindowY - height - (botPadding - 10)));
+	text.setPosition(sf::Vector2f(width*0.15f,renderWindowY - height - (20)));
 	if(!font.loadFromFile(fontTtf))
 	{
 		cout << "ERROR: FONT NOT FOUND" << endl;
@@ -71,7 +69,7 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 	numOfBoxes = 1;
 
 
-	for(int i = 0; i < message.length();i++)
+	for(unsigned int i = 0; i < message.length();i++)
 	{
 		if(lineCount == 3)
 		{
@@ -107,7 +105,6 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 
 void ChatBox::displayMessage(sf::RenderWindow &window)
 {
-	sf::Event event;
 	string::size_type loc;
 
 	if(redraw == true)

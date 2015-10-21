@@ -16,10 +16,8 @@ public:
 	float renderWindowY;
 	float width;
 	float height;
-	int bottomPadding;
 	int lineLimit;
 	int pageLimit;
-	int messageLength;
 	string message;
 	string messageLine;
 	bool redraw;
@@ -29,10 +27,10 @@ public:
 	bool next;
 
 public:
-	ChatBox(int winX, int winY, int botPadding);
+	ChatBox(int winX, int winY);
 	~ChatBox(void);
 	void displayMessage(sf::RenderWindow &window);
-	void setTextSettings(string fontTtf, int size, sf::Color Colour, int botPadding);
+	void setTextSettings(string fontTtf, int size, sf::Color Colour);
 	void SetCharaterLineLimit(int limit);
 	void setMessage(string message, sf::RenderWindow &window);
 	void redrawChat(bool status);
