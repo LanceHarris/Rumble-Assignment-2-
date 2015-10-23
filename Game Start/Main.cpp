@@ -6,8 +6,8 @@
 #include "ChatBox.h"
 
 /*RENDERWINDOW SIZE*/
-int winX = 1000;
-int winY = 800;
+int winX = 1080; //45 cells
+int winY = 840; //35 cells
 /*END*/
 
 /*PLAYER CORDS, CHANGE TO CHANGE STARTING POSITION*/
@@ -33,6 +33,36 @@ int spriteYPos = 0;
 
 
 /*END*/
+void drawGrid(sf::RenderWindow &window)
+{
+		int x = 0; //reset x to redraw grid
+		int y = winY; //reset y to redraw grid
+		for(int i = 0; i<winX/20;i++) //begin loop through to draw grid
+		{
+		
+		//define vertical line vertexes
+		x+=24;
+		sf::Vertex lineVert[] = {
+
+			sf::Vertex(sf::Vector2f(x, 0),sf::Color(0, 0, 0, 24)),
+			sf::Vertex(sf::Vector2f(x, winY),sf::Color(40, 0, 0, 24)),
+
+			};
+
+		//define horizontal line vertexes
+		y-=24;
+		sf::Vertex lineHori[] = {
+
+			sf::Vertex(sf::Vector2f(0, y),sf::Color(0, 0, 0, 24)),
+			sf::Vertex(sf::Vector2f(winX,y),sf::Color(0, 0, 0, 24)),
+
+			};
+
+		window.draw(lineVert, 2, sf::Lines); //draw vertical lines
+		window.draw(lineHori, 2, sf::Lines); //draw horizontal lines
+
+		}
+}
 
 int main()
 {
@@ -40,8 +70,8 @@ int main()
 	window.setFramerateLimit(500);
 
 	//BOX TO TEST CHATBOX TRIGGERING
-	sf::RectangleShape box(sf::Vector2f(30,30));
-	box.setPosition(500,600);
+	sf::RectangleShape box(sf::Vector2f(24,24));
+	box.setPosition(480,600);
 
 	//CREATE TEXTBOX
 	ChatBox textBox = ChatBox(winX,winY);
@@ -152,6 +182,8 @@ int main()
 			}
 		}
 
+		
+
 		//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
 		player.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
 
@@ -172,6 +204,7 @@ int main()
 		//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 		textBox.displayMessage(window);
 
+		drawGrid(window);
 		//DISPLAY DRAW COMPONENTS
         window.display();
 
