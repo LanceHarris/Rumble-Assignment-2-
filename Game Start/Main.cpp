@@ -31,25 +31,18 @@ const int SPRITEGAP = 3;
 
 int spriteXPos = 0;
 int spriteYPos = 0;
-
-
 /*END*/
+
 void drawGrid(sf::RenderWindow &window)
 {
 		int x = 0; //reset x to redraw grid
 		int y = winY; //reset y to redraw grid
-<<<<<<< HEAD
-		for(int i = 0; i<winX/20; i++) //begin loop through to draw grid
-=======
 		for(int i = 0; i<winX/20;i++) //begin loop through to draw grid
->>>>>>> origin/master
 		{
 		
 		//define vertical line vertexes
 		x+=24;
 		sf::Vertex lineVert[] = {
-<<<<<<< HEAD
-=======
 
 			sf::Vertex(sf::Vector2f(x, 0),sf::Color(0, 0, 0, 24)),
 			sf::Vertex(sf::Vector2f(x, winY),sf::Color(40, 0, 0, 24)),
@@ -70,32 +63,11 @@ void drawGrid(sf::RenderWindow &window)
 
 		}
 }
->>>>>>> origin/master
 
-			sf::Vertex(sf::Vector2f(x, 0),sf::Color(0, 0, 0, 24)),
-			sf::Vertex(sf::Vector2f(x, winY),sf::Color(0, 0, 0, 24)),
-
-			};
-
-		//define horizontal line vertexes
-		y-=24;
-		sf::Vertex lineHori[] = {
-
-			sf::Vertex(sf::Vector2f(0, y),sf::Color(0, 0, 0, 24)),
-			sf::Vertex(sf::Vector2f(winX,y),sf::Color(0, 0, 0, 24)),
-
-			};
-
-		window.draw(lineVert, 2, sf::Lines); //draw vertical lines
-		window.draw(lineHori, 2, sf::Lines); //draw horizontal lines
-
-		}
-}
 
 //COLOURS EMPTY TILES CYAN FOR DEBUGGING PURPOSES
 void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 {
-<<<<<<< HEAD
 	for (int row = 0; row < map.COLUMN_COUNT; row++)
 	{
 		for (int col = 0; col < map.ROW_COUNT; col++)
@@ -118,9 +90,6 @@ void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
-=======
-    sf::RenderWindow window(sf::VideoMode(winX, winY), "SFML works!");
->>>>>>> origin/master
 	window.setFramerateLimit(500);
 
 	//SET BOTH TO TRUE IF YOU WANT TO COLOUR IN THE EMPTY CELLS WITH CYAN
