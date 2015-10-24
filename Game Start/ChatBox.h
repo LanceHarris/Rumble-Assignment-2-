@@ -7,7 +7,7 @@ using namespace std;
 
 class ChatBox
 {
-public:
+private:
 	sf::RectangleShape textBox;
 	sf::Font font;
 	sf::Text text;

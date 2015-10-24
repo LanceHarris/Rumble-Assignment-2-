@@ -71,6 +71,7 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 
 	for(unsigned int i = 0; i < message.length();i++)
 	{
+		//IF STRING CONTAINS 3 LINES, INSERT (BREAK) SO THEY CAN BE BROKEN INTO SEPARATE CHATBOXES LATER
 		if(lineCount == 3)
 		{
 			messageLine += "(BREAK)";
@@ -78,9 +79,10 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 			numOfBoxes++;
 			i-=1;
 		}
+		//LINECOUNT STILL LESS THAN MAXIMUM OF 3
 		else 
 		{
-
+			//MAX NUMBER OF ALLOWED CHARACTERS PER LINE IS REACHED, INCREMENT LINECOUNT AND IF LINE END IS NOT AT A SPACE, ERASE CHARACTERS UNTIL ONE IS REACHED
 			if(count >= lineLimit)
 			{
 				while(message[i] != ' ')
@@ -92,6 +94,7 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 				lineCount++;
 				count = 0;
 			}
+			//LINELIMIT NOT REACHED, CONTINUE WRITING CHARACTERS INTO MESSAGELINE
 			else
 			{
 				messageLine+= message[i];
@@ -99,36 +102,52 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 			}
 		}
 	}
+	//STORE NUMBER OF BOXES (3 LINES PER BOX) FOR LATER USE
 	boxesDone = numOfBoxes;
+
+	//SET MESSAGE TO MESSAGELINE. "\n and (BREAK)" ADDED
 	message = messageLine;
 }
 
 void ChatBox::displayMessage(sf::RenderWindow &window)
 {
-	string::size_type loc;
-
+	//IF REDRAW IS SET TO TRUE, DRAW CHATBOX(S)
 	if(redraw == true)
 	{
+		//VARIABLE TO STORE LOCATINO OF FOUND (BREAK)'S IN CHATBOX STRING
+		string::size_type loc;
+
+		//DRAW BLACK BOX WITH WHITE OUTLINE UDNER CHATBOX TEXT
 		window.draw(textBox);
+
+		//IF THERE IS MORE THAN 1 BOX WORTH OF TEXT (EG: (BREAK)'S INSERTED
 		if(boxesDone > 1)
 		{
+				//FIND LOCATION OF INSERTED (BREAK)'S
 				loc = message.find( "(BREAK)", 0 );
+
+				//SET TEXT TO SUBSTR OF TEXT FROM BEGINNING TO FIRST (BREAK)
 				text.setString(message.substr(0,loc));
 				window.draw(text);
 
+				//IF PLAYER CLICKS "R", NEXT IS SET TO TRUE
 				if (next)
 				{
 					boxesDone-=1;
 					cout << boxesDone << endl;
+
+					//ERASE PREVIOUSLY DRAWN TEXT AND MOVE ONTO NEXT ONE (+7 IS TO ALSO DELETE THE (BREAK) )
 					message.erase(0,loc+7);
 					next = false;
 				}
 		}
+		//IF ONLY ONE BOX LEFT, OR ONE BOX TO BEGIN WITH
 		else
 		{
 			text.setString(message);
 			window.draw(text);
 
+			//IF PLAYER CLICKS "R", NEXT IS SET TO TRUE
 			if (next)
 			{
 				message = messageLine;
@@ -138,8 +157,8 @@ void ChatBox::displayMessage(sf::RenderWindow &window)
 			}
 
 		}
+		//DRAW TEXT
 		window.draw(textSpaceMessage);
-
 	}
 }
 
