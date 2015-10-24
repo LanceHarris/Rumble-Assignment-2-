@@ -1,10 +1,16 @@
+<<<<<<< HEAD
 ﻿Build started 24/10/2015 9:30:23 p.m..
      1>Project "C:\Users\User\Desktop\Uni Folder\ISCG 6442 - Game Programming\Rumble\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+=======
+﻿Build started 24/10/2015 11:21:32 AM.
+     1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+>>>>>>> origin/master
      1>InitializeBuildStatus:
          Creating "Debug\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.1\include" /I"D:\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
          Main.cpp
+<<<<<<< HEAD
      1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(48): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(49): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(49): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
@@ -22,6 +28,14 @@
      1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(201): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
      1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(220): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
      1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(220): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+=======
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(47): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(48): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(48): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(56): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(57): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(57): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+>>>>>>> origin/master
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -42,4 +56,8 @@
 
 Build succeeded.
 
+<<<<<<< HEAD
 Time Elapsed 00:00:02.13
+=======
+Time Elapsed 00:00:01.15
+>>>>>>> origin/master
