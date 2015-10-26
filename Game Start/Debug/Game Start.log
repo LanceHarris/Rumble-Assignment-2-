@@ -1,29 +1,23 @@
-﻿Build started 26/10/2015 1:31:14 p.m..
-     1>Project "C:\Users\User\Desktop\Uni Folder\ISCG 6442 - Game Programming\Rumble\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+﻿Build started 26/10/2015 8:51:06 PM.
+     1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Character.cpp Main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
          Main.cpp
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(66): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(67): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(67): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(75): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(76): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(76): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(94): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(97): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\main.cpp(97): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Character.cpp
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\character.cpp(28): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\character.cpp(32): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\character.cpp(189): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\user\desktop\uni folder\iscg 6442 - game programming\rumble\rumble-assignment-2-\game start\character.cpp(189): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Generating Code...
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(66): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(67): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(67): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(75): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(76): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(76): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(94): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(97): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(97): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\Uni Folder\ISCG 6442 - Game Programming\Rumble\Rumble-Assignment-2-\Debug\Game Start.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\User\Desktop\Uni Folder\ISCG 6442 - Game Programming\Rumble\Rumble-Assignment-2-\Debug\Game Start.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\Uni Folder\ISCG 6442 - Game Programming\Rumble\Rumble-Assignment-2-\Debug\Game Start.lib" /MACHINE:X86 "Debug\Game Start.exe.embed.manifest.res"
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.lib" /MACHINE:X86 "Debug\Game Start.exe.embed.manifest.res"
          Debug\Character.obj
          Debug\ChatBox.obj
          Debug\Main.obj
@@ -33,12 +27,12 @@
          All outputs are up-to-date.
        LinkEmbedManifest:
          All outputs are up-to-date.
-         Game Start.vcxproj -> C:\Users\User\Desktop\Uni Folder\ISCG 6442 - Game Programming\Rumble\Rumble-Assignment-2-\Debug\Game Start.exe
+         Game Start.vcxproj -> C:\Temp\Rumble-Assignment-2-\Debug\Game Start.exe
        FinalizeBuildStatus:
          Deleting file "Debug\Game Start.unsuccessfulbuild".
          Touching "Debug\Game Start.lastbuildstate".
-     1>Done Building Project "C:\Users\User\Desktop\Uni Folder\ISCG 6442 - Game Programming\Rumble\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.06
+Time Elapsed 00:00:01.58

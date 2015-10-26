@@ -99,7 +99,7 @@ Character::Character(int &health, float &speed)
 	this->sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
 	//this->sprite.setPosition(210,210);
 	this->sprite.setScale(1.5, 1.5);
-	this->sprite.setOrigin(sprite.getGlobalBounds().height/2, sprite.getGlobalBounds().width/2);
+	//this->sprite.setOrigin(sprite.getGlobalBounds().height/2, sprite.getGlobalBounds().width/2);
 	this->facing = RIGHT;
 }
 

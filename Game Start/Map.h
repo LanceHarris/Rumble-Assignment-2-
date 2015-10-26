@@ -29,12 +29,17 @@ public:
 	Tile getTile(int row, int column);
 	bool isCollision(int row, int column);
 	sf::Sprite getSprite();
+	sf::Sprite Map::getWallSprite();
 	Map(int, int);
 	~Map(void);
 
 private:
 	sf::Texture texture;
 	sf::Sprite sprite;
+
+	sf::Texture wallTexture;
+	sf::Sprite wallSprite;
+
 	static const int Map::DEFAULT_MAP[Map::ROW_COUNT][COLUMN_COUNT];
 };
 

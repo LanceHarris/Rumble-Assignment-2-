@@ -26,12 +26,12 @@ int winY = 840; //35 cells
 /*END*/
 
 /*PLAYER CORDS, CHANGE TO STARTING POSITION*/
-float playX = 200;
-float playY = 200;
+float playX = 24;
+float playY = 24;
 /*END*/
 
 /*PLAYER STATS*/
-float speed = 8; //8 looks smoother than 1
+float speed = 24; //8 looks smoother than 1
 int attack = 1;
 int toughness = 1;
 int health = 1;
@@ -48,7 +48,7 @@ int spriteYPos = 0;
 /*END*/
 
 //SPEED OF THE GAME
-const float GAME_SPEED = 60.0f; //The bigger this number is the more often frames are updated
+const float GAME_SPEED = 30.0f; //The bigger this number is the more often frames are updated
 sf::Time TimePerFrame = sf::seconds(1.0f / GAME_SPEED);
 /*END*/
 
@@ -135,7 +135,7 @@ int main()
 
 	Map map(winX, winY);
 	Character player(health, speed);
-	player.setPosition(20,20);
+	player.setPosition(2,2);
 
 	sf::Event event;
 
@@ -237,6 +237,8 @@ int main()
 			window.clear();
 			//DRAW GAME ELEMENTS
 			window.draw(map.getSprite());
+			window.draw(map.getWallSprite());
+
 			window.draw(player.getSprite());
 			window.draw(box);
 			drawGrid(window);
