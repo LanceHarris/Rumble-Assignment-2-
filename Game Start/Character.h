@@ -33,11 +33,11 @@ class Character
 		int getRow();
 
 		void setHealth(int &health);
-		void setSpeed(int &speed);
+		void setSpeed(float &speed);
 		void setAttack(int &attack);
 		void setToughness(int &toughness);
 		int getHealth();
-		int getSpeed();
+		float getSpeed();
 		int getAttack();
 		int getToughness();
 
@@ -46,14 +46,14 @@ class Character
 		void setFacing(Facing facing);
 		void setPosition(int row, int column);
 
-		Character(int &health, int &speed);
+		Character(int &health, float &speed);
 		~Character();
 
 	private:
 		Facing facing;
 
 		int health;
-		int speed;
+		float speed;
 		int attack;
 		int toughness;
 		int frame;

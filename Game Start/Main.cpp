@@ -31,7 +31,7 @@ float playY = 200;
 /*END*/
 
 /*PLAYER STATS*/
-int speed = 8; //8 looks smoother than 1
+float speed = 8; //8 looks smoother than 1
 int attack = 1;
 int toughness = 1;
 int health = 1;
@@ -148,26 +148,39 @@ int main()
                 window.close();
 			}
 
-			//PROGRESS OR CLOSE CHATBOX
-			else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
-			{
-				textBox.setNext(true);
-			}
+			else if (event.type == sf::Event::KeyPressed){
+				switch (event.key.code)
+				{
+				//Other Controls
+				case (sf::Keyboard::R): //Chat box
+					textBox.setNext(true);
+					break;
 
-			//CHARACTER MOVEMENT EVENTS AND CHECK BOUNDS
+				case (sf::Keyboard::I): //Debug Information
+					debug = true;
+					break;
+				}
+			}
+        }
+
+		
+
+		sf::Time elapsedTime = timer.restart();
+		timeSinceLastUpdate += elapsedTime;
+		if (timeSinceLastUpdate > TimePerFrame)
+		{
+			//Movement
 			//RIGHT
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !(player.getSprite().getPosition().x >= winX-SPRITEWIDTH-5))
+			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))) && !(player.getSprite().getPosition().x >= winX-SPRITEWIDTH-5))
 			{
-				//CHECK IF THE NEXT POSITION IN THE DIRECTION THE PLAYER IS HEADING ON THE MAP IS A COLLISION
 				if (!map.isCollision(player.getRow(), player.getColumn() + 1))
 				{
 					player.setFacing(Character::RIGHT);
 					player.walk(map);
 				}
 			}
-
 			//LEFT
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !(player.getSprite().getPosition().x <= 0))
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) && !(player.getSprite().getPosition().x <= 0))
 			{
 				if (!map.isCollision(player.getRow(), player.getColumn() - 1))
 				{
@@ -175,9 +188,8 @@ int main()
 					player.walk(map);
 				}
 			}
-
 			//UP
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !(player.getSprite().getPosition().y <= 0))
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))) && !(player.getSprite().getPosition().y <= 0))
 			{
 				if (!map.isCollision(player.getRow() - 1, player.getColumn()))
 				{
@@ -185,9 +197,8 @@ int main()
 					player.walk(map);
 				}
 			}
-
 			//DOWN
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !(player.getSprite().getPosition().y >= winY-SPRITEWIDTH-5))
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) && !(player.getSprite().getPosition().y >= winY-SPRITEHEIGHT-5))
 			{
 				if (!map.isCollision(player.getRow() + 1, player.getColumn()))
 				{
@@ -195,18 +206,6 @@ int main()
 					player.walk(map);
 				}
 			}
-
-			//FOR DEBUGGING
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)) //I = INFO
-			{
-				debug = true;
-			}
-        }
-
-		sf::Time elapsedTime = timer.restart();
-		timeSinceLastUpdate += elapsedTime;
-		if (timeSinceLastUpdate > TimePerFrame)
-		{
 			//DEBUG
 			if(debug)
 			{

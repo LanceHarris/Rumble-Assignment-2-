@@ -37,7 +37,7 @@ void Character::setHealth(int &health)
 {
 	this->health = health;
 }
-void Character::setSpeed(int &speed)
+void Character::setSpeed(float &speed)
 {
 	this->speed = speed;
 }
@@ -53,7 +53,7 @@ int Character::getHealth()
 {
 	return health;
 }
-int Character::getSpeed()
+float Character::getSpeed()
 {
 	return speed;
 }
@@ -66,7 +66,7 @@ int Character::getToughness()
 	return toughness;
 }
 
-Character::Character(int &health, int &speed)
+Character::Character(int &health, float &speed)
 {
 	spriteXPos = 0;
 	spriteYPos = 0;
@@ -106,66 +106,67 @@ Character::Character(int &health, int &speed)
 void Character::walk(Map map)
 {
 	sf::Vector2f pos = sprite.getPosition();
-
-	if (facing == RIGHT)
+	switch (facing)
 	{
-		pos.x += speed;
+		case RIGHT:
+			pos.x += speed;
 
-		spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
-		if(spriteXPos >= 3)
-		{
-			spriteXPos = 0;
-		}
-		else
-		{
-			spriteXPos+=1;
-		}
-		//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
-	}
-	else if (facing == LEFT)
-	{
-		pos.x -= speed;
+			spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
+			if(spriteXPos >= 3)
+			{
+				spriteXPos = 0;
+			}
+			else
+			{
+				spriteXPos+=1;
+			}
+			//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
+			break;
+		case LEFT:
+			pos.x -= speed;
 
-		spriteYPos = 3;
-		if(spriteXPos >= 3)
-		{
-			spriteXPos = 0;
-		}
-		else
-		{
-			spriteXPos+=1;
-		}
-		//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
-	}
-	else if (facing == DOWN)
-	{
-		pos.y += speed;
+			spriteYPos = 3;
+			if(spriteXPos >= 3)
+			{
+				spriteXPos = 0;
+			}
+			else
+			{
+				spriteXPos+=1;
+			}
+			//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
+			break;
+		case UP:
+			pos.y -= speed;
 
-		spriteYPos = 2;
-		if(spriteXPos >= 3)
-		{
-			spriteXPos = 0;
-		}
-		else
-		{
-			spriteXPos+=1;
-		}
-		//this->sprite.setTextureRect(sf::IntRect(down[frame] * 24, 0, 24, 24));
-	}
-	else if (facing == UP)
-	{
-		pos.y -= speed;
+			spriteYPos = 0;
+			if(spriteXPos >= 3)
+			{
+				spriteXPos = 0;
+			}
+			else
+			{
+				spriteXPos+=1;
+			}
+			//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
+			break;
+		case DOWN:
+			pos.y += speed;
 
-		spriteYPos = 0;
-		if(spriteXPos >= 3)
-		{
-			spriteXPos = 0;
-		}
-		else
-		{
-			spriteXPos+=1;
-		}
-		//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
+			spriteYPos = 2;
+			if(spriteXPos >= 3)
+			{
+				spriteXPos = 0;
+			}
+			else
+			{
+				spriteXPos+=1;
+			}
+			//this->sprite.setTextureRect(sf::IntRect(down[frame] * 24, 0, 24, 24));
+			break;
+		default:
+			std::cout << "this is an error";
+			break;
 	}
 	//frame = (frame + 1) % 2; - kept from the Pacman code
 
