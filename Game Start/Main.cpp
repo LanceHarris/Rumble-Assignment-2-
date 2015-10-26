@@ -1,23 +1,37 @@
-//*MIGHT BE A GOOD IDEA TO PUT ANY NOTES YOU WANT TO LEAVE UP HERE*//
+/*
+*	Main.cpp
+*	Rumble
+*
+*	Created by: Reuben Dales, Lance Donnell, Lance Harris, Josh Prow.
+*	Dated: 20 October 2015
+*
+*/
 
-//TO DO: sprite doesn't animate when moving in diagonals yet, if someone wants to go ahead and implement that, go for it :)
+/*TO DO: 
+Tighten up collisions
+Ensure the clock doesn't 'skip' when holding down movement
+Ensure animations always play, and that they play slower when moving
+Make it so that movement in another direction begins immediately when a key is pressed
+Create Player and Enemy class as subclasses of Character class
+*/
 
 #include <SFML/Graphics.hpp>
 #include "ChatBox.h"
 #include "Map.h"
+#include "Character.h"
 
 /*RENDERWINDOW SIZE*/
 int winX = 1080; //45 cells
 int winY = 840; //35 cells
 /*END*/
 
-/*PLAYER CORDS, CHANGE TO CHANGE STARTING POSITION*/
+/*PLAYER CORDS, CHANGE TO STARTING POSITION*/
 float playX = 200;
 float playY = 200;
 /*END*/
 
 /*PLAYER STATS*/
-int speed = 1;
+int speed = 8; //8 looks smoother than 1
 int attack = 1;
 int toughness = 1;
 int health = 1;
@@ -31,6 +45,11 @@ const int SPRITEGAP = 3;
 
 int spriteXPos = 0;
 int spriteYPos = 0;
+/*END*/
+
+//SPEED OF THE GAME
+const float GAME_SPEED = 60.0f; //The bigger this number is the more often frames are updated
+sf::Time TimePerFrame = sf::seconds(1.0f / GAME_SPEED);
 /*END*/
 
 void drawGrid(sf::RenderWindow &window)
@@ -64,8 +83,7 @@ void drawGrid(sf::RenderWindow &window)
 		}
 }
 
-
-//COLOURS EMPTY TILES CYAN FOR DEBUGGING PURPOSES
+//COLOURS EMPTY TILES (or any others that you specify) CYAN FOR DEBUGGING PURPOSES
 void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 {
 	for (int row = 0; row < map.COLUMN_COUNT; row++)
@@ -90,13 +108,13 @@ void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
-	window.setFramerateLimit(500);
 
 	//SET BOTH TO TRUE IF YOU WANT TO COLOUR IN THE EMPTY CELLS WITH CYAN
 	bool drawGridCells = false;
 	bool drawEmptyPath = false;
 
-	Map map(winX, winY);
+	//SET TO TRUE TO RUN DEBUGGING PRINT OUTS
+	bool debug = true;
 
 	//BOX TO TEST CHATBOX TRIGGERING
 	sf::RectangleShape box(sf::Vector2f(24,24));
@@ -112,166 +130,130 @@ int main()
 	//SET CHATBOX MESSAGE
 	textBox.setMessage("Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! >_< Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! ", window);
 
-	//TIMER NOT USED YET
 	sf::Clock timer;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-	//BACKGROUND TEXTURE
-	/*
-	sf::Texture ground;
-	if(!ground.loadFromFile("sand.jpg"))
-	{
-	}
-	ground.setRepeated(true);
+	Map map(winX, winY);
+	Character player(health, speed);
+	player.setPosition(20,20);
 
-	sf::Sprite background;
-	background.setTexture(ground);
-	background.setTextureRect(sf::IntRect(0, 0, winX, winY ));
-	*/
-
-
-	//CHARACTER TEXTURE AND SPRITE
-	sf::Texture character;
-	if(!character.loadFromFile("characterSheet.png"))
-	{
-	}
-	sf::Sprite player;
-	player.setTexture(character);
-	player.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-	player.setPosition(200,200);
-	player.setScale(1.5,1.5);
-	player.setOrigin(player.getGlobalBounds().height/2, player.getGlobalBounds().width/2);
+	sf::Event event;
 
     while (window.isOpen())
     {
-        sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+			{
                 window.close();
+			}
 
 			//PROGRESS OR CLOSE CHATBOX
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
+			else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
+			{
 				textBox.setNext(true);
+			}
+
+			//CHARACTER MOVEMENT EVENTS AND CHECK BOUNDS
+			//RIGHT
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !(player.getSprite().getPosition().x >= winX-SPRITEWIDTH-5))
+			{
+				//CHECK IF THE NEXT POSITION IN THE DIRECTION THE PLAYER IS HEADING ON THE MAP IS A COLLISION
+				if (!map.isCollision(player.getRow(), player.getColumn() + 1))
+				{
+					player.setFacing(Character::RIGHT);
+					player.walk(map);
+				}
+			}
+
+			//LEFT
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !(player.getSprite().getPosition().x <= 0))
+			{
+				if (!map.isCollision(player.getRow(), player.getColumn() - 1))
+				{
+					player.setFacing(Character::LEFT);
+					player.walk(map);
+				}
+			}
+
+			//UP
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !(player.getSprite().getPosition().y <= 0))
+			{
+				if (!map.isCollision(player.getRow() - 1, player.getColumn()))
+				{
+					player.setFacing(Character::UP);
+					player.walk(map);
+				}
+			}
+
+			//DOWN
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !(player.getSprite().getPosition().y >= winY-SPRITEWIDTH-5))
+			{
+				if (!map.isCollision(player.getRow() + 1, player.getColumn()))
+				{
+					player.setFacing(Character::DOWN);
+					player.walk(map);
+				}
+			}
+
+			//FOR DEBUGGING
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)) //I = INFO
+			{
+				debug = true;
+			}
         }
 
-		//CHARACTER MOVEMENT EVENTS AND CHECK BOUNDS
-		//RIGHT
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !(playX >= winX-SPRITEWIDTH-5))
+		sf::Time elapsedTime = timer.restart();
+		timeSinceLastUpdate += elapsedTime;
+		if (timeSinceLastUpdate > TimePerFrame)
 		{
-			//CHECK IF THE NEXT POSITION IN THE DIRECTION THE PLAYER IS HEADING ON THE MAP IS A COLLISION
-			//Going by JC's example, player.getPosition.y/24 will eventually be replaced with something like player.getRow(); (referring to the object) etc etc
-			if (!map.isCollision(player.getPosition().y / 24, player.getPosition().x / 24 + 1))
+			//DEBUG
+			if(debug)
 			{
-				playX+=speed;
+				std::cout << "actual position: (" << player.getSprite().getPosition().x << ", " << player.getSprite().getPosition().y << ")" << std::endl;
+				std::cout << "grid position: (" << player.getRow() << "," << player.getColumn() << ")" << std::endl;
+				std::cout << "map tile: " << map.getTile(player.getRow(), player.getColumn()) << std::endl;
+				std::cout << "Next tile right: " << (player.getColumn() + 1) << std::endl;
+				std::cout << "Next tile left: " << (player.getColumn() - 1) << std::endl;
+				std::cout << "Next tile up: " << (player.getRow() - 1) << std::endl;
+				std::cout << "Next tile down: " << (player.getRow() + 1) << std::endl;
+				std::cout << "===============" << std::endl;
 
-				spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
-				if(spriteXPos >= 3)
+				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
+				std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
+				std::cout << "===============" << std::endl;
+
+				if (drawGridCells)
 				{
-					spriteXPos = 0;
+					if (drawEmptyPath)
+					{
+						drawEmptyTiles(map, window);
+					}
 				}
-				else
-				{
-					spriteXPos+=1;
-				}
+				debug = false;
 			}
-		}
 
-		//LEFT
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !(playX <= 0))
-		{
-			if (!map.isCollision(player.getPosition().y / 24, player.getPosition().x / 24 - 1))
+			timeSinceLastUpdate -= TimePerFrame;
+
+			window.clear();
+			//DRAW GAME ELEMENTS
+			window.draw(map.getSprite());
+			window.draw(player.getSprite());
+			window.draw(box);
+			drawGrid(window);
+
+			//CHATBOX TEST EVENT
+			if(box.getGlobalBounds().intersects(player.getSprite().getGlobalBounds()))
 			{
-				playX-=speed;
-
-				spriteYPos = 3;
-				if(spriteXPos >= 3)
-				{
-					spriteXPos = 0;
-				}
-				else
-				{
-					spriteXPos+=1;
-				}
+				textBox.redrawChat(true); //SET IF THE CHATBOX IS REDRAWN OR NOT
 			}
+
+			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
+			textBox.displayMessage(window);
+
+			//DISPLAY DRAW COMPONENTS
+			window.display();
 		}
-
-		//UP
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !(playY <= 0))
-		{
-			if (!map.isCollision(player.getPosition().y / 24 - 1, player.getPosition().x / 24))
-			{
-				playY-=speed;
-
-				spriteYPos = 0;
-				if(spriteXPos >= 3)
-				{
-					spriteXPos = 0;
-				}
-				else
-				{
-					spriteXPos+=1;
-				}
-			}
-		}
-
-		//DOWN
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !(playY >= winY-SPRITEWIDTH-5))
-		{
-			if (!map.isCollision(player.getPosition().y / 24 + 1, player.getPosition().x / 24))
-			{
-				playY+=speed;
-
-				spriteYPos = 2;
-				if(spriteXPos >= 3)
-				{
-					spriteXPos = 0;
-				}
-				else
-				{
-					spriteXPos+=1;
-				}
-			}
-		}
-
-		
-
-		//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
-		player.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
-
-		window.clear();
-
-		//ACTUALLY MOVE PLAYER SPRITE BASED ON UPDATE POSITION VALUES
-		player.setPosition(playX,playY);
-
-		//DRAW GAME ELEMENTS
-		window.draw(map.getSprite());
-		//window.draw(background);
-
-		if (drawGridCells)
-		{
-			if (drawEmptyPath)
-			{
-				drawEmptyTiles(map, window);
-			}
-		}
-
-		window.draw(player);
-		window.draw(box);
-
-		//CHATBOX TEST EVENT
-		if(box.getGlobalBounds().intersects(player.getGlobalBounds()))
-			textBox.redrawChat(true); //SET IS THE CHATBOX IS REDRAWN OR NOT
-
-		//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
-		textBox.displayMessage(window);
-
-		drawGrid(window);
-		//DISPLAY DRAW COMPONENTS
-        window.display();
-
-		
-
     }
-
     return 0;
 }
