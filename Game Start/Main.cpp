@@ -31,7 +31,7 @@ float playY = 24;
 /*END*/
 
 /*PLAYER STATS*/
-float speed = 24; //8 looks smoother than 1
+float speed = 6; //8 looks smoother than 1
 int attack = 1;
 int toughness = 1;
 int health = 1;
@@ -135,7 +135,7 @@ int main()
 
 	Map map(winX, winY);
 	Character player(health, speed);
-	player.setPosition(2,2);
+	player.setPosition(12,12);
 
 	sf::Event event;
 
@@ -173,8 +173,9 @@ int main()
 			//RIGHT
 			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))) && !(player.getSprite().getPosition().x >= winX-SPRITEWIDTH-5))
 			{
-				if (!map.isCollision(player.getRow(), player.getColumn() + 1))
+				if (!map.isCollision( player.getRow(), player.getColumn() + 1 ) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) , player.getColumn() + 1))
 				{
+					std::cout << "actual position: (" << player.getSprite().getPosition().x+24/24 << ", " << (player.getSprite().getPosition().y+24/24)+1 << ")" << std::endl;
 					player.setFacing(Character::RIGHT);
 					player.walk(map);
 				}
@@ -182,7 +183,7 @@ int main()
 			//LEFT
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) && !(player.getSprite().getPosition().x <= 0))
 			{
-				if (!map.isCollision(player.getRow(), player.getColumn() - 1))
+				if (!map.isCollision(player.getRow(), ((player.getSprite().getPosition().x+18)/24) - 1 ) && !map.isCollision(((player.getSprite().getPosition().y+18)/24), ((player.getSprite().getPosition().x+18)/24) - 1 ))
 				{
 					player.setFacing(Character::LEFT);
 					player.walk(map);
@@ -191,7 +192,7 @@ int main()
 			//UP
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))) && !(player.getSprite().getPosition().y <= 0))
 			{
-				if (!map.isCollision(player.getRow() - 1, player.getColumn()))
+				if (!map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, player.getColumn()) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, ((player.getSprite().getPosition().x+18)/24)))
 				{
 					player.setFacing(Character::UP);
 					player.walk(map);
@@ -200,7 +201,7 @@ int main()
 			//DOWN
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) && !(player.getSprite().getPosition().y >= winY-SPRITEHEIGHT-5))
 			{
-				if (!map.isCollision(player.getRow() + 1, player.getColumn()))
+				if (!map.isCollision(player.getRow() + 1, player.getColumn() ) && !map.isCollision( player.getRow() + 1, (player.getSprite().getPosition().x+18)/24) )
 				{
 					player.setFacing(Character::DOWN);
 					player.walk(map);

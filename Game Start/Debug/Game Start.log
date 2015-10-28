@@ -1,4 +1,4 @@
-﻿Build started 26/10/2015 8:51:06 PM.
+﻿Build started 28/10/2015 5:59:15 PM.
      1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -14,6 +14,14 @@
      1>c:\temp\rumble-assignment-2-\game start\main.cpp(94): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
      1>c:\temp\rumble-assignment-2-\game start\main.cpp(97): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>c:\temp\rumble-assignment-2-\game start\main.cpp(97): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(176): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(186): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(186): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(186): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(195): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(195): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(195): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(204): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -35,4 +43,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.58
+Time Elapsed 00:00:01.35
