@@ -29,7 +29,6 @@ public:
 	Tile getTile(int row, int column);
 	bool isCollision(int row, int column);
 	sf::Sprite getSprite();
-	sf::Sprite Map::getWallSprite();
 	Map(int, int);
 	~Map(void);
 

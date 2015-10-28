@@ -48,7 +48,7 @@ int spriteYPos = 0;
 /*END*/
 
 //SPEED OF THE GAME
-const float GAME_SPEED = 30.0f; //The bigger this number is the more often frames are updated
+const float GAME_SPEED = 60.0f; //The bigger this number is the more often frames are updated
 sf::Time TimePerFrame = sf::seconds(1.0f / GAME_SPEED);
 /*END*/
 
@@ -105,6 +105,27 @@ void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 	}
 }
 
+void drawWallTiles(Map &map, sf::RenderWindow &window)
+{
+	for (int row = 0; row < map.COLUMN_COUNT; row++)
+	{
+		for (int col = 0; col < map.ROW_COUNT; col++)
+		{
+			Map::Tile tile = map.getTile(col, row);
+			if (tile != Map::Tile::TileEmpty)
+			{
+				sf::RectangleShape rectangle;
+				rectangle.setPosition(row * 24, col * 24);
+				rectangle.setSize(sf::Vector2f(24, 24));
+
+				rectangle.setFillColor(sf::Color::Black);
+
+				window.draw(rectangle);
+			}
+		}
+	}
+}
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
@@ -118,7 +139,7 @@ int main()
 
 	//BOX TO TEST CHATBOX TRIGGERING
 	sf::RectangleShape box(sf::Vector2f(24,24));
-	box.setPosition(480,600);
+	box.setPosition(480,624);
 
 	//CREATE TEXTBOX
 	ChatBox textBox = ChatBox(winX,winY);
@@ -171,17 +192,16 @@ int main()
 		{
 			//Movement
 			//RIGHT
-			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))) && !(player.getSprite().getPosition().x >= winX-SPRITEWIDTH-5))
+			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
 			{
 				if (!map.isCollision( player.getRow(), player.getColumn() + 1 ) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) , player.getColumn() + 1))
 				{
-					std::cout << "actual position: (" << player.getSprite().getPosition().x+24/24 << ", " << (player.getSprite().getPosition().y+24/24)+1 << ")" << std::endl;
 					player.setFacing(Character::RIGHT);
 					player.walk(map);
 				}
 			}
 			//LEFT
-			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) && !(player.getSprite().getPosition().x <= 0))
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
 			{
 				if (!map.isCollision(player.getRow(), ((player.getSprite().getPosition().x+18)/24) - 1 ) && !map.isCollision(((player.getSprite().getPosition().y+18)/24), ((player.getSprite().getPosition().x+18)/24) - 1 ))
 				{
@@ -190,7 +210,7 @@ int main()
 				}
 			}
 			//UP
-			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))) && !(player.getSprite().getPosition().y <= 0))
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
 			{
 				if (!map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, player.getColumn()) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, ((player.getSprite().getPosition().x+18)/24)))
 				{
@@ -199,7 +219,7 @@ int main()
 				}
 			}
 			//DOWN
-			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))) && !(player.getSprite().getPosition().y >= winY-SPRITEHEIGHT-5))
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
 			{
 				if (!map.isCollision(player.getRow() + 1, player.getColumn() ) && !map.isCollision( player.getRow() + 1, (player.getSprite().getPosition().x+18)/24) )
 				{
@@ -238,11 +258,11 @@ int main()
 			window.clear();
 			//DRAW GAME ELEMENTS
 			window.draw(map.getSprite());
-			window.draw(map.getWallSprite());
 
+			drawWallTiles(map,window);
 			window.draw(player.getSprite());
 			window.draw(box);
-			drawGrid(window);
+			//drawGrid(window);
 
 			//CHATBOX TEST EVENT
 			if(box.getGlobalBounds().intersects(player.getSprite().getGlobalBounds()))
