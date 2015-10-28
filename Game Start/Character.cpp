@@ -15,6 +15,7 @@ const int Character::right[FRAMES] = { 4,5,6,7 };
 const int Character::down[FRAMES] = { 8,9,10,11 };
 const int Character::up[FRAMES] = { 0,1,2,3 };
 
+/*
 bool Character::rowBoundary()
 {
 	return ((int)sprite.getPosition().y % 24 == 0);
@@ -23,6 +24,8 @@ bool Character::columnBoundary()
 {
 	return ((int)sprite.getPosition().x % 24 == 0);
 }
+*/
+
 int Character::getColumn()
 {
 	return sprite.getPosition().x / 24;
@@ -97,9 +100,7 @@ Character::Character(int &health, float &speed)
 	this->sprite.setTexture(texture);
 	//this->sprite.setTextureRect(sf::IntRect(right[frame]*16, 0,16,16));
 	this->sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-	//this->sprite.setPosition(210,210);
 	this->sprite.setScale(1.5, 1.5);
-	//this->sprite.setOrigin(sprite.getGlobalBounds().height/2, sprite.getGlobalBounds().width/2);
 	this->facing = RIGHT;
 }
 
@@ -185,9 +186,17 @@ void Character::setFacing(Facing facing)
 	this->facing = facing;
 }
 
+//Overrides setPosition to take a cell location (instead of a pixel location)
 void Character::setPosition(int row, int column)
 {
 	sprite.setPosition(row * 24, column * 24);
+}
+
+//Turns the player the direction they want to go regardless of whether it's into a wall
+void Character::turn(int direction)
+{
+	spriteYPos = direction;
+	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
 }
 
 Character::~Character()

@@ -44,6 +44,7 @@ class Character
 		void walk(Map map);
 		sf::Sprite getSprite();
 		void setFacing(Facing facing);
+		void turn(int direction);
 		void setPosition(int row, int column);
 
 		Character(int &health, float &speed);

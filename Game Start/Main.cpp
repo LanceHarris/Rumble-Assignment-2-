@@ -8,11 +8,12 @@
 */
 
 /*TO DO: 
-Tighten up collisions
-Ensure the clock doesn't 'skip' when holding down movement
-Ensure animations always play, and that they play slower when moving
-Make it so that movement in another direction begins immediately when a key is pressed
 Create Player and Enemy class as subclasses of Character class
+*/
+
+/*NOTES:
+Player size after 1.5 scaling: 24
+
 */
 
 #include <SFML/Graphics.hpp>
@@ -25,26 +26,11 @@ int winX = 1080; //45 cells
 int winY = 840; //35 cells
 /*END*/
 
-/*PLAYER CORDS, CHANGE TO STARTING POSITION*/
-float playX = 24;
-float playY = 24;
-/*END*/
-
 /*PLAYER STATS*/
-float speed = 6; //8 looks smoother than 1
+float speed = 6;
 int attack = 1;
 int toughness = 1;
 int health = 1;
-/*END*/
-
-/*SPRITE INFO*/
-const int SPRITEWIDTH = 16;
-const int SPRITEHEIGHT = 16;
-const int SPRITEMAX = 4;
-const int SPRITEGAP = 3;
-
-int spriteXPos = 0;
-int spriteYPos = 0;
 /*END*/
 
 //SPEED OF THE GAME
@@ -184,8 +170,6 @@ int main()
 			}
         }
 
-		
-
 		sf::Time elapsedTime = timer.restart();
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
@@ -194,6 +178,8 @@ int main()
 			//RIGHT
 			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
 			{
+				player.turn(1); //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
+
 				if (!map.isCollision( player.getRow(), player.getColumn() + 1 ) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) , player.getColumn() + 1))
 				{
 					player.setFacing(Character::RIGHT);
@@ -203,6 +189,8 @@ int main()
 			//LEFT
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
 			{
+				player.turn(3);
+
 				if (!map.isCollision(player.getRow(), ((player.getSprite().getPosition().x+18)/24) - 1 ) && !map.isCollision(((player.getSprite().getPosition().y+18)/24), ((player.getSprite().getPosition().x+18)/24) - 1 ))
 				{
 					player.setFacing(Character::LEFT);
@@ -212,6 +200,8 @@ int main()
 			//UP
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
 			{
+				player.turn(0);
+
 				if (!map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, player.getColumn()) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, ((player.getSprite().getPosition().x+18)/24)))
 				{
 					player.setFacing(Character::UP);
@@ -221,6 +211,8 @@ int main()
 			//DOWN
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
 			{
+				player.turn(2);
+
 				if (!map.isCollision(player.getRow() + 1, player.getColumn() ) && !map.isCollision( player.getRow() + 1, (player.getSprite().getPosition().x+18)/24) )
 				{
 					player.setFacing(Character::DOWN);
