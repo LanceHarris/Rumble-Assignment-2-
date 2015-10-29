@@ -243,6 +243,15 @@ int main()
 	characterSelection = 1;
 	//**END**//
 
+	//**PROJECTILE TEXTURES**//
+	sf::Texture missileTexture; //since allot of projectile objects are created all the time, I feel like it'd be more efficient to load this here only once, and pass it as an argument
+	if(!missileTexture.loadFromFile("characterSheet.png"))
+	{
+		std::cout << "Error loading projectile texture" << std::endl;
+	}
+
+	//**END**//
+	
 	//**ARRAY LIST TO STORE PROJECTILES**//
 	std::vector<Projectile> projectiles;
 	//**END**//
@@ -327,7 +336,7 @@ int main()
 					break;
 
 				case (sf::Keyboard::Space): //Shoot event
-					projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 12));
+					projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 9, missileTexture));
 					break;
 				}
 			}

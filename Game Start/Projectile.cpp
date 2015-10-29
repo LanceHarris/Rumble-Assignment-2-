@@ -10,20 +10,19 @@
 #include "Projectile.h"
 
 
-Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed)
+Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture)
 {
 	isPlayerProjectile = aIsPlayerAttack;
 	damage = aDamage;
 	direction = aDirection;
 	position = userPosition;
 	speed = aSpeed;
+	currentFrame = 0;
 
-	if(!attackTexture.loadFromFile("sand.jpg"))
-	{
-		std::cout << "Error loading projectile texture" << std::endl;
-	}
-	attack.setTexture(attackTexture);
+	attack.setTexture(missileTexture);
 	attack.setPosition(position.x,position.y);
+	attack.setTextureRect(sf::IntRect(POSX,(FRAMEXY*currentFrame)+FRAMEGAP,10,10));
+	attack.setScale(3,3);
 }
 
 Projectile::~Projectile(void)
@@ -32,6 +31,7 @@ Projectile::~Projectile(void)
 
 void Projectile::updateProjectileLocation(sf::RenderWindow &window)
 {
+
 	switch(direction)
 	{
 	case 0:
@@ -51,6 +51,11 @@ void Projectile::updateProjectileLocation(sf::RenderWindow &window)
 
 	attack.setPosition(position.x,position.y);
 	window.draw(attack);
+
+	attack.setTextureRect(sf::IntRect(POSX,(FRAMEXY*currentFrame)+(currentFrame*FRAMEGAP)+FRAMEGAP,10,10));
+	currentFrame++;
+	if(currentFrame >= 8)
+		currentFrame = 0;
 }
 
 float Projectile::getPosX()
