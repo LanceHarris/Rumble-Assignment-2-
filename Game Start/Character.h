@@ -47,6 +47,8 @@ class Character
 		void turn(int direction);
 		void setPosition(int row, int column);
 
+		int getFacing();
+
 		Character(int &health, float &speed);
 		~Character();
 

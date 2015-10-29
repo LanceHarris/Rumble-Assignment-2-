@@ -1,4 +1,14 @@
+/*
+*	Character.h
+*	Rumble
+*
+*	Created by: Reuben Dales, Lance Donnell, Lance Harris, Josh Prow.
+*	Dated: 25 October 2015
+*
+*/
+
 #pragma once
+
 #include <string.h>
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -36,6 +46,6 @@ public:
 	void redrawChat(bool status);
 	void setPageLineLimit(int Limit);
 	void setNext(bool choice);
-
+	void displayConstantMessage(sf::RenderWindow &window);
 };
 

@@ -20,6 +20,10 @@ Player size after 1.5 scaling: 24
 #include "ChatBox.h"
 #include "Map.h"
 #include "Character.h"
+#include "Projectile.h"
+
+#include <list>
+
 
 /*RENDERWINDOW SIZE*/
 int winX = 1080; //45 cells
@@ -37,6 +41,11 @@ int health = 1;
 const float GAME_SPEED = 60.0f; //The bigger this number is the more often frames are updated
 sf::Time TimePerFrame = sf::seconds(1.0f / GAME_SPEED);
 /*END*/
+
+//**GAME STATE**//
+bool state = 0;
+int characterSelection;
+//**END**//
 
 void drawGrid(sf::RenderWindow &window)
 {
@@ -176,9 +185,6 @@ int main()
 	//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
 	textBox.SetCharaterLineLimit(55);
 
-	//SET CHATBOX MESSAGE
-	textBox.setMessage("Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! >_< Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! Welcome to the Colloseum! Prepare to die! Nye hehheh hehheh hehheh hehheh *coughcough*! ", window);
-
 	sf::Clock timer;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
@@ -188,8 +194,119 @@ int main()
 
 	sf::Event event;
 
+	textBox.setMessage("Welcome to Rumble! Please select a character!",window);
+	textBox.redrawChat(false);
+
+	//**LOAD CHARACTER SELECT TEXUTRES**//
+	sf::Texture wizardSelect;
+	if(!wizardSelect.loadFromFile("wizardSelect.png"))
+	{
+		//error
+	}
+
+	sf::Texture warriorSelect;
+	if(!warriorSelect.loadFromFile("warriorSelect.png"))
+	{
+		//error
+	}
+
+	
+
+	sf::RectangleShape warriorBox(sf::Vector2f(234,378));
+	warriorBox.setTexture(&warriorSelect);
+	sf::Vector2f warriorLoc = sf::Vector2f(winX*0.8f-warriorBox.getSize().x,winY-600.0f);
+	warriorBox.setPosition(warriorLoc);
+
+	sf::RectangleShape wizardBox(sf::Vector2f(234,378));
+	wizardBox.setTexture(&wizardSelect);
+	sf::Vector2f wizardLoc = sf::Vector2f(winX*0.2f,winY-600.0f);
+	wizardBox.setPosition(wizardLoc);
+
+
+	sf::RectangleShape selectionOutline(sf::Vector2f(254,398));
+	selectionOutline.setOutlineColor(sf::Color::White);
+	selectionOutline.setOutlineThickness(10.0f);
+	selectionOutline.setFillColor(sf::Color::Transparent);
+	selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y - 10);
+
+	sf::Texture rumbleLogo;
+	if(!rumbleLogo.loadFromFile("RumbleLogo.png"))
+	{
+		//error
+	}
+
+	sf::Sprite logo;
+	logo.setTexture(rumbleLogo);
+	logo.setOrigin(rumbleLogo.getSize().x/2,rumbleLogo.getSize().y/2);
+	logo.setPosition(winX/2,winY*0.14);
+
+	characterSelection = 1;
+	//**END**//
+
+	//**ARRAY LIST TO STORE PROJECTILES**//
+	std::vector<Projectile> projectiles;
+	//**END**//
+
     while (window.isOpen())
     {
+
+		if(state == 0)
+		{
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+				}
+				else if (event.type == sf::Event::KeyPressed)
+				{
+					switch (event.key.code)
+					{
+					//Other Controls
+					case (sf::Keyboard::D )://Change selection
+						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y - 10);
+						characterSelection = 2;
+						break;
+
+					case (sf::Keyboard::Right )://Change selection
+						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y - 10);
+						characterSelection = 2;
+						break;
+
+					case (sf::Keyboard::A ): //Change selection
+						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y - 10);
+						characterSelection = 1;
+						break;
+
+					case (sf::Keyboard::Left ): //Change selection
+						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y - 10);
+						characterSelection = 1;
+						break;
+
+					case (sf::Keyboard::Space): //Select character
+						state = 1;
+						break;
+
+					case (sf::Keyboard::R): //Select character
+						state = 1;
+						break;
+					}
+				}
+			}
+
+			window.clear();
+
+			window.draw(logo);
+			window.draw(wizardBox);
+			window.draw(warriorBox);
+			window.draw(selectionOutline);
+			textBox.displayConstantMessage(window);
+
+			window.display();
+		}
+
+		else if(state == 1)
+		{
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -207,6 +324,10 @@ int main()
 
 				case (sf::Keyboard::I): //Debug Information
 					debug = true;
+					break;
+
+				case (sf::Keyboard::Space): //Shoot event
+					projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 12));
 					break;
 				}
 			}
@@ -271,6 +392,7 @@ int main()
 				std::cout << "Next tile left: " << (player.getColumn() - 1) << std::endl;
 				std::cout << "Next tile up: " << (player.getRow() - 1) << std::endl;
 				std::cout << "Next tile down: " << (player.getRow() + 1) << std::endl;
+				std::cout << "Player facing: " << (player.getFacing()) << std::endl;
 				std::cout << "===============" << std::endl;
 
 				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
@@ -292,6 +414,7 @@ int main()
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y);
 
 			window.clear();
+
 			
 			//DRAW GAME ELEMENTS
 
@@ -301,6 +424,27 @@ int main()
 			window.draw(lightingSprite);
 			//window.draw(ambLightingSprite);
 			window.draw(player.getSprite());
+
+			//**DRAW PROJECTILES**//
+			for(int i = 0; i < projectiles.size();i++)
+			{
+				projectiles[i].updateProjectileLocation(window);
+
+				if(map.isCollision(projectiles[i].getRow(), projectiles[i].getColumn() ))
+				{
+					projectiles.erase(projectiles.begin()+i);
+				}
+				else if(projectiles[i].getPosX() > 1080 || projectiles[i].getPosX() < 0)
+				{
+					projectiles.erase(projectiles.begin()+i); //Since Projectile objects weren't allocated with new, erase should free the memory as well as removing the object from the array
+				}
+				else if(projectiles[i].getPosY() > 840 || projectiles[i].getPosY() < 0)
+				{
+					projectiles.erase(projectiles.begin()+i);
+				}
+			}
+			//**END**//
+
 			//drawGrid(window);
 			
 			//CHATBOX TEST EVENT
@@ -311,11 +455,12 @@ int main()
 
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			textBox.displayMessage(window);
-
+			
 			
 			//DISPLAY DRAW COMPONENTS
 			window.display();
 		}
     }
+	}
     return 0;
 }

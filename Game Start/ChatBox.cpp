@@ -1,3 +1,12 @@
+/*
+*	Character.h
+*	Rumble
+*
+*	Created by: Reuben Dales, Lance Donnell, Lance Harris, Josh Prow.
+*	Dated: 25 October 2015
+*
+*/
+
 #include "ChatBox.h"
 
 ChatBox::ChatBox(int winX, int winY)
@@ -160,6 +169,15 @@ void ChatBox::displayMessage(sf::RenderWindow &window)
 		//DRAW TEXT
 		window.draw(textSpaceMessage);
 	}
+}
+
+void ChatBox::displayConstantMessage(sf::RenderWindow &window)
+{
+	//DRAW BLACK BOX WITH WHITE OUTLINE UDNER CHATBOX TEXT
+	window.draw(textBox);
+
+	//IF ONLY ONE BOX LEFT, OR ONE BOX TO BEGIN WITH
+	window.draw(text);
 }
 
 void ChatBox::setNext(bool choice)

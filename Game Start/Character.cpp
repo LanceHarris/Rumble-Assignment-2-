@@ -69,6 +69,12 @@ int Character::getToughness()
 	return toughness;
 }
 
+//Interesting note, if facing (enum) is returned as an int, or outputed with cout it displays as an integer value corresponding to it's position in the enum declartion (left = 0, right = 1, down = 2, up = 3)
+int Character::getFacing()
+{
+	return facing;
+}
+
 Character::Character(int &health, float &speed)
 {
 	spriteXPos = 0;
