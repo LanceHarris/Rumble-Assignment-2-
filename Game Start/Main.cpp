@@ -91,8 +91,10 @@ void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 	}
 }
 
-void drawWallTiles(Map &map, sf::RenderWindow &window)
+
+void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch)
 {
+
 	for (int row = 0; row < map.COLUMN_COUNT; row++)
 	{
 		for (int col = 0; col < map.ROW_COUNT; col++)
@@ -107,7 +109,9 @@ void drawWallTiles(Map &map, sf::RenderWindow &window)
 				if(tile == Map::Tile::TileWall)
 					rectangle.setFillColor(sf::Color::Black);
 				else if(tile == Map::Tile::tileWallFront)
-					rectangle.setFillColor(sf::Color::White);
+					rectangle.setTexture(wall);
+				else if(tile == Map::Tile::tileWallFrontTorch)
+					rectangle.setTexture(wallTorch);
 
 				window.draw(rectangle);
 			}
@@ -117,6 +121,19 @@ void drawWallTiles(Map &map, sf::RenderWindow &window)
 
 int main()
 {
+	//**WALL SEGMENT LOAD**//
+	sf::Texture wallFront;
+	if(!wallFront.loadFromFile("wallFront.jpg"))
+	{
+		//error
+	}
+
+		sf::Texture wallTorch;
+	if(!wallTorch.loadFromFile("wallFrontTorchOff.jpg"))
+	{
+		//error
+	}
+	//**END**//
 
 	//**LIGHTING TEST**//
 	sf::Texture lighting;
@@ -127,6 +144,16 @@ int main()
 	sf::Sprite lightingSprite;
 	lightingSprite.setTexture(lighting);
 	lightingSprite.setOrigin(1500,1000);
+
+	//**AMBIENT FROM TORCHES**//
+	sf::Texture ambLighting;
+	if(!ambLighting.loadFromFile("testAmbientLighting.png"))
+	{
+		//failed
+	}
+	sf::Sprite ambLightingSprite;
+	ambLightingSprite.setTexture(ambLighting);
+
 	//**END**//
 
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
@@ -269,21 +296,12 @@ int main()
 			//DRAW GAME ELEMENTS
 
 			window.draw(map.getSprite());
-
-			drawWallTiles(map,window);
-
+			drawWallTiles(map,window,&wallFront,&wallTorch);
 			window.draw(box);
-
-
 			window.draw(lightingSprite);
-
-
+			//window.draw(ambLightingSprite);
 			window.draw(player.getSprite());
-
-			
-
 			//drawGrid(window);
-
 			
 			//CHATBOX TEST EVENT
 			if(box.getGlobalBounds().intersects(player.getSprite().getGlobalBounds()))

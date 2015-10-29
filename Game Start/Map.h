@@ -24,6 +24,7 @@ public:
 		TileEmpty = 0,
 		TileWall = 1,
 		tileWallFront = 2,
+		tileWallFrontTorch = 3,
 	};
 
 	Tile getTile(int row, int column);
