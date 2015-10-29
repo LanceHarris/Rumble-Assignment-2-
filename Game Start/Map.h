@@ -23,7 +23,7 @@ public:
 		TileOut = -1,
 		TileEmpty = 0,
 		TileWall = 1,
-		TileTrap = 2,
+		tileWallFront = 2,
 	};
 
 	Tile getTile(int row, int column);

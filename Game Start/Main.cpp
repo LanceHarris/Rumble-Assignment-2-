@@ -104,7 +104,10 @@ void drawWallTiles(Map &map, sf::RenderWindow &window)
 				rectangle.setPosition(row * 24, col * 24);
 				rectangle.setSize(sf::Vector2f(24, 24));
 
-				rectangle.setFillColor(sf::Color::Black);
+				if(tile == Map::Tile::TileWall)
+					rectangle.setFillColor(sf::Color::Black);
+				else if(tile == Map::Tile::tileWallFront)
+					rectangle.setFillColor(sf::Color::White);
 
 				window.draw(rectangle);
 			}
@@ -114,6 +117,18 @@ void drawWallTiles(Map &map, sf::RenderWindow &window)
 
 int main()
 {
+
+	//**LIGHTING TEST**//
+	sf::Texture lighting;
+	if(!lighting.loadFromFile("lightingTest.png"))
+	{
+		//failed
+	}
+	sf::Sprite lightingSprite;
+	lightingSprite.setTexture(lighting);
+	lightingSprite.setOrigin(1500,1000);
+	//**END**//
+
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
 
 	//SET BOTH TO TRUE IF YOU WANT TO COLOUR IN THE EMPTY CELLS WITH CYAN
@@ -125,7 +140,7 @@ int main()
 
 	//BOX TO TEST CHATBOX TRIGGERING
 	sf::RectangleShape box(sf::Vector2f(24,24));
-	box.setPosition(480,624);
+	box.setPosition(480,120);
 
 	//CREATE TEXTBOX
 	ChatBox textBox = ChatBox(winX,winY);
@@ -247,15 +262,29 @@ int main()
 
 			timeSinceLastUpdate -= TimePerFrame;
 
+			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y);
+
 			window.clear();
+			
 			//DRAW GAME ELEMENTS
+
 			window.draw(map.getSprite());
 
 			drawWallTiles(map,window);
-			window.draw(player.getSprite());
+
 			window.draw(box);
+
+
+			window.draw(lightingSprite);
+
+
+			window.draw(player.getSprite());
+
+			
+
 			//drawGrid(window);
 
+			
 			//CHATBOX TEST EVENT
 			if(box.getGlobalBounds().intersects(player.getSprite().getGlobalBounds()))
 			{
@@ -265,6 +294,7 @@ int main()
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			textBox.displayMessage(window);
 
+			
 			//DISPLAY DRAW COMPONENTS
 			window.display();
 		}
