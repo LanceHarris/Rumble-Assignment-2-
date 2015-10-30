@@ -72,7 +72,7 @@ int Character::getToughness()
 //Interesting note, if facing (enum) is returned as an int, or outputed with cout it displays as an integer value corresponding to it's position in the enum declartion (Up = 0; Right = 1; Down = 2; Left = 3;)
 int Character::getFacing()
 {
-	return facing;
+	return aiming;
 }
 
 Character::Character(int &health, float &speed)
@@ -121,7 +121,7 @@ void Character::walk(Map &map)
 			{
 				pos.x += speed;
 
-				spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
+				
 				if(spriteXPos >= 3)
 				{
 					spriteXPos = 0;
@@ -138,7 +138,7 @@ void Character::walk(Map &map)
 			{
 				pos.x -= speed;
 
-				spriteYPos = 3;
+				
 				if(spriteXPos >= 3)
 				{
 					spriteXPos = 0;
@@ -155,7 +155,7 @@ void Character::walk(Map &map)
 			{
 				pos.y -= speed;
 
-				spriteYPos = 0;
+				
 				if(spriteXPos >= 3)
 				{
 					spriteXPos = 0;
@@ -172,7 +172,7 @@ void Character::walk(Map &map)
 			{
 				pos.y += speed;
 
-				spriteYPos = 2;
+				
 				if(spriteXPos >= 3)
 				{
 					spriteXPos = 0;
@@ -201,13 +201,25 @@ void Character::turn(int direction)
 {
 	//(Up = 0; Right = 1; Down = 2; Left = 3;)
 	if (direction == 0)
-		this->facing = UP;
+	{
+		this->aiming = UPAIM;
+		spriteYPos = 0;
+	}
 	else if (direction == 1)
-		this->facing = RIGHT;
+	{
+		this->aiming = RIGHTAIM;
+		spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
+	}
 	else if (direction == 2)
-		this->facing = DOWN;
+	{
+		this->aiming = DOWNAIM;
+		spriteYPos = 2;
+	}
 	else //must be 3
-		this->facing = LEFT;
+	{
+		this->aiming = LEFTAIM;
+		spriteYPos = 3;
+	}
 
 	spriteYPos = direction;
 	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));

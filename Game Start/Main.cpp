@@ -384,25 +384,29 @@ int main()
 			//RIGHT
 			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
 			{
-				player.turn(1);
+				player.setFacing(Character::RIGHT);
+				//player.turn(1);
 				player.walk(map);
 			}
 			//LEFT
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
 			{
-				player.turn(3);
+				player.setFacing(Character::LEFT);
+				//player.turn(3);
 				player.walk(map);
 			}
 			//UP
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
 			{
-				player.turn(0);
+				player.setFacing(Character::UP);
+				//player.turn(0);
 				player.walk(map);
 			}
 			//DOWN
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
 			{
-				player.turn(2);
+				player.setFacing(Character::DOWN);
+				//player.turn(2);
 				player.walk(map);
 			}
 

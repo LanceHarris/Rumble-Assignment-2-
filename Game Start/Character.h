@@ -26,11 +26,21 @@ class Character
 			LEFT
 		};
 
+
+
 		bool rowBoundary();
 		bool columnBoundary();
 
 		int getColumn();
 		int getRow();
+
+		enum Aiming
+		{
+			UPAIM,
+			RIGHTAIM,
+			DOWNAIM,
+			LEFTAIM
+		};
 
 		void setHealth(int &health);
 		void setSpeed(float &speed);
@@ -56,6 +66,7 @@ class Character
 
 	private:
 		Facing facing;
+		Aiming aiming;
 
 		int health;
 		float speed;
