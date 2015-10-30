@@ -100,7 +100,6 @@ void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 	}
 }
 
-
 void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch)
 {
 
@@ -210,8 +209,6 @@ int main()
 		//error
 	}
 
-	
-
 	sf::RectangleShape warriorBox(sf::Vector2f(234,378));
 	warriorBox.setTexture(&warriorSelect);
 	sf::Vector2f warriorLoc = sf::Vector2f(winX*0.8f-warriorBox.getSize().x,winY-600.0f);
@@ -221,7 +218,6 @@ int main()
 	wizardBox.setTexture(&wizardSelect);
 	sf::Vector2f wizardLoc = sf::Vector2f(winX*0.2f,winY-600.0f);
 	wizardBox.setPosition(wizardLoc);
-
 
 	sf::RectangleShape selectionOutline(sf::Vector2f(254,398));
 	selectionOutline.setOutlineColor(sf::Color::White);
@@ -258,7 +254,7 @@ int main()
 
     while (window.isOpen())
     {
-
+		//STATE 0 - OPENING MENU SELECTION
 		if(state == 0)
 		{
 			while (window.pollEvent(event))
@@ -314,6 +310,7 @@ int main()
 			window.display();
 		}
 
+		//STATE 1 - GAME
 		else if(state == 1)
 		{
         while (window.pollEvent(event))
@@ -323,7 +320,8 @@ int main()
                 window.close();
 			}
 
-			else if (event.type == sf::Event::KeyPressed){
+			else if (event.type == sf::Event::KeyPressed)
+			{
 				switch (event.key.code)
 				{
 				//Other Controls
@@ -334,10 +332,16 @@ int main()
 				case (sf::Keyboard::I): //Debug Information
 					debug = true;
 					break;
-
-				case (sf::Keyboard::Space): //Shoot event
-					projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 9, missileTexture));
-					break;
+				}
+			}
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				//Left as switch event incase we add more functionality, eg a right mouse click
+				switch (event.key.code)
+				{
+					case (sf::Mouse::Button::Left): //Shoot event
+						projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 9, missileTexture));
+						break;
 				}
 			}
         }
@@ -346,51 +350,62 @@ int main()
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
 		{
-			//Movement
+			if(event.type == sf::Event::MouseMoved)
+			{
+				if(event.mouseMove.y/24 > player.getSprite().getPosition().y/24 + 1)
+				{
+					player.turn(2); //DOWN
+				}
+
+				if(event.mouseMove.y/24 < player.getSprite().getPosition().y/24 - 1)
+				{
+					player.turn(0);//UP
+				}
+
+				if(event.mouseMove.x/24 > player.getSprite().getPosition().x/24 + 5)
+				{
+					player.turn(1);//RIGHT
+				}
+
+				if(event.mouseMove.x/24 < player.getSprite().getPosition().x/24 - 5)
+				{
+					player.turn(3);//LEFT
+				}
+				/*
+				std::cout << "new mouse x: " << event.mouseMove.x << std::endl;
+				std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
+				std::cout << "X: " << player.getSprite().getPosition().x << std::endl;
+				std::cout << "Y: " << player.getSprite().getPosition().y << std::endl;	
+				std::cout << "===============" << std::endl;
+				*/
+			}
+
+			//MOVEMENT
 			//RIGHT
 			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
 			{
-				player.turn(1); //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
-
-				if (!map.isCollision( player.getRow(), player.getColumn() + 1 ) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) , player.getColumn() + 1))
-				{
-					player.setFacing(Character::RIGHT);
-					player.walk(map);
-				}
+				player.turn(1);
+				player.walk(map);
 			}
 			//LEFT
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
 			{
 				player.turn(3);
-
-				if (!map.isCollision(player.getRow(), ((player.getSprite().getPosition().x+18)/24) - 1 ) && !map.isCollision(((player.getSprite().getPosition().y+18)/24), ((player.getSprite().getPosition().x+18)/24) - 1 ))
-				{
-					player.setFacing(Character::LEFT);
-					player.walk(map);
-				}
+				player.walk(map);
 			}
 			//UP
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
 			{
 				player.turn(0);
-
-				if (!map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, player.getColumn()) && !map.isCollision( ((player.getSprite().getPosition().y+18)/24) - 1, ((player.getSprite().getPosition().x+18)/24)))
-				{
-					player.setFacing(Character::UP);
-					player.walk(map);
-				}
+				player.walk(map);
 			}
 			//DOWN
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
 			{
 				player.turn(2);
-
-				if (!map.isCollision(player.getRow() + 1, player.getColumn() ) && !map.isCollision( player.getRow() + 1, (player.getSprite().getPosition().x+18)/24) )
-				{
-					player.setFacing(Character::DOWN);
-					player.walk(map);
-				}
+				player.walk(map);
 			}
+
 			//DEBUG
 			if(debug)
 			{
@@ -404,9 +419,8 @@ int main()
 				std::cout << "Player facing: " << (player.getFacing()) << std::endl;
 				std::cout << "===============" << std::endl;
 
-				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
-				std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
-				std::cout << "===============" << std::endl;
+				//std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
+				//std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
 
 				if (drawGridCells)
 				{
@@ -464,8 +478,7 @@ int main()
 
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			textBox.displayMessage(window);
-			
-			
+				
 			//DISPLAY DRAW COMPONENTS
 			window.display();
 		}

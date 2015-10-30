@@ -69,7 +69,7 @@ int Character::getToughness()
 	return toughness;
 }
 
-//Interesting note, if facing (enum) is returned as an int, or outputed with cout it displays as an integer value corresponding to it's position in the enum declartion (left = 0, right = 1, down = 2, up = 3)
+//Interesting note, if facing (enum) is returned as an int, or outputed with cout it displays as an integer value corresponding to it's position in the enum declartion (Up = 0; Right = 1; Down = 2; Left = 3;)
 int Character::getFacing()
 {
 	return facing;
@@ -110,64 +110,77 @@ Character::Character(int &health, float &speed)
 	this->facing = RIGHT;
 }
 
-void Character::walk(Map map)
+//MOVEMENT
+void Character::walk(Map &map)
 {
 	sf::Vector2f pos = sprite.getPosition();
 	switch (facing)
 	{
 		case RIGHT:
-			pos.x += speed;
+			if (!map.isCollision( this->getRow(), this->getColumn() + 1 ) && !map.isCollision( ((this->sprite.getPosition().y+18)/24) , this->getColumn() + 1))
+			{
+				pos.x += speed;
 
-			spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
-			if(spriteXPos >= 3)
-			{
-				spriteXPos = 0;
-			}
-			else
-			{
-				spriteXPos+=1;
+				spriteYPos = 1; //THE LEVEL OF THE SPRITE MAP THAT'S BEING USED, DIRECTION FACING: (Up = 0; Right = 1; Down = 2; Left = 3;)
+				if(spriteXPos >= 3)
+				{
+					spriteXPos = 0;
+				}
+				else
+				{
+					spriteXPos+=1;
+				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
 			break;
 		case LEFT:
-			pos.x -= speed;
+			if (!map.isCollision(this->getRow(), ((this->getSprite().getPosition().x+18)/24) - 1 ) && !map.isCollision(((this->getSprite().getPosition().y+18)/24), ((this->getSprite().getPosition().x+18)/24) - 1 ))
+			{
+				pos.x -= speed;
 
-			spriteYPos = 3;
-			if(spriteXPos >= 3)
-			{
-				spriteXPos = 0;
-			}
-			else
-			{
-				spriteXPos+=1;
+				spriteYPos = 3;
+				if(spriteXPos >= 3)
+				{
+					spriteXPos = 0;
+				}
+				else
+				{
+					spriteXPos+=1;
+				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
 			break;
 		case UP:
-			pos.y -= speed;
+			if (!map.isCollision( ((this->sprite.getPosition().y+18)/24) - 1, this->getColumn()) && !map.isCollision( ((this->sprite.getPosition().y+18)/24) - 1, ((this->sprite.getPosition().x+18)/24)))
+			{
+				pos.y -= speed;
 
-			spriteYPos = 0;
-			if(spriteXPos >= 3)
-			{
-				spriteXPos = 0;
-			}
-			else
-			{
-				spriteXPos+=1;
+				spriteYPos = 0;
+				if(spriteXPos >= 3)
+				{
+					spriteXPos = 0;
+				}
+				else
+				{
+					spriteXPos+=1;
+				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
 			break;
 		case DOWN:
-			pos.y += speed;
+			if (!map.isCollision(this->getRow() + 1, this->getColumn() ) && !map.isCollision(this->getRow() + 1, (this->sprite.getPosition().x+18)/24))
+			{
+				pos.y += speed;
 
-			spriteYPos = 2;
-			if(spriteXPos >= 3)
-			{
-				spriteXPos = 0;
-			}
-			else
-			{
-				spriteXPos+=1;
+				spriteYPos = 2;
+				if(spriteXPos >= 3)
+				{
+					spriteXPos = 0;
+				}
+				else
+				{
+					spriteXPos+=1;
+				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(down[frame] * 24, 0, 24, 24));
 			break;
@@ -180,6 +193,24 @@ void Character::walk(Map map)
 	//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
 	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
 	sprite.setPosition(pos);
+}
+//END OF MOVEMENT
+
+//Turns the player the direction they want to go regardless of whether it's into a wall
+void Character::turn(int direction)
+{
+	//(Up = 0; Right = 1; Down = 2; Left = 3;)
+	if (direction == 0)
+		this->facing = UP;
+	else if (direction == 1)
+		this->facing = RIGHT;
+	else if (direction == 2)
+		this->facing = DOWN;
+	else //must be 3
+		this->facing = LEFT;
+
+	spriteYPos = direction;
+	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
 }
 
 sf::Sprite Character::getSprite()
@@ -196,13 +227,6 @@ void Character::setFacing(Facing facing)
 void Character::setPosition(int row, int column)
 {
 	sprite.setPosition(row * 24, column * 24);
-}
-
-//Turns the player the direction they want to go regardless of whether it's into a wall
-void Character::turn(int direction)
-{
-	spriteYPos = direction;
-	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
 }
 
 Character::~Character()

@@ -20,10 +20,10 @@ class Character
 	public:
 		enum Facing
 		{
-			LEFT,
-			RIGHT,
 			UP,
-			DOWN
+			RIGHT,
+			DOWN,
+			LEFT
 		};
 
 		bool rowBoundary();
@@ -36,12 +36,14 @@ class Character
 		void setSpeed(float &speed);
 		void setAttack(int &attack);
 		void setToughness(int &toughness);
+
 		int getHealth();
 		float getSpeed();
 		int getAttack();
 		int getToughness();
 
-		void walk(Map map);
+		void walk(Map &map);
+
 		sf::Sprite getSprite();
 		void setFacing(Facing facing);
 		void turn(int direction);

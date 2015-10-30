@@ -34,17 +34,17 @@ void Projectile::updateProjectileLocation(sf::RenderWindow &window)
 
 	switch(direction)
 	{
-	case 0:
-		position.x -= speed;
-		break;
-	case 1:
-		position.x += speed;
-		break;
-	case 2:
+	case 0: //UP
 		position.y -= speed;
 		break;
-	case 3:
+	case 1: //RIGHT
+		position.x += speed;
+		break;
+	case 2: //DOWN
 		position.y += speed;
+		break;
+	case 3: //LEFT
+		position.x -= speed;
 		break;
 
 	}
