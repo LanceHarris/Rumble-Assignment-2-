@@ -23,6 +23,7 @@ Player size after 1.5 scaling: 24
 #include "Projectile.h"
 
 #include <list>
+#include <cmath>
 
 
 /*RENDERWINDOW SIZE*/
@@ -352,61 +353,65 @@ int main()
 		{
 			if(event.type == sf::Event::MouseMoved)
 			{
-				if(event.mouseMove.y/24 > player.getSprite().getPosition().y/24 + 1)
-				{
-					player.turn(2); //DOWN
-				}
+				//Rounding down the player's x and y position because the player can move 6 pixels at a time, whereas the mouse always returns whole integers when divided by 24
+				int x = floor(player.getSprite().getPosition().x/24);
+				int y = floor(player.getSprite().getPosition().y/24);
 
-				if(event.mouseMove.y/24 < player.getSprite().getPosition().y/24 - 1)
-				{
-					player.turn(0);//UP
-				}
-
-				if(event.mouseMove.x/24 > player.getSprite().getPosition().x/24 + 5)
-				{
-					player.turn(1);//RIGHT
-				}
-
-				if(event.mouseMove.x/24 < player.getSprite().getPosition().x/24 - 5)
-				{
-					player.turn(3);//LEFT
-				}
 				/*
+				std::cout << "Mouse move x Pos: " << event.mouseMove.x/24 << ", Player x Pos: " << player.getSprite().getPosition().x/24 <<std::endl;
+				std::cout << "Mouse move y Pos: " << event.mouseMove.y/24 << ", Player y Pos: " << player.getSprite().getPosition().y/24 <<std::endl;
+				std::cout<<event.mouseMove.y/24<<std::endl; //returns values between 0 and 34
+				std::cout<<event.mouseMove.x/24<<std::endl; //returns values between 0 and 44
+
 				std::cout << "new mouse x: " << event.mouseMove.x << std::endl;
 				std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
 				std::cout << "X: " << player.getSprite().getPosition().x << std::endl;
-				std::cout << "Y: " << player.getSprite().getPosition().y << std::endl;	
-				std::cout << "===============" << std::endl;
+				std::cout << "Y: " << player.getSprite().getPosition().y << std::endl;
 				*/
-			}
+
+				//Because it checks that the x and y axis' are aligned with the player, it means that when the mouse crosses over the tiles in a cross formation
+				//with the player at the centre, the player's direction will be changed.w
+				if(event.mouseMove.x/24 == x && event.mouseMove.y/24 >= player.getSprite().getPosition().y/24)
+				{
+					player.turn(2); //DOWN
+				}
+				if(event.mouseMove.x/24 == x && event.mouseMove.y/24 <= player.getSprite().getPosition().y/24)
+				{
+					player.turn(0);//UP
+				}
+				if(event.mouseMove.y/24 == y && event.mouseMove.x/24 >= player.getSprite().getPosition().x/24)
+				{
+					player.turn(1);//RIGHT
+				}
+				if(event.mouseMove.y/24 == y && event.mouseMove.x/24 <= player.getSprite().getPosition().x/24)
+				{
+					player.turn(3);//LEFT
+				}
+			}		
 
 			//MOVEMENT
 			//RIGHT
 			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
 			{
 				player.setFacing(Character::RIGHT);
-				//player.turn(1);
 				player.walk(map);
 			}
 			//LEFT
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
 			{
 				player.setFacing(Character::LEFT);
-				//player.turn(3);
 				player.walk(map);
 			}
 			//UP
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
 			{
 				player.setFacing(Character::UP);
-				//player.turn(0);
 				player.walk(map);
 			}
 			//DOWN
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
 			{
 				player.setFacing(Character::DOWN);
-				//player.turn(2);
 				player.walk(map);
 			}
 
@@ -423,8 +428,11 @@ int main()
 				std::cout << "Player facing: " << (player.getFacing()) << std::endl;
 				std::cout << "===============" << std::endl;
 
-				//std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
-				//std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
+				/*
+				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
+				std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
+				std::cout << "===============" << std::endl;
+				*/	
 
 				if (drawGridCells)
 				{

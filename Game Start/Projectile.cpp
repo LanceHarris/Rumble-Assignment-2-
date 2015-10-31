@@ -1,9 +1,9 @@
 /*
-*	Character.h
+*	projectile.h
 *	Rumble
 *
 *	Created by: Reuben Dales, Lance Donnell, Lance Harris, Josh Prow.
-*	Dated: 25 October 2015
+*	Dated: 30 October 2015
 *
 */
 
