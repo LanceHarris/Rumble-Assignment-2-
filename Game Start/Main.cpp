@@ -440,40 +440,35 @@ int main()
 			if(event.type == sf::Event::MouseMoved)
 			{
 				//Rounding down the player's x and y position because the player can move 6 pixels at a time, whereas the mouse always returns whole integers when divided by 24
-				int x = floor(player.getSprite().getPosition().x/24);
-				int y = floor(player.getSprite().getPosition().y/24);
+				//int x = floor(player.getSprite().getPosition().x/24);
+				//int y = floor(player.getSprite().getPosition().y/24);
 
-				/*
-				std::cout << "Mouse move x Pos: " << event.mouseMove.x/24 << ", Player x Pos: " << player.getSprite().getPosition().x/24 <<std::endl;
-				std::cout << "Mouse move y Pos: " << event.mouseMove.y/24 << ", Player y Pos: " << player.getSprite().getPosition().y/24 <<std::endl;
-				std::cout<<event.mouseMove.y/24<<std::endl; //returns values between 0 and 34
-				std::cout<<event.mouseMove.x/24<<std::endl; //returns values between 0 and 44
+				sf::Vector2f a = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
+				sf::Vector2f b = sf::Vector2f(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
 
-				std::cout << "new mouse x: " << event.mouseMove.x << std::endl;
-				std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
-				std::cout << "X: " << player.getSprite().getPosition().x << std::endl;
-				std::cout << "Y: " << player.getSprite().getPosition().y << std::endl;
-				*/
+				//works out the degrees of the vector between the player position and the mouse position
+				float degrees = atan2f(a.y - b.y, a.x - b.x) * 180 / 3.14159 /* PI */;
+				//std::cout<< "Degrees: " << degrees <<std::endl;
 
 				//Because it checks that the x and y axis' are aligned with the player, it means that when the mouse crosses over the tiles in a cross formation
-				//with the player at the centre, the player's direction will be changed.w
-				if(event.mouseMove.x/24 == x && event.mouseMove.y/24 >= player.getSprite().getPosition().y/24)
+				//with the player at the centre, the player's direction will be changed.
+				if(degrees <= 140 && degrees > 35)//(event.mouseMove.x/24 == x && event.mouseMove.y/24 >= player.getSprite().getPosition().y/24)
 				{
 					player.turn(2); //DOWN
 				}
-				if(event.mouseMove.x/24 == x && event.mouseMove.y/24 <= player.getSprite().getPosition().y/24)
+				if(degrees <= -40 && degrees > -140)//event.mouseMove.x/24 == x && event.mouseMove.y/24 <= player.getSprite().getPosition().y/24)
 				{
 					player.turn(0);//UP
 				}
-				if(event.mouseMove.y/24 == y && event.mouseMove.x/24 >= player.getSprite().getPosition().x/24)
+				if(degrees > -40 && degrees <= 35)//event.mouseMove.y/24 == y && event.mouseMove.x/24 >= player.getSprite().getPosition().x/24)
 				{
 					player.turn(1);//RIGHT
 				}
-				if(event.mouseMove.y/24 == y && event.mouseMove.x/24 <= player.getSprite().getPosition().x/24)
+				if(degrees <= -140 || degrees > 140)//event.mouseMove.y/24 == y && event.mouseMove.x/24 <= player.getSprite().getPosition().x/24)
 				{
 					player.turn(3);//LEFT
 				}
-			}		
+			}	
 
 			//MOVEMENT
 			//RIGHT
