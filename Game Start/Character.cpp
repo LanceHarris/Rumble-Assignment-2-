@@ -77,37 +77,8 @@ int Character::getFacing()
 
 Character::Character(int &health, float &speed)
 {
-	spriteXPos = 0;
-	spriteYPos = 0;
-	SPRITEWIDTH = 16;
-	SPRITEHEIGHT = 16;
-	SPRITEMAX = 4;
-	SPRITEGAP = 3;
 	this->health = health;
 	this->speed = speed;
-
-	if (!texture.loadFromFile("characterSheet.png"))
-	{
-		std::cout << "Error loading resource characterSheet.png" << std::endl;
-	}
-
-	/*
-	sf::Image characterImage = texture.copyToImage();
-	//Create a transparency mask from a specified color-key. This function sets the alpha value of every pixel matching the given color to alpha (0 by default), 
-	//so that they become transparent.
-	characterImage.createMaskFromColor(sf::Color(0, 0, 0), 0);
-
-	if (!texture.loadFromImage(characterImage))
-	{
-		std::cout << "Error masking image resource characterSheet.png" << std::endl;
-	}
-	*/
-
-	this->sprite.setTexture(texture);
-	//this->sprite.setTextureRect(sf::IntRect(right[frame]*16, 0,16,16));
-	this->sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-	this->sprite.setScale(1.5, 1.5);
-	this->facing = RIGHT;
 }
 
 //MOVEMENT

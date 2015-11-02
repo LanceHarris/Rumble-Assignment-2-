@@ -275,7 +275,7 @@ int main()
 	Map map(winX, winY, mainMap); //load main map by default when object is created
 	map.setMap(secondMap); //pass it whatever map to load it
 
-	Character player(health, speed);
+	Player player(health, speed);
 	player.setPosition(12,12);
 
 	sf::Event event;
@@ -337,6 +337,10 @@ int main()
 	
 	//**ARRAY LIST TO STORE PROJECTILES**//
 	std::vector<Projectile> projectiles;
+	//**END**//
+
+	//**ARRAY LIST TO STORE ENEMIES**//
+	std::vector<Enemy> enemies;
 	//**END**//
 
     while (window.isOpen())
@@ -418,6 +422,9 @@ int main()
 
 				case (sf::Keyboard::I): //Debug Information
 					debug = true;
+					break;
+				case (sf::Keyboard::P):
+					enemies.push_back( Enemy(10,4,sf::Vector2f(14,12)));
 					break;
 				}
 			}
@@ -558,6 +565,14 @@ int main()
 				{
 					projectiles.erase(projectiles.begin()+i);
 				}
+			}
+			//**END**//
+
+			//**RUN / DRAW AI**//
+			for(int i = 0; i < enemies.size();i++)
+			{
+				enemies[i].calcMovement(player, map);
+				window.draw(enemies[i].getSprite());
 			}
 			//**END**//
 

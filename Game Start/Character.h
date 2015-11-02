@@ -64,7 +64,7 @@ class Character
 		Character(int &health, float &speed);
 		~Character();
 
-	private:
+	protected:
 		Facing facing;
 		Aiming aiming;
 
@@ -91,3 +91,26 @@ class Character
 		sf::Texture texture;
 };
 
+
+class Player: public Character{
+public:
+	Player(int &health, float &speed);
+	~Player();
+};
+
+class Enemy: public Character{
+public:
+	Enemy(int health, float speed, sf::Vector2f location);
+	~Enemy();
+	void calcMovement(Player target, Map map);
+protected:
+	enum Type
+		{
+			GHOST,
+			ZOMBIE,
+			SKELETON,
+			HELLHOUND
+		};
+	float moveColumn;
+	float moveRow;
+};
