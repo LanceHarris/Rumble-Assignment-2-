@@ -8,6 +8,7 @@
 */
 
 #include "Projectile.h"
+#include "Character.h"
 
 
 Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture)
@@ -27,6 +28,18 @@ Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::
 
 Projectile::~Projectile(void)
 {
+}
+
+int Projectile::attackHit(std::vector<Enemy> enemies){
+	for(int i = 0; i < enemies.size();i++)
+			{
+				std::cout << getRow() << " " << enemies[i].getRow() << std::endl;
+				std::cout << getColumn() << " " << enemies[i].getColumn() << std::endl << std::endl;
+				if ((getRow() == enemies[i].getRow()) && (getColumn() == enemies[i].getColumn())){
+					return i;
+				}
+			}
+	return 1000; //1000 = no hit
 }
 
 void Projectile::updateProjectileLocation(sf::RenderWindow &window)

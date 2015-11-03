@@ -11,6 +11,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Character.h"
 
 class Projectile
 {
@@ -36,6 +37,7 @@ public:
 	Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture);
 	~Projectile(void);
 	void updateProjectileLocation(sf::RenderWindow &window);
+	int attackHit(std::vector<Enemy> enemies);
 	float getPosX();
 	float getPosY();
 	int getRow();

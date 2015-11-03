@@ -36,19 +36,19 @@ int Character::getRow()
 }
 
 //Mutator and accessor methods for character attributes (NB: some of these may need to be moved to the Player or Enemy classes at a later date)
-void Character::setHealth(int &health)
+void Character::setHealth(int health)
 {
 	this->health = health;
 }
-void Character::setSpeed(float &speed)
+void Character::setSpeed(float speed)
 {
 	this->speed = speed;
 }
-void Character::setAttack(int &attack)
+void Character::setAttack(int attack)
 {
 	this->attack = attack;
 }
-void Character::setToughness(int &toughness)
+void Character::setToughness(int toughness)
 {
 	this->toughness = toughness;
 }
@@ -75,10 +75,15 @@ int Character::getFacing()
 	return aiming;
 }
 
-Character::Character(int &health, float &speed)
+Character::Character(int health, float speed)
 {
 	this->health = health;
 	this->speed = speed;
+}
+
+//GET HIT
+void Character::takeDamage(int Damage){
+	setHealth(health - Damage);
 }
 
 //MOVEMENT

@@ -42,10 +42,10 @@ class Character
 			LEFTAIM
 		};
 
-		void setHealth(int &health);
-		void setSpeed(float &speed);
-		void setAttack(int &attack);
-		void setToughness(int &toughness);
+		void setHealth(int health);
+		void setSpeed(float speed);
+		void setAttack(int attack);
+		void setToughness(int toughness);
 
 		int getHealth();
 		float getSpeed();
@@ -58,10 +58,11 @@ class Character
 		void setFacing(Facing facing);
 		void turn(int direction);
 		void setPosition(int row, int column);
+		void takeDamage(int damage);
 
 		int getFacing();
 
-		Character(int &health, float &speed);
+		Character(int health, float speed);
 		~Character();
 
 	protected:

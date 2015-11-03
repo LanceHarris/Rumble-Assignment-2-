@@ -60,32 +60,34 @@ void Enemy::calcMovement(Player target, Map map){
 	}
 	this->moveColumn += moveColumn;
 	this->moveRow += moveRow;
-	std::cout << "Player location: " << target.getColumn() << ", " << target.getRow() << std::endl;
+	
+	/*std::cout << "Player location: " << target.getColumn() << ", " << target.getRow() << std::endl;
 	std::cout << "Enemy Location: " << getColumn() << ", " << getRow() << std::endl;
 	std::cout << "Movement Needed: " <<getColumn() - target.getColumn() << ", " << getRow() - target.getRow() << std::endl;
-	std::cout << "Enemy movement: " << moveColumn << ", " << moveRow << std::endl;
+	std::cout << "Enemy movement: " << moveColumn << ", " << moveRow << std::endl;*/
 
 	if (moveColumn >= 1){
 		moveColumn -= 1;
 		facing=LEFT;
 
-		walk(map);
+		//walk(map);
 	}else if (moveColumn <= -1){
 		moveColumn += 1;
 		facing=RIGHT;
-		walk(map);
+		//walk(map);
 	}
 
 	if (moveRow >= 1){
 		moveRow -= 1;
 		facing=UP;
-		walk(map);
+		//walk(map);
 	}else if (moveRow <= -1){
 		moveRow += 1;
 		facing=DOWN;
-		walk(map);
+		//walk(map);
 	}
 }
+
 Enemy::~Enemy()
 {
 }

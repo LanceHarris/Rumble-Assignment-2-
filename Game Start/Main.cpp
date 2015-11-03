@@ -273,7 +273,7 @@ int main()
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
 	Map map(winX, winY, mainMap); //load main map by default when object is created
-	map.setMap(secondMap); //pass it whatever map to load it
+	map.setMap(mainMap); //pass it whatever map to load it
 
 	Player player(health, speed);
 	player.setPosition(12,12);
@@ -557,6 +557,10 @@ int main()
 				{
 					projectiles.erase(projectiles.begin()+i);
 				}
+				else if(projectiles[i].attackHit(enemies) != 1000){ //1000 = No hit
+					projectiles.erase(projectiles.begin()+i);
+					enemies[i].takeDamage(player.getAttack());
+				}
 				else if(projectiles[i].getPosX() > 1080 || projectiles[i].getPosX() < 0)
 				{
 					projectiles.erase(projectiles.begin()+i); //Since Projectile objects weren't allocated with new, erase should free the memory as well as removing the object from the array
@@ -571,6 +575,7 @@ int main()
 			//**RUN / DRAW AI**//
 			for(int i = 0; i < enemies.size();i++)
 			{
+				//enemies[i].walk(map);
 				enemies[i].calcMovement(player, map);
 				window.draw(enemies[i].getSprite());
 			}
