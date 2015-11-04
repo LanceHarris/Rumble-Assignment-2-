@@ -1,0 +1,57 @@
+/*
+*	Hud.h
+*	Rumble
+*
+*	Created by: Reuben Dales, Lance Donnell, Lance Harris, Josh Prow.
+*	Dated: 2 November 2015
+*
+*/
+
+#pragma once
+
+#include <SFML/Graphics.hpp>
+#include "Character.h"
+
+class Hud
+{
+private:
+	bool gameOver;
+	bool outOfStamina;
+	float repercussion;
+	sf::RenderWindow *_window;
+
+	//====HEALTH BAR=====
+	int max_HP;					//The maximum player hitpoints
+	int current_HP;				//The current player HP
+	int maxLength;				//The maximum length of the HP bar
+	int currLength;				//The current length of the HP bar
+	sf::RectangleShape healthBar;
+
+	//====STAMINA BAR====
+	int max_Sta;
+	float current_Sta;
+	int maxSLength;
+	float currSLength;
+	float regenSpeed;
+	sf::RectangleShape staminaBar;
+
+	//====CROWD METER====
+	sf::CircleShape crowdMeter;
+
+public:
+	Hud(Character &player, sf::RenderWindow &window);
+
+	void takeDamage(int damage);
+	void takeStamina(float stamina);
+	void drawHUD();
+	void updateStamina();
+	void healHealth();
+	bool getGameOver();
+	bool getOutOfStamina();
+
+	void increaseMaxHP(int newHP);
+	void increaseMaxSta(int newSta);
+
+	~Hud(void);
+};
+

@@ -68,6 +68,11 @@ int Character::getToughness()
 {
 	return toughness;
 }
+int Character::getStamina()
+{
+	return stamina;
+}
+
 
 //Interesting note, if facing (enum) is returned as an int, or outputed with cout it displays as an integer value corresponding to it's position in the enum declartion (Up = 0; Right = 1; Down = 2; Left = 3;)
 int Character::getFacing()
@@ -75,10 +80,11 @@ int Character::getFacing()
 	return aiming;
 }
 
-Character::Character(int health, float speed)
+Character::Character(int health, float speed, int stamina)
 {
 	this->health = health;
 	this->speed = speed;
+	this->stamina = stamina;
 }
 
 //GET HIT
@@ -215,6 +221,11 @@ void Character::setFacing(Facing facing)
 void Character::setPosition(int row, int column)
 {
 	sprite.setPosition(row * 24, column * 24);
+}
+
+void Character::setStamina(int &stamina)
+{
+	this->stamina = stamina;
 }
 
 Character::~Character()

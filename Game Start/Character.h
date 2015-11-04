@@ -46,11 +46,13 @@ class Character
 		void setSpeed(float speed);
 		void setAttack(int attack);
 		void setToughness(int toughness);
+		void setStamina(int &stamina);
 
 		int getHealth();
 		float getSpeed();
 		int getAttack();
 		int getToughness();
+		int getStamina();
 
 		void walk(Map &map);
 
@@ -62,7 +64,7 @@ class Character
 
 		int getFacing();
 
-		Character(int health, float speed);
+		Character(int health, float speed, int stamina);
 		~Character();
 
 	protected:
@@ -73,6 +75,7 @@ class Character
 		float speed;
 		int attack;
 		int toughness;
+		int stamina;
 		int frame;
 		
 		int spriteXPos;
@@ -95,7 +98,7 @@ class Character
 
 class Player: public Character{
 public:
-	Player(int &health, float &speed);
+	Player(int &health, float &speed, int &stamina);
 	~Player();
 };
 

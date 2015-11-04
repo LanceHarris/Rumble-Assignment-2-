@@ -7,8 +7,18 @@
 *
 */
 
-/*TO DO: 
-Create Player and Enemy class as subclasses of Character class
+/*
+TO DO: 
+1. Hub area - interactable character (shopkeep)/shops
+2. Particle effects - (multi-coloured) blood, glowing floating lights, 
+3. Player - stats/levelling up; Resilience (HP), Endurance (stamina), Toughness (defence), Fastness (speed), Attack (Strength?)
+4. Enemy experience (based on level)
+5. Stages - Collesseum, Forest Stage, Night City
+6. Music, sound effects
+7. HUD completion - make it so max HP and Sta can be added to, possibly add Crowd Meter
+8. Add character selection sprite (ie the mage if you select the mage)
+9. Menu/Pause - save game/load game/new game/quit game/mode (eg survival)
+10. AI - Quad-tree
 */
 
 /*NOTES:
@@ -21,10 +31,10 @@ Player size after 1.5 scaling: 24
 #include "Map.h"
 #include "Character.h"
 #include "Projectile.h"
+#include "Hud.h"
 
 #include <list>
 #include <cmath>
-
 
 /*RENDERWINDOW SIZE*/
 int winX = 1080; //45 cells
@@ -35,7 +45,8 @@ int winY = 840; //35 cells
 float speed = 6;
 int attack = 1;
 int toughness = 1;
-int health = 1;
+int health = 100;
+int stamina = 50;
 /*END*/
 
 //SPEED OF THE GAME
@@ -50,7 +61,7 @@ int characterSelection;
 
 
 //**MAPS**//
-int mainMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = {
+int mainMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // The Arena
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -89,7 +100,7 @@ int mainMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = {
 };
 
 
-int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = {
+int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -256,7 +267,7 @@ int main()
 	bool drawEmptyPath = false;
 
 	//SET TO TRUE TO RUN DEBUGGING PRINT OUTS
-	bool debug = true;
+	bool debug = false;
 
 	//BOX TO TEST CHATBOX TRIGGERING
 	sf::RectangleShape box(sf::Vector2f(24,24));
@@ -269,16 +280,8 @@ int main()
 	//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
 	textBox.SetCharaterLineLimit(55);
 
-	sf::Clock timer;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-
 	Map map(winX, winY, mainMap); //load main map by default when object is created
 	map.setMap(mainMap); //pass it whatever map to load it
-
-	Player player(health, speed);
-	player.setPosition(12,12);
-
-	sf::Event event;
 
 	textBox.setMessage("Welcome to Rumble! Please select a character!",window);
 	textBox.redrawChat(false);
@@ -343,6 +346,14 @@ int main()
 	std::vector<Enemy> enemies;
 	//**END**//
 
+	sf::Clock timer;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	Player player(health, speed, stamina);
+	player.setPosition(12,12);
+	Hud HUD = Hud(player, window);
+
+	sf::Event event;
+
     while (window.isOpen())
     {
 		//STATE 0 - OPENING MENU SELECTION
@@ -404,6 +415,8 @@ int main()
 		//STATE 1 - GAME
 		else if(state == 1)
 		{
+			timer.restart();	// To fix a bug, where the clock was starting during character selection so timeSinceLastUpdate -= TimePerFrame was not reseting the clock (ie the game would go really fast)
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -423,8 +436,9 @@ int main()
 				case (sf::Keyboard::I): //Debug Information
 					debug = true;
 					break;
-				case (sf::Keyboard::P):
-					enemies.push_back( Enemy(10,4,sf::Vector2f(14,12)));
+
+				case (sf::Keyboard::P): //Spawn Enemy
+					enemies.push_back(Enemy(10,4,sf::Vector2f(14,12)));
 					break;
 				}
 			}
@@ -434,8 +448,17 @@ int main()
 				switch (event.key.code)
 				{
 					case (sf::Mouse::Button::Left): //Shoot event
-						projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 9, missileTexture));
-						break;
+						if(!HUD.getOutOfStamina())  //If not out of stamina you can shoot
+						{
+							projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 9, missileTexture));
+							HUD.takeStamina(6);
+							break;
+						}
+						else
+						{
+							std::cout << "Out of stamina!" << std::endl;
+							break;
+						}
 				}
 			}
         }
@@ -444,12 +467,11 @@ int main()
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
 		{
+			timeSinceLastUpdate -= TimePerFrame;
+			HUD.updateStamina();
+
 			if(event.type == sf::Event::MouseMoved)
 			{
-				//Rounding down the player's x and y position because the player can move 6 pixels at a time, whereas the mouse always returns whole integers when divided by 24
-				//int x = floor(player.getSprite().getPosition().x/24);
-				//int y = floor(player.getSprite().getPosition().y/24);
-
 				sf::Vector2f a = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
 				sf::Vector2f b = sf::Vector2f(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
 
@@ -457,21 +479,19 @@ int main()
 				float degrees = atan2f(a.y - b.y, a.x - b.x) * 180 / 3.14159 /* PI */;
 				//std::cout<< "Degrees: " << degrees <<std::endl;
 
-				//Because it checks that the x and y axis' are aligned with the player, it means that when the mouse crosses over the tiles in a cross formation
-				//with the player at the centre, the player's direction will be changed.
-				if(degrees <= 140 && degrees > 35)//(event.mouseMove.x/24 == x && event.mouseMove.y/24 >= player.getSprite().getPosition().y/24)
+				if(degrees <= 140 && degrees > 35)
 				{
 					player.turn(2); //DOWN
 				}
-				if(degrees <= -40 && degrees > -140)//event.mouseMove.x/24 == x && event.mouseMove.y/24 <= player.getSprite().getPosition().y/24)
+				if(degrees <= -40 && degrees > -140)
 				{
 					player.turn(0);//UP
 				}
-				if(degrees > -40 && degrees <= 35)//event.mouseMove.y/24 == y && event.mouseMove.x/24 >= player.getSprite().getPosition().x/24)
+				if(degrees > -40 && degrees <= 35)
 				{
 					player.turn(1);//RIGHT
 				}
-				if(degrees <= -140 || degrees > 140)//event.mouseMove.y/24 == y && event.mouseMove.x/24 <= player.getSprite().getPosition().x/24)
+				if(degrees <= -140 || degrees > 140)
 				{
 					player.turn(3);//LEFT
 				}
@@ -515,11 +535,11 @@ int main()
 				std::cout << "Next tile down: " << (player.getRow() + 1) << std::endl;
 				std::cout << "Player facing: " << (player.getFacing()) << std::endl;
 				std::cout << "===============" << std::endl;
-
 				/*
 				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
 				std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
 				std::cout << "===============" << std::endl;
+				std::cout << HUD.getGameOver() << std::endl;
 				*/	
 
 				if (drawGridCells)
@@ -532,12 +552,8 @@ int main()
 				debug = false;
 			}
 
-			timeSinceLastUpdate -= TimePerFrame;
-
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y);
-
 			window.clear();
-
 			
 			//DRAW GAME ELEMENTS
 
@@ -589,9 +605,12 @@ int main()
 				textBox.redrawChat(true); //SET IF THE CHATBOX IS REDRAWN OR NOT
 			}
 
+			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
+			HUD.drawHUD();
+
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			textBox.displayMessage(window);
-				
+			
 			//DISPLAY DRAW COMPONENTS
 			window.display();
 		}

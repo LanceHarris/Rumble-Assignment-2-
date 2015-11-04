@@ -9,7 +9,7 @@
 
 #include "Character.h"
 
-Player::Player(int &health, float &speed): Character(health, speed)
+Player::Player(int &health, float &speed, int &stamina) : Character(health, speed, stamina)
 {
 	spriteXPos = 0;
 	spriteYPos = 0;

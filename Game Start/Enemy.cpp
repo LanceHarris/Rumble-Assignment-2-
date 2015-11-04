@@ -9,7 +9,7 @@
 
 #include "Character.h"
 
-Enemy::Enemy(int health, float speed, sf::Vector2f location): Character(health, speed)
+Enemy::Enemy(int health, float speed, sf::Vector2f location): Character(health, speed, stamina)
 {
 	spriteXPos = 0;
 	spriteYPos = 0;
