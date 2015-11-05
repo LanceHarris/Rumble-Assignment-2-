@@ -9,8 +9,12 @@
 
 #pragma once
 
+#include <sstream>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Character.h"
+
+using namespace std;
 
 class Hud
 {
@@ -19,6 +23,7 @@ private:
 	bool outOfStamina;
 	float repercussion;
 	sf::RenderWindow *_window;
+	Player *_player;
 
 	//====HEALTH BAR=====
 	int max_HP;					//The maximum player hitpoints
@@ -38,13 +43,24 @@ private:
 	//====CROWD METER====
 	sf::CircleShape crowdMeter;
 
+	//====GOLD COUNT====
+	sf::Sprite coin;
+	int coinXPos;
+	int coinGap;
+	int coinWidth;
+	int coinHeight;
+	sf::Texture coinTexture;
+	sf::Text goldCount;
+	sf::Font goldFont;	
+
 public:
-	Hud(Character &player, sf::RenderWindow &window);
+	Hud(Player &player, sf::RenderWindow &window);
 
 	void takeDamage(int damage);
 	void takeStamina(float stamina);
 	void drawHUD();
 	void updateStamina();
+	void updateCoin();
 	void healHealth();
 	bool getGameOver();
 	bool getOutOfStamina();

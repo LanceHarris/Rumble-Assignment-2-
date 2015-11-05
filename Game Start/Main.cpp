@@ -9,16 +9,16 @@
 
 /*
 TO DO: 
-1. Hub area - interactable character (shopkeep)/shops
-2. Particle effects - (multi-coloured) blood, glowing floating lights, 
-3. Player - stats/levelling up; Resilience (HP), Endurance (stamina), Toughness (defence), Fastness (speed), Attack (Strength?)
-4. Enemy experience (based on level)
-5. Stages - Collesseum, Forest Stage, Night City
-6. Music, sound effects
-7. HUD completion - make it so max HP and Sta can be added to, possibly add Crowd Meter
-8. Add character selection sprite (ie the mage if you select the mage)
-9. Menu/Pause - save game/load game/new game/quit game/mode (eg survival)
-10. AI - Quad-tree
+1. Hub area - interactable character (shopkeep)/shops - requires UI (for all menus), Item(?) and NPC classes
+2. Particle effects - (multi-coloured) blood, glowing floating lights,  - Requires Effects or Blood class
+3. Player - stats/levelling up; Resilience (HP), Endurance (stamina), Toughness (defence), Fastness (speed), Attack (Strength?) - Add to Player class
+4. Enemy experience (based on level) - Add to enemy class
+5. Stages - Collesseum, Forest Stage, Night City - Need resources and for these to be added to Main
+6. Music, sound effects - Add to each necessary class (eg projectile for throwing sound, player or Hud for taking damage sound)
+7. HUD completion - possibly add Crowd Meter - Hud class
+8. Add character selection sprite (ie the mage if you select the mage) - Player class
+9. Menu/Pause - save game/load game/new game/quit game/mode (eg survival) - Menu class
+10. AI - Quad-tree - Enemy class
 */
 
 /*NOTES:
@@ -232,7 +232,7 @@ int main()
 		//error
 	}
 
-		sf::Texture wallTorch;
+	sf::Texture wallTorch;
 	if(!wallTorch.loadFromFile("wallFrontTorchOff.jpg"))
 	{
 		//error
@@ -472,11 +472,11 @@ int main()
 
 			if(event.type == sf::Event::MouseMoved)
 			{
-				sf::Vector2f a = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
-				sf::Vector2f b = sf::Vector2f(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
+				sf::Vector2f mPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
+				sf::Vector2f pPos = sf::Vector2f(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
 
 				//works out the degrees of the vector between the player position and the mouse position
-				float degrees = atan2f(a.y - b.y, a.x - b.x) * 180 / 3.14159 /* PI */;
+				float degrees = atan2f(mPos.y - pPos.y, mPos.x - pPos.x) * 180 / 3.14159 /* PI */;
 				//std::cout<< "Degrees: " << degrees <<std::endl;
 
 				if(degrees <= 140 && degrees > 35)
@@ -535,6 +535,8 @@ int main()
 				std::cout << "Next tile down: " << (player.getRow() + 1) << std::endl;
 				std::cout << "Player facing: " << (player.getFacing()) << std::endl;
 				std::cout << "===============" << std::endl;
+
+				player.increaseGoldStash(5);
 				/*
 				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
 				std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
@@ -607,6 +609,7 @@ int main()
 
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();
+			HUD.updateCoin();
 
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			textBox.displayMessage(window);

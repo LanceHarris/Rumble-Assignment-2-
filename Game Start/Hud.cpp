@@ -10,13 +10,20 @@
 #include <SFML\Graphics.hpp>
 #include "Hud.h"
 
-Hud::Hud(Character &player, sf::RenderWindow &window)
+Hud::Hud(Player &player, sf::RenderWindow &window)
 {
 	gameOver = false;
 	outOfStamina = false;
 	regenSpeed = 0.3;
 	repercussion = 0;
+
+	coinXPos = 0;
+	coinGap = 2;
+	coinWidth = 30;
+	coinHeight = 32;
+
 	_window = &window; //Can use this to reference the window used in the constructor parameter anywhere in the class (eg see drawHUD method)
+	_player = &player; //Same as above but for Player object
 
 	//HEALTH BAR
 	current_HP = player.getHealth();				
@@ -38,8 +45,37 @@ Hud::Hud(Character &player, sf::RenderWindow &window)
 	staminaBar.setPosition(10, 30);
 	staminaBar.setFillColor(sf::Color(122,207,125,180)); //RGBA
 
-	window.draw(healthBar);
-	window.draw(staminaBar);
+	//COIN COUNTER
+	if (!coinTexture.loadFromFile("spinning_coin_gold.png"))
+	{
+		std::cout << "Error loading resource spinning_coin_gold.png" << std::endl;
+	}
+	
+	/* - USEFUL IF THE BACKGROUND STOPS BEING TRANSPARENT (EG IF YOU TRY TO EDIT IT IN SOMETHING LIKE PAINT...) 
+	sf::Image coinImage = coinTexture.copyToImage();
+	coinImage.createMaskFromColor(sf::Color(255, 255, 255), 0);
+	
+	if (!coinTexture.loadFromImage(coinImage))
+	{
+		std::cout << "Error masking image resource spinning_coin_gold.png" << std::endl;
+	}*/
+
+	this->coin.setTexture(coinTexture);
+	this->coin.setPosition(10, (window.getSize().y - 32) - 10); //Subtract the height of the coin and another 10 to get it 10 pixels from the bottom
+	this->coin.setTextureRect(sf::IntRect((coinXPos * coinWidth) + (coinGap * coinXPos)+coinGap, 0, coinWidth, coinHeight));
+
+	if(!goldFont.loadFromFile("8-BIT WONDER.ttf"))
+	{
+		std::cout << "Error masking image resource 8-BIT WONDER.ttf" << std::endl;
+	}
+
+	this->goldCount.setFont(goldFont);
+	this->goldCount.setColor(sf::Color::White);
+	this->goldCount.setPosition(((coin.getPosition().x + coinWidth) + 10), coin.getPosition().y);
+
+	std::ostringstream buff;
+	buff << player.getGoldStash();
+	this->goldCount.setString(buff.str());
 }
 
 //This could be a double up with Character::takeDamage?
@@ -49,6 +85,7 @@ void Hud::takeDamage(int damage)
 	currLength = ((current_HP * maxLength) / max_HP); //Calculates the percentage of the bar that has been lost (eg. if you have lost 10% of your 100 HP, it will give you 90% of the bar's total length. In this case 243
 }
 
+//USE THIS TO DECREASE THE STAMINA (EG WHEN AN AXE IS THROWN)
 void Hud::takeStamina(float stamina)
 {
 	if(current_Sta >= 1)
@@ -58,6 +95,7 @@ void Hud::takeStamina(float stamina)
 	}
 }
 
+//DRAWS HEALTH AND STAMINA BARS, CHECKS LOSE CONDITION
 void Hud::drawHUD()
 {
 	if(currSLength >= 1)
@@ -77,6 +115,7 @@ void Hud::drawHUD()
 	}
 }
 
+//CONSTANTLY INCREASES STAMINA AND CHECKS IF ALL STAMINA HAS BEEN USED UP
 void Hud::updateStamina()
 {
 	if(current_Sta <= max_Sta)
@@ -87,7 +126,6 @@ void Hud::updateStamina()
 			current_Sta+=regenSpeed;
 			currSLength = ((current_Sta * maxSLength) / max_Sta);
 			repercussion = 0;
-			this->drawHUD();
 		}
 		//Repercussion for using up all your stamina
 		else
@@ -96,9 +134,31 @@ void Hud::updateStamina()
 			current_Sta = -60 + repercussion; //Couldn't think of a better way to force a cooldown on the player for using up all their stamina. But this effectively forces the player to wait a frame 
 			repercussion++;					  //Could create an mutator for this value and reset it to 0 if the player keeps clicking after using up their stamina, forcing them to wait.
 			currSLength = ((current_Sta * maxSLength) / max_Sta);
-			this->drawHUD();
 		}
 	}
+}
+
+//INCREMENTS THE SPRITE INTRECT AND UPDATES COIN AMOUNT
+void Hud::updateCoin()
+{
+	if(coinXPos >= 7)
+	{
+		coinXPos = 0;
+	}
+	else
+	{
+		coinXPos+=1;
+	}
+
+	this->coin.setTextureRect(sf::IntRect((coinXPos * coinWidth) + (coinGap * coinXPos)+coinGap,0,coinWidth,coinHeight));
+
+	std::ostringstream buff;
+	buff << _player->getGoldStash();
+
+	this->goldCount.setString(buff.str());
+
+	_window->draw(coin);
+	_window->draw(goldCount);
 }
 
 bool Hud::getGameOver()
@@ -111,6 +171,7 @@ bool Hud::getOutOfStamina()
 	return outOfStamina;
 }
 
+//USE WHEN PERMANENTLY INCREASING MAX HP
 void Hud::increaseMaxHP(int newHP)
 {
 	this->max_HP += newHP;
@@ -126,6 +187,7 @@ void Hud::increaseMaxHP(int newHP)
 	*/
 }
 
+//USE WHEN PERMANENTLY INCREASING STAMINA
 void Hud::increaseMaxSta(int newSta)
 {
 	this->max_Sta += newSta;

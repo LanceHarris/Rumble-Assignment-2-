@@ -9,6 +9,8 @@
 
 #include "Character.h"
 
+int goldStash = 0;
+
 Player::Player(int &health, float &speed, int &stamina) : Character(health, speed, stamina)
 {
 	spriteXPos = 0;
@@ -17,6 +19,7 @@ Player::Player(int &health, float &speed, int &stamina) : Character(health, spee
 	SPRITEHEIGHT = 16;
 	SPRITEMAX = 4;
 	SPRITEGAP = 3;
+
 	if (!texture.loadFromFile("characterSheet.png"))
 	{
 		std::cout << "Error loading resource characterSheet.png" << std::endl;
@@ -25,6 +28,16 @@ Player::Player(int &health, float &speed, int &stamina) : Character(health, spee
 	sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
 	sprite.setScale(1.5, 1.5);
 	facing = RIGHT;
+}
+
+int Player::getGoldStash()
+{
+	return goldStash;
+}
+
+void Player::increaseGoldStash(int newGold)
+{
+	goldStash += newGold;
 }
 
 Player::~Player()

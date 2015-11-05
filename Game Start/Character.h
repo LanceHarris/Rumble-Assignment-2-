@@ -26,8 +26,6 @@ class Character
 			LEFT
 		};
 
-
-
 		bool rowBoundary();
 		bool columnBoundary();
 
@@ -100,6 +98,8 @@ class Player: public Character{
 public:
 	Player(int &health, float &speed, int &stamina);
 	~Player();
+	int getGoldStash();
+	void increaseGoldStash(int newGold);
 };
 
 class Enemy: public Character{
