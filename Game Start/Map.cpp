@@ -17,7 +17,18 @@ Map::Tile Map::getTile(int row, int column)
 bool Map::isCollision(int row, int column)
 {
 	Map::Tile tile = getTile(row, column);
-	if (tile != Map::Tile::TileEmpty)
+	if (tile != Map::Tile::TileEmpty && tile != Map::Tile::transition)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Map::isTransition(int row, int column)
+{
+	Map::Tile tile = getTile(row, column);
+	if (tile == Map::Tile::transition)
 	{
 		return true;
 	}

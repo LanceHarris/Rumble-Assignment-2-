@@ -38,6 +38,7 @@ public:
 	~Projectile(void);
 	void updateProjectileLocation(sf::RenderWindow &window);
 	int attackHit(std::vector<Enemy> enemies);
+
 	float getPosX();
 	float getPosY();
 	int getRow();

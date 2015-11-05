@@ -25,6 +25,9 @@ public:
 		TileWall = 1,
 		tileWallFront = 2,
 		tileWallFrontTorch = 3,
+		transition = 4,
+		statStore = 5,
+		itemStore = 6,
 	};
 
 	Tile getTile(int row, int column);
@@ -33,6 +36,7 @@ public:
 	Map(int winX, int winY, int newMap[Map::ROW_COUNT][Map::COLUMN_COUNT]);
 	~Map(void);
 	void setMap(int newMap[Map::ROW_COUNT][Map::COLUMN_COUNT]);
+	bool isTransition(int row, int column);
 
 	int default_map[Map::ROW_COUNT][Map::COLUMN_COUNT];
 
