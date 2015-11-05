@@ -13,6 +13,7 @@ public:
 
 int main()
 {
+	sf::Texture texture;
 	sf::SoundBuffer soundBuffer;
 	sf::Sound sound;
 	sf::Music music;
@@ -27,6 +28,15 @@ int main()
 		std::cout << "Cant find" << std::endl;
 		sound.setBuffer(soundBuffer);
 
+	texture.loadFromFile("");// the path to the image.
+	sf::Sprite sprite(texture);
+	// Declare and load a texture
+	sprite.setTexture(texture);
+	sprite.setTextureRect(sf::IntRect(10, 10, 50, 30));
+	sprite.setColor(sf::Color(255, 255, 255, 200));
+	sprite.setPosition(100, 25);
+
+	//window.draw(sprite);
 	music.play();
 	sound.play();
 	system("pause");
