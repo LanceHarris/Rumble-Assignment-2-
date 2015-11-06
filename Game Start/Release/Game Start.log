@@ -1,17 +1,104 @@
-﻿Build started 21/10/2015 12:59:15 p.m..
-     1>Project "C:\Temp\Game Start\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
-     1>PrepareForBuild:
-         Creating directory "C:\Temp\Game Start\Release\".
-       InitializeBuildStatus:
-         Creating "Release\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
+﻿Build started 6/11/2015 8:22:32 PM.
+     1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Release\Game Start.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"D:\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D SFML_STATIC /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ChatBox.cpp Main.cpp
-         ChatBox.cpp
-     1>c:\temp\game start\game start\ChatBox.h(4): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
-         Main.cpp
-     1>Main.cpp(1): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
-     1>Done Building Project "C:\Temp\Game Start\Game Start\Game Start.vcxproj" (build target(s)) -- FAILED.
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Temp\Rumble-Assignment-2-\Release\Game Start.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\SFML-2.3.2\lib" "sfml-graphics-s.lib" "sfml-window-s.lib" "sfml-system-s.lib" "sfml-audio-s.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Temp\Rumble-Assignment-2-\Release\Game Start.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Temp\Rumble-Assignment-2-\Release\Game Start.lib" /MACHINE:X86 Release\Assets.obj
+         Release\Character.obj
+         Release\ChatBox.obj
+         Release\Enemy.obj
+         Release\Hud.obj
+         Release\Main.obj
+         Release\Map.obj
+         Release\Player.obj
+         Release\projectile.obj
+     1>sfml-window-s.lib(GlContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetIntegerv@8
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetIntegerv@8
+     1>sfml-graphics-s.lib(TextureSaver.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetIntegerv@8
+     1>sfml-graphics-s.lib(GLLoader.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetIntegerv@8
+     1>sfml-graphics-s.lib(Shader.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetIntegerv@8
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glDeleteTextures@8
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glTexSubImage2D@36
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glBindTexture@8
+     1>sfml-graphics-s.lib(TextureSaver.cpp.obj) : error LNK2001: unresolved external symbol __imp__glBindTexture@8
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glCopyTexSubImage2D@32
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glTexParameteri@12
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glLoadIdentity@0
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glLoadMatrixf@4
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glLoadMatrixf@4
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glMatrixMode@4
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glMatrixMode@4
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glTexImage2D@36
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGenTextures@8
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glFlush@0
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol __imp__glFlush@0
+     1>sfml-graphics-s.lib(Shader.cpp.obj) : error LNK2001: unresolved external symbol __imp__glFlush@0
+     1>sfml-graphics-s.lib(Texture.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetTexImage@20
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Set_Pixel_Sizes
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Get_Kerning
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Get_Char_Index
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_MulFix
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Done_FreeType
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Done_Face
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Select_Charmap
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_New_Face
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Init_FreeType
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_New_Memory_Face
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Open_Face
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Done_Glyph
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Bitmap_Embolden
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Glyph_To_Bitmap
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Outline_Embolden
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Get_Glyph
+     1>sfml-graphics-s.lib(Font.cpp.obj) : error LNK2001: unresolved external symbol _FT_Load_Char
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glPopAttrib@0
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glPopClientAttrib@0
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glPopMatrix@0
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glClear@4
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glClearColor@16
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glViewport@16
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glBlendFunc@8
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glEnableClientState@4
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glEnable@4
+     1>sfml-window-s.lib(GlContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__glEnable@4
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glDisable@4
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glDrawArrays@12
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glTexCoordPointer@16
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glColorPointer@16
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glVertexPointer@16
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glPushMatrix@0
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glPushAttrib@4
+     1>sfml-graphics-s.lib(RenderTarget.cpp.obj) : error LNK2001: unresolved external symbol __imp__glPushClientAttrib@4
+     1>sfml-graphics-s.lib(RenderWindow.cpp.obj) : error LNK2001: unresolved external symbol __imp__glReadPixels@28
+     1>sfml-graphics-s.lib(GLLoader.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetString@4
+     1>sfml-window-s.lib(GlContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetString@4
+     1>sfml-graphics-s.lib(GLLoader.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetError@0
+     1>sfml-window-s.lib(GlContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__glGetError@0
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_destroy_compress
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_finish_compress
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_write_scanlines
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_start_compress
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_set_quality
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_set_defaults
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_stdio_dest
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_CreateCompress
+     1>sfml-graphics-s.lib(ImageLoader.cpp.obj) : error LNK2001: unresolved external symbol _jpeg_std_error
+     1>sfml-window-s.lib(WglContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__wglDeleteContext@4
+     1>sfml-window-s.lib(WglContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__wglMakeCurrent@8
+     1>sfml-window-s.lib(WglContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__wglGetCurrentContext@0
+     1>sfml-window-s.lib(WglContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__wglGetProcAddress@4
+     1>sfml-window-s.lib(WglContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__wglShareLists@8
+     1>sfml-window-s.lib(WglContext.cpp.obj) : error LNK2001: unresolved external symbol __imp__wglCreateContext@4
+     1>sfml-window-s.lib(JoystickImpl.cpp.obj) : error LNK2001: unresolved external symbol __imp__joyGetPosEx@8
+     1>sfml-window-s.lib(JoystickImpl.cpp.obj) : error LNK2001: unresolved external symbol __imp__joyGetDevCapsW@12
+     1>sfml-system-s.lib(SleepImpl.cpp.obj) : error LNK2001: unresolved external symbol __imp__timeEndPeriod@4
+     1>sfml-system-s.lib(SleepImpl.cpp.obj) : error LNK2001: unresolved external symbol __imp__timeBeginPeriod@4
+     1>sfml-system-s.lib(SleepImpl.cpp.obj) : error LNK2001: unresolved external symbol __imp__timeGetDevCaps@8
+     1>C:\Temp\Rumble-Assignment-2-\Release\Game Start.exe : fatal error LNK1120: 70 unresolved externals
+     1>Done Building Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:00.69
+Time Elapsed 00:00:00.33

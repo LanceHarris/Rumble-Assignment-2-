@@ -31,6 +31,8 @@ public:
 		itemFrontWall = 7,
 		statWallFront = 8,
 		barrel = 9,
+		pillarTop = 10,
+		pillarBottom = 11,
 	};
 
 	Tile getTile(int row, int column);
