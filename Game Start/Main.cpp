@@ -55,7 +55,7 @@ sf::Time TimePerFrame = sf::seconds(1.0f / GAME_SPEED);
 /*END*/
 
 //**GAME STATE**//
-bool state = 0;
+int state = 0;
 int characterSelection;
 //**END**//
 
@@ -231,6 +231,23 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 
 int main()
 {
+	//**LOAD BACKGROUND TEXTURE MAPS**//
+	sf::Texture dungeonMap;
+	if(!dungeonMap.loadFromFile("dungeonMap.jpg"))
+	{
+		//error
+	}
+	sf::Sprite dungeonStage;
+	dungeonStage.setTexture(dungeonMap);
+
+	sf::Texture shopMap;
+	if(!shopMap.loadFromFile("shopMap.jpg"))
+	{
+		//error
+	}
+	sf::Sprite shopStage;
+	shopStage.setTexture(shopMap);
+	//**END**//
 
 	//**WALL SEGMENT LOAD**//
 	sf::Texture wallFront;
@@ -239,16 +256,7 @@ int main()
 		//error
 	}
 
-	sf::Texture shopsOverlay;
-	if(!shopsOverlay.loadFromFile("shopsOverlay.png"))
-	{
-		//error
-	}
-	sf::Sprite shopBlackParts;
-	shopBlackParts.setTexture(shopsOverlay);
-	shopBlackParts.setPosition(0,0);
-	//shopBlackParts.setOrigin(shopsOverlay.getSize().x/2,shopsOverlay.getSize().y/2);
-	//shopBlackParts.scale(2,2);
+
 
 
 	sf::Texture door;
@@ -654,10 +662,25 @@ int main()
 
 			//DRAW GAME ELEMENTS
 			window.draw(map.getSprite());
-			drawWallTiles(map,window,&wallFront,&wallTorch,&itemWallFront,&statsWallFront,&barrel,&pillarTop,&pillarBottom,&door);
+
+			//drawWallTiles(map,window,&wallFront,&wallTorch,&itemWallFront,&statsWallFront,&barrel,&pillarTop,&pillarBottom,&door); //uncomment this to edit stage layout
+
+			//dungeon map/main stage
+
+			if(curMap == 0)
+			{
+				window.draw(dungeonStage);
+			}
+			else
+			{
+				window.draw(shopStage);
+			}
+			
 			window.draw(box);
+
 			//window.draw(lightingSprite);
 			//window.draw(ambLightingSprite);
+
 			window.draw(player.getSprite());
 
 			//**DRAW PROJECTILES**//
@@ -694,12 +717,13 @@ int main()
 			//**END**//
 
 			//drawGrid(window);
-			
+
 			//CHATBOX TEST EVENT
 			if(box.getGlobalBounds().intersects(player.getSprite().getGlobalBounds()))
 			{
 				textBox.redrawChat(true); //SET IF THE CHATBOX IS REDRAWN OR NOT
 			}
+
 
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();
@@ -708,10 +732,7 @@ int main()
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			textBox.displayMessage(window);
 			
-			if(curMap == 1)
-			{
-				window.draw(shopBlackParts);	
-			}
+
 
 			//DISPLAY DRAW COMPONENTS
 			window.display();
@@ -720,14 +741,46 @@ int main()
     }
 	else if (state == 2)//Item store
 	{
+		while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+				}
+				else if (event.type == sf::Event::KeyPressed)
+				{
+					switch (event.key.code)
+					{
+					//Other Controls
+					case (sf::Keyboard::D )://Change selection
+						break;
+					}
+				}
+		}
+
 		window.clear();
-		cout << "ENTERED STATE 2" << endl;
 		window.display();
 	}
 	else if (state == 3)//stats store
 	{
+		while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+				}
+				else if (event.type == sf::Event::KeyPressed)
+				{
+					switch (event.key.code)
+					{
+					//Other Controls
+					case (sf::Keyboard::D )://Change selection
+						break;
+					}
+				}
+		}
+
 		window.clear();
-		cout << "ENTERED STATE 3" << endl;
 		window.display();
 	}
 
