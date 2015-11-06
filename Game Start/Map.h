@@ -33,6 +33,7 @@ public:
 		barrel = 9,
 		pillarTop = 10,
 		pillarBottom = 11,
+		door = 12,
 	};
 
 	Tile getTile(int row, int column);
