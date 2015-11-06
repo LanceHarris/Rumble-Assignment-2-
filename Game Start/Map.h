@@ -28,6 +28,9 @@ public:
 		transition = 4,
 		statStore = 5,
 		itemStore = 6,
+		itemFrontWall = 7,
+		statWallFront = 8,
+		barrel = 9,
 	};
 
 	Tile getTile(int row, int column);
