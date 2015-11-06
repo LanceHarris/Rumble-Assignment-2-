@@ -39,7 +39,8 @@ public:
 	Map(int winX, int winY, int newMap[Map::ROW_COUNT][Map::COLUMN_COUNT]);
 	~Map(void);
 	void setMap(int newMap[Map::ROW_COUNT][Map::COLUMN_COUNT]);
-	bool isTransition(int row, int column);
+
+	bool isTile(int row, int column, Map::Tile tile);
 
 	int default_map[Map::ROW_COUNT][Map::COLUMN_COUNT];
 

@@ -25,10 +25,10 @@ bool Map::isCollision(int row, int column)
 	return false;
 }
 
-bool Map::isTransition(int row, int column)
+bool Map::isTile(int row, int column, Map::Tile aTile)
 {
 	Map::Tile tile = getTile(row, column);
-	if (tile == Map::Tile::transition)
+	if (tile == aTile)
 	{
 		return true;
 	}

@@ -113,7 +113,7 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 3, 7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, 0, 3, 8, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -145,36 +145,6 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 //but having some issues being able to pass usable pointers, so I'm giving up for now, if anyone feels like trying to get this to work, go for it :D
 
 //**END**//
-void drawGrid(sf::RenderWindow &window)
-{
-		int x = 0; //reset x to redraw grid
-		int y = winY; //reset y to redraw grid
-		for(int i = 0; i<winX/20;i++) //begin loop through to draw grid
-		{
-		
-		//define vertical line vertexes
-		x+=24;
-		sf::Vertex lineVert[] = {
-
-			sf::Vertex(sf::Vector2f(x, 0),sf::Color(0, 0, 0, 24)),
-			sf::Vertex(sf::Vector2f(x, winY),sf::Color(40, 0, 0, 24)),
-
-			};
-
-		//define horizontal line vertexes
-		y-=24;
-		sf::Vertex lineHori[] = {
-
-			sf::Vertex(sf::Vector2f(0, y),sf::Color(0, 0, 0, 24)),
-			sf::Vertex(sf::Vector2f(winX,y),sf::Color(0, 0, 0, 24)),
-
-			};
-
-		window.draw(lineVert, 2, sf::Lines); //draw vertical lines
-		window.draw(lineHori, 2, sf::Lines); //draw horizontal lines
-
-		}
-}
 
 //COLOURS EMPTY TILES (or any others that you specify) CYAN FOR DEBUGGING PURPOSES
 void drawEmptyTiles(Map &map, sf::RenderWindow &window)
@@ -315,6 +285,7 @@ int main()
 	//BOX TO TEST CHATBOX TRIGGERING
 	sf::RectangleShape box(sf::Vector2f(24,24));
 	box.setPosition(480,120);
+	box.setFillColor(sf::Color::Transparent);
 
 	//CREATE TEXTBOX
 	ChatBox textBox = ChatBox(winX,winY);
@@ -597,11 +568,13 @@ int main()
 				debug = false;
 			}
 
+			//Light halo follows player
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y);
+
 			window.clear();
-			
-			//**MAP TRANSITION**/
-			if( map.isTransition(player.getRow(),player.getColumn()) )
+	
+			//**MAP TRANSITIONS**/
+			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition) )
 			{
 				if(curMap == 0)
 				{
@@ -616,7 +589,23 @@ int main()
 					curMap--;
 				}
 			}
+
+			//TODO! For some reason trying to set the global state variable here just doesn't work.
+			//New isTile method, takes row and col arguments like is Collision, but also takes tile type, so we can check for whatever tile we want. Thought it'd be handy.
+			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
+			{
+				state = 2;
+				cout << state << endl;
+			}
+			else if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore) ) //for item store
+			{
+				state = 3;
+				cout << state << endl;
+			}
+			
 			//**END**//
+
+
 
 			//DRAW GAME ELEMENTS
 			window.draw(map.getSprite());
@@ -635,10 +624,10 @@ int main()
 				{
 					projectiles.erase(projectiles.begin()+i);
 				}
-				//else if(projectiles[i].attackHit(enemies) != 1000){ //1000 = No hit
-				//	projectiles.erase(projectiles.begin()+i);
-					//enemies[i].takeDamage(player.getAttack());
-				//}
+				else if(projectiles[i].attackHit(enemies) != 1000){ //1000 = No hit
+					projectiles.erase(projectiles.begin()+i);
+					enemies[i].takeDamage(player.getAttack());
+				}
 				else if(projectiles[i].getPosX() > 1080 || projectiles[i].getPosX() < 0)
 				{
 					projectiles.erase(projectiles.begin()+i); //Since Projectile objects weren't allocated with new, erase should free the memory as well as removing the object from the array
@@ -676,8 +665,22 @@ int main()
 			
 			//DISPLAY DRAW COMPONENTS
 			window.display();
+			
 		}
     }
+	else if (state == 2)//Item store
+	{
+		window.clear();
+		cout << "ENTERED STATE 2" << endl;
+		window.display();
+	}
+	else if (state == 3)//stats store
+	{
+		window.clear();
+		cout << "ENTERED STATE 3" << endl;
+		window.display();
+	}
+
 	}
     return 0;
 }
