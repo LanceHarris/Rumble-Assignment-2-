@@ -28,7 +28,7 @@ private:
 	static const int FRAMES = 8;
 	static const int FRAMEGAP = 1;
 	static const int FRAMEXY = 10;
-	static const int POSX = 82;
+	static const int POSX = 97;
 
 	int currentFrame;
 	int axeYPos;

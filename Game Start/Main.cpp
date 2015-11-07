@@ -27,6 +27,7 @@ Player size after 1.5 scaling: 24
 */
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "ChatBox.h"
 #include "Map.h"
 #include "Character.h"
@@ -44,7 +45,7 @@ int winY = 840; //35 cells
 /*END*/
 
 /*PLAYER STATS*/
-float speed = 6;
+float speed = 3;
 int attack = 1;
 int toughness = 1;
 int health = 50;
@@ -63,6 +64,10 @@ int characterSelection;
 
 //**MAP TRANSITION STUFF**//
 int curMap = 0;
+//**END**//
+
+//**MUSIC AND SOUND STUFF HERE**//
+sf::Music music;
 //**END**//
 
 //**MAPS**//
@@ -147,6 +152,23 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 //but having some issues being able to pass usable pointers, so I'm giving up for now, if anyone feels like trying to get this to work, go for it :D
 
 //**END**//
+
+/*LOAD AND START ALL SOUND EFFECTS AND MUSIC*/
+void startMusic()
+{
+		if(!(music.openFromFile("DST-Orchards.ogg"))) //load music file
+		{
+			printf("Could not load");
+		}
+
+		
+		music.setVolume(20);         //set music volume
+		music.setLoop(true);         //set music to loop
+		//music.setPitch(1);		 //set music pitch
+		music.play();				 //play the music
+
+}
+
 
 //COLOURS EMPTY TILES (or any others that you specify) CYAN FOR DEBUGGING PURPOSES
 void drawEmptyTiles(Map &map, sf::RenderWindow &window)
@@ -233,6 +255,9 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 
 int main()
 {
+	//**START MUSIC, FEEL FREE TO CHANGE THIS**//
+	startMusic();
+	//**END**//
 	
 
 	//**STORE STUFF**//
@@ -374,21 +399,21 @@ int main()
 		//error
 	}
 
-	sf::RectangleShape warriorBox(sf::Vector2f(234,378));
+	sf::RectangleShape warriorBox(sf::Vector2f(250,250));
 	warriorBox.setTexture(&warriorSelect);
-	sf::Vector2f warriorLoc = sf::Vector2f(winX*0.8f-warriorBox.getSize().x,winY-600.0f);
+	sf::Vector2f warriorLoc = sf::Vector2f(winX*0.8f-warriorBox.getSize().x,winY-550.0f);
 	warriorBox.setPosition(warriorLoc);
 
-	sf::RectangleShape wizardBox(sf::Vector2f(234,378));
+	sf::RectangleShape wizardBox(sf::Vector2f(250,250));
 	wizardBox.setTexture(&wizardSelect);
-	sf::Vector2f wizardLoc = sf::Vector2f(winX*0.2f,winY-600.0f);
+	sf::Vector2f wizardLoc = sf::Vector2f(winX*0.2f,winY-550.0f);
 	wizardBox.setPosition(wizardLoc);
 
-	sf::RectangleShape selectionOutline(sf::Vector2f(254,398));
+	sf::RectangleShape selectionOutline(sf::Vector2f(warriorBox.getSize().x,warriorBox.getSize().y));
 	selectionOutline.setOutlineColor(sf::Color::White);
 	selectionOutline.setOutlineThickness(10.0f);
 	selectionOutline.setFillColor(sf::Color::Transparent);
-	selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y - 10);
+	selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y+7);
 
 	sf::Texture rumbleLogo;
 	if(!rumbleLogo.loadFromFile("RumbleLogo.png"))
@@ -400,13 +425,14 @@ int main()
 	logo.setTexture(rumbleLogo);
 	logo.setOrigin(rumbleLogo.getSize().x/2,rumbleLogo.getSize().y/2);
 	logo.setPosition(winX/2,winY*0.14);
+	logo.setScale(3.3,2.5);
 
 	characterSelection = 1;
 	//**END**/
 
 	//**PROJECTILE TEXTURES**//
 	sf::Texture missileTexture; //since allot of projectile objects are created all the time, I feel like it'd be more efficient to load this here only once, and pass it as an argument
-	if(!missileTexture.loadFromFile("characterSheet.png"))
+	if(!missileTexture.loadFromFile("characterSheetCustom.png"))
 	{
 		std::cout << "Error loading projectile texture" << std::endl;
 	}
@@ -446,22 +472,22 @@ int main()
 					{
 					//Other Controls
 					case (sf::Keyboard::D )://Change selection
-						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y - 10);
+						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y +7);
 						characterSelection = 2;
 						break;
 
 					case (sf::Keyboard::Right )://Change selection
-						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y - 10);
+						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y +7);
 						characterSelection = 2;
 						break;
 
 					case (sf::Keyboard::A ): //Change selection
-						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y - 10);
+						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y +7);
 						characterSelection = 1;
 						break;
 
 					case (sf::Keyboard::Left ): //Change selection
-						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y - 10);
+						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y +7);
 						characterSelection = 1;
 						break;
 
@@ -649,6 +675,7 @@ int main()
 			//**MAP TRANSITIONS**/
 			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition) )
 			{
+				projectiles.clear();
 				if(curMap == 0)
 				{
 					map.setMap(secondMap);
@@ -705,7 +732,7 @@ int main()
 			
 			window.draw(box);
 
-			//window.draw(lightingSprite);
+			window.draw(lightingSprite);
 			//window.draw(ambLightingSprite);
 
 			window.draw(player.getSprite());

@@ -19,19 +19,19 @@ Player::Player(int &health, float &speed, int &stamina) : Character(health, spee
 	SPRITEWIDTH = 16;
 	SPRITEHEIGHT = 16;
 	SPRITEMAX = 4;
-	SPRITEGAP = 3;
+	SPRITEGAP = 1;
 
 	healthPotionNumber = 1; //to test
 	staminaPotionNumber = 0;
 	goldStash = 10;
 
-	if (!texture.loadFromFile("characterSheet.png"))
+	if (!texture.loadFromFile("characterSheetCustom.png"))
 	{
 		std::cout << "Error loading resource characterSheet.png" << std::endl;
 	}
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-	sprite.setScale(1.5, 1.5);
+	sprite.setScale(1.6, 1.6);
 	facing = RIGHT;
 }
 
