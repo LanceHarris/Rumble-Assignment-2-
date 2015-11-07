@@ -233,22 +233,11 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 
 int main()
 {
-	//**LOAD STORE TEXTURES**//
-	sf::Texture storeTexture;
-	if(!storeTexture.loadFromFile("dungeonMap.jpg"))
-	{
-		//error
-	}
+	
 
-	sf::Texture itemStoreBackground;
-	if(!itemStoreBackground.loadFromFile("storeBackground.jpg"))
-	{
-		//error
-	}
-	//**END**//
-
-	//**CREATE STORE OBJECTS**//
-	Store itemStoreObject("Retro Computer_DEMO.ttf","Item Store",storeTexture,itemStoreBackground,winX,winY);
+	//**STORE STUFF**//
+	sf::Time timePerBlink = sf::seconds(2);
+	Store itemStoreObject("Retro Computer_DEMO.ttf","Item Store",winX,winY);
 	//**END**//
 
 	//**LOAD BACKGROUND TEXTURE MAPS**//
@@ -679,16 +668,17 @@ int main()
 			//New isTile method, takes row and col arguments like is Collision, but also takes tile type, so we can check for whatever tile we want. Thought it'd be handy.
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
 			{
-				
+				itemStoreObject.setStoreOwnerTexture(0);
 				state = 2;
-				textBox.setMessage("Welcome to the item store!",window);
+				textBox.setMessage("This is the item store. Buy something or get out.",window);
 				textBox.redrawChat(true);
 				cout << state << endl;
 			}
 			else if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore) ) //for item store
 			{
+				itemStoreObject.setStoreOwnerTexture(1);
 				state = 3;
-				textBox.setMessage("Welcome to the vitamin store!",window);
+				textBox.setMessage("Welcome to the vitamin store! My name is Nibbles, have you met my brother?",window);
 				textBox.redrawChat(true);
 				cout << state << endl;
 			}
@@ -814,14 +804,24 @@ int main()
 					
 				}
 		}
+		
 
-		window.clear();
+		sf::Time elapsedTime = timer.restart();
+		timeSinceLastUpdate += elapsedTime;
+		if (timeSinceLastUpdate > timePerBlink)
+		{
+			timeSinceLastUpdate -= timePerBlink;
+			itemStoreObject.blink(0);
+		}
 
-		itemStoreObject.displayStore(window,player.getGoldStash());
-		textBox.displayMessage(window);
+			window.clear();
+
+			itemStoreObject.displayStore(0,window,player.getGoldStash());
+			textBox.displayMessage(window);
 
 		
-		window.display();
+			window.display();
+		
 	}
 	else if (state == 3)//stats store
 	{
@@ -864,9 +864,18 @@ int main()
 				}
 		}
 
+
+		sf::Time elapsedTime = timer.restart();
+		timeSinceLastUpdate += elapsedTime;
+		if (timeSinceLastUpdate > timePerBlink)
+		{
+			timeSinceLastUpdate -= timePerBlink;
+			itemStoreObject.blink(1);
+		}
+
 		window.clear();
 
-		itemStoreObject.displayStore(window,player.getGoldStash());
+		itemStoreObject.displayStore(1,window,player.getGoldStash());
 		textBox.displayMessage(window);
 		
 		window.display();

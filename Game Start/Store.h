@@ -11,6 +11,17 @@ using namespace std;
 class Store
 {
 public:
+	int currentFrame;
+
+	//textures
+	sf::Texture aStoreKeeperTexture;
+	sf::Texture aStoreKeeperBlinkTexture;
+
+	sf::Texture aVitStoreKeeperTexture;
+	sf::Texture aVitStoreKeeperBlinkTexture;
+
+	sf::Texture aBackground;
+
 	//item list array
 	std::vector<Item> storeInventory;
 
@@ -29,14 +40,15 @@ public:
 
 	sf::Font font;
 
-	Store(string fontTtf, string aStoreName, sf::Texture &aStoreKeeperTexture, sf::Texture &aBackground, int winX, int winY);
+	Store(string fontTtf, string aStoreName, int winX, int winY);
 
 	//Getters & Setters
 	string getStoreName();
 
 	//Other
-	void displayStore(sf::RenderWindow &window, int money);
-
+	void displayStore(int storeType,sf::RenderWindow &window, int money);
+	void blink(int storeType);
+	void setStoreOwnerTexture(int storeType);
 	~Store(void);
 };
 
