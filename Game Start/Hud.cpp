@@ -123,7 +123,14 @@ void Hud::updateStamina()
 		if(currSLength > 0)
 		{
 			outOfStamina = false;
-			current_Sta+=regenSpeed;
+			if( (current_Sta+=regenSpeed) > max_Sta)
+			{
+				current_Sta = max_Sta;
+			}
+			else
+			{
+				current_Sta+=regenSpeed;
+			}
 			currSLength = ((current_Sta * maxSLength) / max_Sta);
 			repercussion = 0;
 		}
