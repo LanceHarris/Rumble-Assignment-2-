@@ -255,6 +255,8 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 
 int main()
 {
+
+
 	//**START MUSIC, FEEL FREE TO CHANGE THIS**//
 	startMusic();
 	//**END**//
@@ -360,6 +362,14 @@ int main()
 	//**END**//
 
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
+
+	/*
+	// view for moving around
+	sf::View view1;
+	view1.reset(sf::FloatRect(0,0,winX,winY)); //view covers whole screen
+	view1.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
+	view1.setSize(winX,winY); //size of view window */
+	
 
 	//SET BOTH TO TRUE IF YOU WANT TO COLOUR IN THE EMPTY CELLS WITH CYAN
 	bool drawGridCells = false;
@@ -498,6 +508,7 @@ int main()
 					case (sf::Keyboard::R): //Select character
 						state = 1;
 						break;
+
 					}
 				}
 			}
@@ -516,6 +527,7 @@ int main()
 		//STATE 1 - GAME
 		else if(state == 1)
 		{
+			
 			timer.restart();	// To fix a bug, where the clock was starting during character selection so timeSinceLastUpdate -= TimePerFrame was not reseting the clock (ie the game would go really fast)
 
         while (window.pollEvent(event))
@@ -580,6 +592,10 @@ int main()
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
 		{
+
+			//view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
+			//window.setView(view1);
+
 			timeSinceLastUpdate -= TimePerFrame;
 			HUD.updateStamina();
 
@@ -608,30 +624,34 @@ int main()
 				{
 					player.turn(3);//LEFT
 				}
-			}	
+			}
 
 			//MOVEMENT
 			//RIGHT
 			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
 			{
+
 				player.setFacing(Character::RIGHT);
 				player.walk(map);
 			}
 			//LEFT
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
 			{
+
 				player.setFacing(Character::LEFT);
 				player.walk(map);
 			}
 			//UP
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
 			{
+
 				player.setFacing(Character::UP);
 				player.walk(map);
 			}
 			//DOWN
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
 			{
+
 				player.setFacing(Character::DOWN);
 				player.walk(map);
 			}
@@ -676,6 +696,7 @@ int main()
 			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition) )
 			{
 				projectiles.clear();
+				//window.setView(window.getDefaultView()); //change view back to normal to display the stores properly
 				if(curMap == 0)
 				{
 					map.setMap(secondMap);
@@ -778,6 +799,8 @@ int main()
 				textBox.redrawChat(true); //SET IF THE CHATBOX IS REDRAWN OR NOT
 			}
 
+
+			//window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
 
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();
