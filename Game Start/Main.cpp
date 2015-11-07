@@ -32,6 +32,8 @@ Player size after 1.5 scaling: 24
 #include "Character.h"
 #include "Projectile.h"
 #include "Hud.h"
+#include "Item.h"
+#include "Store.h"
 
 #include <list>
 #include <cmath>
@@ -45,8 +47,8 @@ int winY = 840; //35 cells
 float speed = 6;
 int attack = 1;
 int toughness = 1;
-int health = 100;
-int stamina = 50;
+int health = 50;
+int stamina = 30;
 /*END*/
 
 //SPEED OF THE GAME
@@ -231,6 +233,24 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 
 int main()
 {
+	//**LOAD STORE TEXTURES**//
+	sf::Texture storeTexture;
+	if(!storeTexture.loadFromFile("dungeonMap.jpg"))
+	{
+		//error
+	}
+
+	sf::Texture itemStoreBackground;
+	if(!itemStoreBackground.loadFromFile("storeBackground.jpg"))
+	{
+		//error
+	}
+	//**END**//
+
+	//**CREATE STORE OBJECTS**//
+	Store itemStoreObject("Retro Computer_DEMO.ttf","Item Store",storeTexture,itemStoreBackground,winX,winY);
+	//**END**//
+
 	//**LOAD BACKGROUND TEXTURE MAPS**//
 	sf::Texture dungeonMap;
 	if(!dungeonMap.loadFromFile("dungeonMap.jpg"))
@@ -506,6 +526,18 @@ int main()
 				case (sf::Keyboard::P): //Spawn Enemy
 					enemies.push_back(Enemy(10,4,sf::Vector2f(14,12)));
 					break;
+
+				case (sf::Keyboard::L): //Take damage for testing
+					HUD.takeDamage(30);
+					break;
+
+				case (sf::Keyboard::Num1): //Use health potion
+					HUD.useHealthPotion(1,player);
+					break;
+
+				case (sf::Keyboard::Num2): //Use stamina potion
+					HUD.useStaminaPotion(1,player);
+					break;
 				}
 			}
 			else if (event.type == sf::Event::MouseButtonPressed)
@@ -517,7 +549,7 @@ int main()
 						if(!HUD.getOutOfStamina())  //If not out of stamina you can shoot
 						{
 							projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 9, missileTexture));
-							HUD.takeStamina(6);
+							HUD.takeStamina(8);
 							break;
 						}
 						else
@@ -647,12 +679,17 @@ int main()
 			//New isTile method, takes row and col arguments like is Collision, but also takes tile type, so we can check for whatever tile we want. Thought it'd be handy.
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
 			{
+				
 				state = 2;
+				textBox.setMessage("Welcome to the item store!",window);
+				textBox.redrawChat(true);
 				cout << state << endl;
 			}
 			else if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore) ) //for item store
 			{
 				state = 3;
+				textBox.setMessage("Welcome to the vitamin store!",window);
+				textBox.redrawChat(true);
 				cout << state << endl;
 			}
 			
@@ -749,16 +786,41 @@ int main()
 				}
 				else if (event.type == sf::Event::KeyPressed)
 				{
+					if(textBox.getRedraw() == false)
+					{
+						switch (event.key.code)
+						{
+
+						//Other Controls
+						case (sf::Keyboard::D )://Change selection
+							break;
+
+
+						case (sf::Keyboard::Escape): //Chat box
+							state = 1;
+							textBox.redrawChat(false);
+							player.setPosition(11,11);
+							player.turn(2);
+							break;
+						}
+					}
 					switch (event.key.code)
 					{
-					//Other Controls
-					case (sf::Keyboard::D )://Change selection
+					case (sf::Keyboard::R): //Chat box
+						textBox.setNext(true);
 						break;
 					}
+
+					
 				}
 		}
 
 		window.clear();
+
+		itemStoreObject.displayStore(window,player.getGoldStash());
+		textBox.displayMessage(window);
+
+		
 		window.display();
 	}
 	else if (state == 3)//stats store
@@ -771,16 +833,42 @@ int main()
 				}
 				else if (event.type == sf::Event::KeyPressed)
 				{
+					if(textBox.getRedraw() == false)
+					{
+						switch (event.key.code)
+						{
+						//Other Controls
+						case (sf::Keyboard::W || sf::Keyboard::Up)://Change selection
+							break;
+
+						case (sf::Keyboard::S)://Change selection
+							break;
+
+						case (sf::Keyboard::Down)://Change selection
+							break;
+
+						case (sf::Keyboard::Escape): //Chat box
+							state = 1;
+							textBox.redrawChat(false);
+							player.setPosition(32,11);
+							player.turn(2);
+							break;
+						}
+					}
 					switch (event.key.code)
 					{
-					//Other Controls
-					case (sf::Keyboard::D )://Change selection
+					case (sf::Keyboard::R): //Chat box
+						textBox.setNext(true);
 						break;
 					}
 				}
 		}
 
 		window.clear();
+
+		itemStoreObject.displayStore(window,player.getGoldStash());
+		textBox.displayMessage(window);
+		
 		window.display();
 	}
 

@@ -11,6 +11,7 @@
 
 int goldStash = 0;
 
+
 Player::Player(int &health, float &speed, int &stamina) : Character(health, speed, stamina)
 {
 	spriteXPos = 0;
@@ -19,6 +20,10 @@ Player::Player(int &health, float &speed, int &stamina) : Character(health, spee
 	SPRITEHEIGHT = 16;
 	SPRITEMAX = 4;
 	SPRITEGAP = 3;
+
+	healthPotionNumber = 1; //to test
+	staminaPotionNumber = 0;
+	goldStash = 10;
 
 	if (!texture.loadFromFile("characterSheet.png"))
 	{
@@ -38,6 +43,45 @@ int Player::getGoldStash()
 void Player::increaseGoldStash(int newGold)
 {
 	goldStash += newGold;
+}
+
+
+//method for using a vitamin. 'h' for health vitamin, 'a' for attack and 's' for stamina. Permanently increases player's stats by the specified amount.
+void Player::useVitamin(char type)
+{
+	switch(type)
+	{
+		case 'h': //vitamin for health
+			health += 10;
+			break;
+		case 'a': //vitamin for attack
+			attack += 1;
+			break;
+		case 's': //vitamin for stamina
+			stamina += 10;
+			break;
+	}
+}
+
+//Potion methods
+int Player::getHealthPotionNumber()
+{
+	return healthPotionNumber;
+}
+
+int Player::getStaminaPotionNumber()
+{
+	return staminaPotionNumber;
+}
+
+void Player::removeHealthPotion()
+{
+	healthPotionNumber-=1;
+}
+
+void Player::removeStaminaPotion()
+{
+	staminaPotionNumber-=1;
 }
 
 Player::~Player()

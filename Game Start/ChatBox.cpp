@@ -189,3 +189,8 @@ void ChatBox::redrawChat(bool status)
 {
 	redraw = status;
 }
+
+bool ChatBox::getRedraw()
+{
+	return redraw;
+}

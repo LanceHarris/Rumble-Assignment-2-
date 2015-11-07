@@ -47,5 +47,6 @@ public:
 	void setPageLineLimit(int Limit);
 	void setNext(bool choice);
 	void displayConstantMessage(sf::RenderWindow &window);
+	bool getRedraw();
 };
 

@@ -85,18 +85,22 @@
     <ClCompile Include="ChatBox.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Hud.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="projectile.cpp" />
+    <ClCompile Include="Store.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="ChatBox.h" />
     <ClInclude Include="Hud.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="projectile.h" />
+    <ClInclude Include="Store.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

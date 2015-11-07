@@ -203,6 +203,59 @@ void Hud::increaseMaxSta(int newSta)
 	*/
 }
 
+void Hud::useHealthPotion(int potionLevel, Player &player)
+{
+	if(current_HP == max_HP)
+	{
+		cout<<"Health already full"<<endl; //full health
+	}
+	else if(player.getHealthPotionNumber() > 0)
+	{
+		int healAmount = 40 * potionLevel;
+		int missingHP = max_HP - current_HP;
+
+		if( healAmount < missingHP )
+			current_HP += healAmount;
+		else
+			current_HP = max_HP;
+
+		player.removeHealthPotion();
+		currLength = ((current_HP * maxLength) / max_HP);
+		cout<<"Potion used"<<endl; //remove this later and add drinking sound
+	}
+	else//for both having no health potions and having full health
+	{
+		cout<<"No health potions"<<endl; //remove this later and add an error sound "EH-EH!!" or something :P
+	}
+	
+}
+
+void Hud::useStaminaPotion(int potionLevel, Player &player)
+{
+	if(current_Sta == max_Sta)
+	{
+		cout<<"Stamina already full"<<endl; //full health
+	}
+	else if(player.getStaminaPotionNumber() > 0)
+	{	
+		int healAmount = 40 * potionLevel;
+		int missingSta = max_Sta - current_Sta;
+
+		if( healAmount < missingSta )
+			current_Sta += healAmount;
+		else
+			current_Sta = max_Sta;
+
+		player.removeStaminaPotion();
+		currSLength = ((current_Sta * maxSLength) / max_Sta);
+		cout<<"Stamina used"<<endl;//remove this later and add drinking sound
+	}
+	else//for having no stamina potions and full stamina
+	{
+		cout<<"No Stamina potions"<<endl; //remove this later and add an error sound "EH-EH!!" or something :P
+	}
+}
+
 //This is here for when the character uses a potion?
 void Hud::healHealth()
 {

@@ -99,7 +99,19 @@ public:
 	Player(int &health, float &speed, int &stamina);
 	~Player();
 	int getGoldStash();
+
+	//Potion stuff//
+	int getHealthPotionNumber();
+	int getStaminaPotionNumber();
+	void removeHealthPotion();
+	void removeStaminaPotion();
+
+	int healthPotionNumber;
+	int staminaPotionNumber;
+	//End//
+
 	void increaseGoldStash(int newGold);
+	void useVitamin(char type);
 };
 
 class Enemy: public Character{
