@@ -93,8 +93,10 @@ void Character::takeDamage(int Damage){
 }
 
 //MOVEMENT
-void Character::walk(Map &map)
+void Character::walk(Map &map, int &iterations)
 {
+	int nextSpriteFrameEvery = 10; //used to determine how often the sprite is redrawn. Number represents number of frames. So 60 should equal 1 second.
+
 	sf::Vector2f pos = sprite.getPosition();
 	switch (facing)
 	{
@@ -103,14 +105,17 @@ void Character::walk(Map &map)
 			{
 				pos.x += speed;
 
-				
-				if(spriteXPos >= 3)
+				if(iterations >= nextSpriteFrameEvery)
 				{
-					spriteXPos = 0;
-				}
-				else
-				{
-					spriteXPos+=1;
+					if(spriteXPos >= 3)
+					{
+						spriteXPos = 0;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
@@ -120,14 +125,17 @@ void Character::walk(Map &map)
 			{
 				pos.x -= speed;
 
-				
-				if(spriteXPos >= 3)
+				if(iterations >= nextSpriteFrameEvery)
 				{
-					spriteXPos = 0;
-				}
-				else
-				{
-					spriteXPos+=1;
+					if(spriteXPos >= 3)
+					{
+						spriteXPos = 0;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
@@ -137,14 +145,17 @@ void Character::walk(Map &map)
 			{
 				pos.y -= speed;
 
-				
-				if(spriteXPos >= 3)
+				if(iterations >= nextSpriteFrameEvery)
 				{
-					spriteXPos = 0;
-				}
-				else
-				{
-					spriteXPos+=1;
+					if(spriteXPos >= 3)
+					{
+						spriteXPos = 0;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
@@ -154,14 +165,17 @@ void Character::walk(Map &map)
 			{
 				pos.y += speed;
 
-				
-				if(spriteXPos >= 3)
+				if(iterations >= nextSpriteFrameEvery)
 				{
-					spriteXPos = 0;
-				}
-				else
-				{
-					spriteXPos+=1;
+					if(spriteXPos >= 3)
+					{
+						spriteXPos = 0;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(down[frame] * 24, 0, 24, 24));

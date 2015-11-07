@@ -57,6 +57,10 @@ const float GAME_SPEED = 60.0f; //The bigger this number is the more often frame
 sf::Time TimePerFrame = sf::seconds(1.0f / GAME_SPEED);
 /*END*/
 
+//**SPRITE ITERATOR**//
+int iterations;
+//**END**//
+
 //**GAME STATE**//
 int state = 0;
 int characterSelection;
@@ -575,7 +579,7 @@ int main()
 					case (sf::Mouse::Button::Left): //Shoot event
 						if(!HUD.getOutOfStamina())  //If not out of stamina you can shoot
 						{
-							projectiles.push_back( Projectile(true, player.getFacing(), 4.0f, player.getSprite().getPosition(), 9, missileTexture));
+							projectiles.push_back( Projectile(true, player.getFacing(), player.getAttack(), player.getSprite().getPosition(), 9, missileTexture));
 							HUD.takeStamina(8);
 							break;
 						}
@@ -592,6 +596,7 @@ int main()
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
 		{
+			iterations++; //keeps track of how many screen draw iterations have happened
 
 			//view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
 			//window.setView(view1);
@@ -632,28 +637,28 @@ int main()
 			{
 
 				player.setFacing(Character::RIGHT);
-				player.walk(map);
+				player.walk(map,iterations);
 			}
 			//LEFT
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
 			{
 
 				player.setFacing(Character::LEFT);
-				player.walk(map);
+				player.walk(map,iterations);
 			}
 			//UP
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
 			{
 
 				player.setFacing(Character::UP);
-				player.walk(map);
+				player.walk(map,iterations);
 			}
 			//DOWN
 			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
 			{
 
 				player.setFacing(Character::DOWN);
-				player.walk(map);
+				player.walk(map,iterations);
 			}
 
 			//DEBUG

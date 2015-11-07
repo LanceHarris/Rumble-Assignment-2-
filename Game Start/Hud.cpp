@@ -14,7 +14,7 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 {
 	gameOver = false;
 	outOfStamina = false;
-	regenSpeed = 0.3;
+	regenSpeed = 0.1;
 	repercussion = 0;
 
 	coinXPos = 0;
@@ -28,7 +28,7 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 	//HEALTH BAR
 	current_HP = player.getHealth();				
 	max_HP = player.getHealth();					
-	maxLength = (window.getSize().x / 4) + max_HP; 
+	maxLength = (max_HP*3);  //(window.getSize().x / 12) //if we remove the window calculation here it results in more acurately displayed health and stamina bars, in terms of the differences between them
 	currLength = maxLength;							
 
 	healthBar.setSize(sf::Vector2f(maxLength,20));
@@ -38,7 +38,7 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 	//STAMINA BAR
 	current_Sta = player.getStamina();
 	max_Sta = player.getStamina();
-	maxSLength = (window.getSize().x / 8) + max_Sta;
+	maxSLength = (max_Sta*3); //(window.getSize().x / 12) //also added a *3 to the addition here to make the aditions to the health bar more exaggerated (if you don't like this Lance, feel free to change it back :) )
 	currSLength = maxSLength;
 
 	staminaBar.setSize(sf::Vector2f(maxSLength, 20));

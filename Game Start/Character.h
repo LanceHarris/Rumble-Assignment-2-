@@ -52,7 +52,7 @@ class Character
 		int getToughness();
 		int getStamina();
 
-		void walk(Map &map);
+		void walk(Map &map, int &iterations);
 
 		sf::Sprite getSprite();
 		void setFacing(Facing facing);
