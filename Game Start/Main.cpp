@@ -28,6 +28,7 @@ Player size after 1.5 scaling: 24
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+
 #include "ChatBox.h"
 #include "Map.h"
 #include "Character.h"
@@ -65,15 +66,15 @@ sf::Time TimePerFrame = sf::seconds(1.0f / GAME_SPEED);
 /*END*/
 
 //**SPRITE ITERATOR**//
-int iterations;
+int iterations; //used to control speed of animation
 //**END**//
 
 //**GAME STATE**//
 int state = 0;
-int characterSelection;
+int characterSelection; //to record character choice
 //**END**//
 
-//**MUSIC AND SOUND STUFF HERE**//
+//**MUSIC AND SOUND**//
 sf::Music music;
 //**END**//
 
@@ -158,7 +159,6 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 //int *maps[2] = {*mainMap,*secondMap}; // it'd be ideal to use a array like this of pointers to each map, and then just change a indexValue variable to change which map was being loaded,
 //but having some issues being able to pass usable pointers, so I'm giving up for now, if anyone feels like trying to get this to work, go for it :D
 
-//**END**//
 
 /*LOAD AND START ALL SOUND EFFECTS AND MUSIC*/
 void startMusic()
@@ -268,7 +268,7 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &window)
 {
 	switch(player.getFacing())
-						{
+	{
 						case 0:
 							if(map.isTile( player.getRow()-1,(player.getSprite().getPosition().x+13)/24,Map::Tile::oldMan))
 							{
@@ -298,7 +298,7 @@ void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &w
 							}
 							break;
 
-						}
+	}
 }
 
 int main()
@@ -405,7 +405,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
 
-	/*
+	
 	// view for moving around, follows player
 	sf::View view1;
 	view1.reset(sf::FloatRect(0,0,winX,winY)); //view covers whole screen
@@ -561,7 +561,7 @@ int main()
 		//STATE 1 - GAME
 		else if(state == 1)
 		{
-			
+			window.setView(view1);
 			timer.restart();	// To fix a bug, where the clock was starting during character selection so timeSinceLastUpdate -= TimePerFrame was not reseting the clock (ie the game would go really fast)
 
         while (window.pollEvent(event))
@@ -628,7 +628,7 @@ int main()
 				}
 			}
         }
-
+		
 		sf::Time elapsedTime = timer.restart();
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
@@ -636,15 +636,16 @@ int main()
 			timeSinceLastUpdate -= TimePerFrame;
 			iterations++; //keeps track of how many screen draw iterations have happened
 			
-			//view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
-			//window.setView(view1);
+			view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
+			
 
 			HUD.updateStamina();
 
 			//**PROCESS MOUSE MOVEMENT TO AIM**//
 			if(event.type == sf::Event::MouseMoved)
 			{
-				sf::Vector2f mPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y); //get current position of mouse
+				sf::Vector2i pixel_pos = sf::Mouse::getPosition(window);
+				sf::Vector2f mPos = window.mapPixelToCoords(pixel_pos);
 				player.processMouseAiming(mPos);
 			}
 
@@ -687,7 +688,7 @@ int main()
 			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition) )
 			{	
 				projectiles.clear();//clear projectiles so they don't appear on the second map
-				//window.setView(window.getDefaultView()); //change view back to normal to display the stores properly
+				window.setView(window.getDefaultView()); //change view back to normal to display the stores properly
 				if(map.getCurrentMap() == 0)
 				{
 					map.setMap(secondMap,1);
@@ -767,7 +768,7 @@ int main()
 			}
 			//**END**//
 
-			//window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
+			window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
 
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();

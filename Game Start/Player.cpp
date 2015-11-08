@@ -67,9 +67,9 @@ void Player::processDirectionalKeyPresses(Map &map, int &iterations)
 }
 
 //determines vector aiming and allows player to shoot projectiles where the mouse is (limited to 4 directions)
-void Player::processMouseAiming(sf::Vector2f mPos)
-{
-				sf::Vector2f pPos = sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y);
+	void Player::processMouseAiming(sf::Vector2f mPos)
+	{
+		sf::Vector2f pPos = sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y);
 
 				//works out the degrees of the vector between the player position and the mouse position
 				float degrees = atan2f(mPos.y - pPos.y, mPos.x - pPos.x) * 180 / 3.14159 /* PI */;
