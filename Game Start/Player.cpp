@@ -35,6 +35,64 @@ Player::Player(int &health, float &speed, int &stamina) : Character(health, spee
 	facing = RIGHT;
 }
 
+void Player::processDirectionalKeyPresses(Map &map, int &iterations)
+{
+			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
+			{
+
+				setFacing(Character::RIGHT);
+				walk(map,iterations);
+			}
+			//LEFT
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
+			{
+
+				setFacing(Character::LEFT);
+				walk(map,iterations);
+			}
+			//UP
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
+			{
+
+				setFacing(Character::UP);
+				walk(map,iterations);
+			}
+			//DOWN
+			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
+			{
+
+				setFacing(Character::DOWN);
+				walk(map,iterations);
+			}
+}
+
+//determines vector aiming and allows player to shoot projectiles where the mouse is (limited to 4 directions)
+void Player::processMouseAiming(sf::Vector2f mPos)
+{
+				sf::Vector2f pPos = sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y);
+
+				//works out the degrees of the vector between the player position and the mouse position
+				float degrees = atan2f(mPos.y - pPos.y, mPos.x - pPos.x) * 180 / 3.14159 /* PI */;
+				//std::cout<< "Degrees: " << degrees <<std::endl;
+
+				if(degrees <= 140 && degrees > 35)
+				{
+					turn(2); //DOWN
+				}
+				if(degrees <= -40 && degrees > -140)
+				{
+					turn(0);//UP
+				}
+				if(degrees > -40 && degrees <= 35)
+				{
+					turn(1);//RIGHT
+				}
+				if(degrees <= -140 || degrees > 140)
+				{
+					turn(3);//LEFT
+				}	
+}
+
 int Player::getGoldStash()
 {
 	return goldStash;

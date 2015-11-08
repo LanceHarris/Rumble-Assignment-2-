@@ -98,8 +98,12 @@ class Player: public Character{
 public:
 	Player(int &health, float &speed, int &stamina);
 	~Player();
+
+	void processDirectionalKeyPresses(Map &map, int &iterations);
+	void processMouseAiming(sf::Vector2f mPos);
 	int getGoldStash();
 
+	
 	//Potion stuff//
 	int getHealthPotionNumber();
 	int getStaminaPotionNumber();

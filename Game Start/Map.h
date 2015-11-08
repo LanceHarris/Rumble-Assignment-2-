@@ -9,8 +9,13 @@
 
 #pragma once
 
+class Character;
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
+
+using namespace std;
 
 class Map
 
@@ -34,16 +39,21 @@ public:
 		pillarTop = 10,
 		pillarBottom = 11,
 		door = 12,
+		oldMan = 13,
 	};
 
+	int curMap; //keeps track of current map
 	Tile getTile(int row, int column);
 	bool isCollision(int row, int column);
 	sf::Sprite getSprite();
 	Map(int winX, int winY, int newMap[Map::ROW_COUNT][Map::COLUMN_COUNT]);
 	~Map(void);
-	void setMap(int newMap[Map::ROW_COUNT][Map::COLUMN_COUNT]);
-
+	void setMap(int newMap[Map::ROW_COUNT][Map::COLUMN_COUNT], int mapValue);
 	bool isTile(int row, int column, Map::Tile tile);
+	int getCurrentMap();
+	void drawMap(sf::RenderWindow &window, sf::Sprite &dungeonStage, sf::Sprite &shopStage);
+
+	void drawMap();
 
 	int default_map[Map::ROW_COUNT][Map::COLUMN_COUNT];
 
@@ -53,6 +63,8 @@ private:
 
 	sf::Texture wallTexture;
 	sf::Sprite wallSprite;
+
+
 
 	
 };

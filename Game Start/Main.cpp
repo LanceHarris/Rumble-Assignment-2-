@@ -39,6 +39,13 @@ Player size after 1.5 scaling: 24
 #include <list>
 #include <cmath>
 
+//**CHATBOX MESSAGES**//
+string introductionMessage = "Welcome to Rumble! \n\nPlease choose a character and press 'r' to confirm your \nselection.";
+string oldmanMessage = "Greetings, young one. What brings you down here?";
+string vitaminStoreMessage = "Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger! Have you met my brother?";
+string itemStoreMessage = "This is the item store. Buy something or get out.";
+//**END**//
+
 /*RENDERWINDOW SIZE*/
 int winX = 1080; //45 cells
 int winY = 840; //35 cells
@@ -64,10 +71,6 @@ int iterations;
 //**GAME STATE**//
 int state = 0;
 int characterSelection;
-//**END**//
-
-//**MAP TRANSITION STUFF**//
-int curMap = 0;
 //**END**//
 
 //**MUSIC AND SOUND STUFF HERE**//
@@ -126,7 +129,7 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  },
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	{ 1,10, 2, 2, 2, 2, 2, 2, 3, 2,10,12,12,10, 7, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2,10,12,12,10, 8, 3, 2, 2, 2, 2, 2, 2,10, 1 },
-	{ 1,11, 0, 0, 0, 0, 0, 0, 0, 0,11, 0, 0,11, 9, 9, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,11, 0, 0,11, 0, 0, 0, 0, 0, 0, 0, 0,11, 1 },
+	{ 1,11, 0, 0, 0, 0, 0, 0, 0, 0,11, 0, 0,11, 9, 9, 0, 0, 0, 9, 0,13, 0, 0, 0, 0, 0, 0, 0, 0, 9,11, 0, 0,11, 0, 0, 0, 0, 0, 0, 0, 0,11, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -196,7 +199,7 @@ void drawEmptyTiles(Map &map, sf::RenderWindow &window)
 	}
 }
 
-void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch, sf::Texture *itemWallFront, sf::Texture *statsWallFront, sf::Texture *aBarrel, sf::Texture *topPillar, sf::Texture *bottomPillar, sf::Texture *aDoor)
+void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch, sf::Texture *itemWallFront, sf::Texture *statsWallFront, sf::Texture *aBarrel, sf::Texture *topPillar, sf::Texture *bottomPillar, sf::Texture *aDoor, sf::Texture *oldMan)
 {
 
 	for (int row = 0; row < map.COLUMN_COUNT; row++)
@@ -246,6 +249,11 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 				{
 					rectangle.setTexture(aDoor);
 				}
+				else if(tile == Map::Tile::oldMan)
+				{
+					rectangle.setTexture(oldMan);
+					rectangle.setScale(1.2,1.2);
+				}
 					
 				//Don't draw rectangles for empty cells, figuren this might reduce lag a little
 				if(tile != Map::Tile::TileEmpty && tile != Map::Tile::transition)
@@ -255,6 +263,42 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 			}
 		}
 	}
+}
+
+void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &window)
+{
+	switch(player.getFacing())
+						{
+						case 0:
+							if(map.isTile( player.getRow()-1,(player.getSprite().getPosition().x+13)/24,Map::Tile::oldMan))
+							{
+								textBox.setMessage(oldmanMessage,window);
+								textBox.redrawChat(true);
+							}
+							break;
+						case 1:
+							if(map.isTile(player.getRow(),player.getColumn()+1,Map::Tile::oldMan))
+							{
+								textBox.setMessage(oldmanMessage,window);
+								textBox.redrawChat(true);
+							}
+							break;
+						case 2:
+							if(map.isTile(player.getRow()+1,player.getColumn(),Map::Tile::oldMan))
+							{
+								textBox.setMessage(oldmanMessage,window);
+								textBox.redrawChat(true);
+							}
+							break;
+						case 3:
+							if(map.isTile(player.getRow(),player.getColumn()-1,Map::Tile::oldMan))
+							{
+								textBox.setMessage(oldmanMessage,window);
+								textBox.redrawChat(true);
+							}
+							break;
+
+						}
 }
 
 int main()
@@ -268,7 +312,7 @@ int main()
 
 	//**STORE STUFF**//
 	sf::Time timePerBlink = sf::seconds(2);
-	Store itemStoreObject("Retro Computer_DEMO.ttf","Item Store",winX,winY);
+	Store store("Retro Computer_DEMO.ttf","Item Store",winX,winY);
 	//**END**//
 
 	//**LOAD BACKGROUND TEXTURE MAPS**//
@@ -296,7 +340,12 @@ int main()
 		//error
 	}
 
-
+	//**GOATFENNEC OLDMAN**//
+	sf::Texture oldMan;
+	if(!oldMan.loadFromFile("goatFennecOldMan.png"))
+	{
+		//error
+	}
 
 
 	sf::Texture door;
@@ -341,7 +390,6 @@ int main()
 	{
 		//error
 	}
-	//**END**//
 
 	//**LIGHTING TEST**//
 	sf::Texture lighting;
@@ -353,22 +401,12 @@ int main()
 	lightingSprite.setTexture(lighting);
 	lightingSprite.setOrigin(lighting.getSize().x/2,lighting.getSize().y/2);
 	lightingSprite.scale(2,2);
-
-	//**AMBIENT FROM TORCHES**//
-	sf::Texture ambLighting;
-	if(!ambLighting.loadFromFile("testAmbientLighting.png"))
-	{
-		//failed
-	}
-	sf::Sprite ambLightingSprite;
-	ambLightingSprite.setTexture(ambLighting);
-
 	//**END**//
 
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
 
 	/*
-	// view for moving around
+	// view for moving around, follows player
 	sf::View view1;
 	view1.reset(sf::FloatRect(0,0,winX,winY)); //view covers whole screen
 	view1.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
@@ -382,23 +420,19 @@ int main()
 	//SET TO TRUE TO RUN DEBUGGING PRINT OUTS
 	bool debug = false;
 
-	//BOX TO TEST CHATBOX TRIGGERING
-	sf::RectangleShape box(sf::Vector2f(24,24));
-	box.setPosition(480,120);
-	box.setFillColor(sf::Color::Transparent);
 
-	//CREATE TEXTBOX
+	//CREATE TEXTBOX FOR DISPLAYING DIALOGUE
 	ChatBox textBox = ChatBox(winX,winY);
 	textBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
-
 	//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
 	textBox.SetCharaterLineLimit(55);
+	textBox.setMessage(introductionMessage,window);
+	textBox.redrawChat(false);//do not redraw textbox
 
 	Map map(winX, winY, mainMap); //load main map by default when object is created
-	map.setMap(mainMap); //pass it whatever map to load it
+	map.setMap(mainMap,0); //pass it whatever map to load it
 
-	textBox.setMessage("Welcome to Rumble! Please select a character!",window);
-	textBox.redrawChat(false);
+	
 
 	//**LOAD CHARACTER SELECT TEXUTRES**//
 	sf::Texture wizardSelect;
@@ -450,7 +484,6 @@ int main()
 	{
 		std::cout << "Error loading projectile texture" << std::endl;
 	}
-
 	//**END**//
 	
 	//**ARRAY LIST TO STORE PROJECTILES**//
@@ -463,8 +496,9 @@ int main()
 
 	sf::Clock timer;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
 	Player player(health, speed, stamina);
-	player.setPosition(12,12);
+	player.setPosition(23,17);//player starting position
 	Hud HUD = Hud(player, window);
 
 	sf::Event event;
@@ -505,10 +539,6 @@ int main()
 						characterSelection = 1;
 						break;
 
-					case (sf::Keyboard::Space): //Select character
-						state = 1;
-						break;
-
 					case (sf::Keyboard::R): //Select character
 						state = 1;
 						break;
@@ -547,7 +577,14 @@ int main()
 				{
 				//Other Controls
 				case (sf::Keyboard::R): //Chat box
-					textBox.setNext(true);
+					if(textBox.getRedraw() == true)//if textBox is being drawn, procede to next textBox
+					{
+						textBox.setNext(true);
+					}
+					else
+					{
+						talkToOldMan(player,textBox,map,window);
+					}
 					break;
 
 				case (sf::Keyboard::I): //Debug Information
@@ -596,70 +633,24 @@ int main()
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
 		{
+			timeSinceLastUpdate -= TimePerFrame;
 			iterations++; //keeps track of how many screen draw iterations have happened
-
+			
 			//view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
 			//window.setView(view1);
 
-			timeSinceLastUpdate -= TimePerFrame;
 			HUD.updateStamina();
 
+			//**PROCESS MOUSE MOVEMENT TO AIM**//
 			if(event.type == sf::Event::MouseMoved)
 			{
-				sf::Vector2f mPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y);
-				sf::Vector2f pPos = sf::Vector2f(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
-
-				//works out the degrees of the vector between the player position and the mouse position
-				float degrees = atan2f(mPos.y - pPos.y, mPos.x - pPos.x) * 180 / 3.14159 /* PI */;
-				//std::cout<< "Degrees: " << degrees <<std::endl;
-
-				if(degrees <= 140 && degrees > 35)
-				{
-					player.turn(2); //DOWN
-				}
-				if(degrees <= -40 && degrees > -140)
-				{
-					player.turn(0);//UP
-				}
-				if(degrees > -40 && degrees <= 35)
-				{
-					player.turn(1);//RIGHT
-				}
-				if(degrees <= -140 || degrees > 140)
-				{
-					player.turn(3);//LEFT
-				}
+				sf::Vector2f mPos = sf::Vector2f(event.mouseMove.x, event.mouseMove.y); //get current position of mouse
+				player.processMouseAiming(mPos);
 			}
 
-			//MOVEMENT
-			//RIGHT
-			if(((sf::Keyboard::isKeyPressed(sf::Keyboard::D)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))))
-			{
+			//**PROCESS KEYBOARD MOVEMENT**//
+			player.processDirectionalKeyPresses(map, iterations);
 
-				player.setFacing(Character::RIGHT);
-				player.walk(map,iterations);
-			}
-			//LEFT
-			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::A)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))))
-			{
-
-				player.setFacing(Character::LEFT);
-				player.walk(map,iterations);
-			}
-			//UP
-			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))))
-			{
-
-				player.setFacing(Character::UP);
-				player.walk(map,iterations);
-			}
-			//DOWN
-			else if(((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))))
-			{
-
-				player.setFacing(Character::DOWN);
-				player.walk(map,iterations);
-			}
 
 			//DEBUG
 			if(debug)
@@ -692,76 +683,56 @@ int main()
 				debug = false;
 			}
 
-			//Light halo follows player
-			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y);
-
-			window.clear();
-	
 			//**MAP TRANSITIONS**/
 			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition) )
-			{
-				projectiles.clear();
+			{	
+				projectiles.clear();//clear projectiles so they don't appear on the second map
 				//window.setView(window.getDefaultView()); //change view back to normal to display the stores properly
-				if(curMap == 0)
+				if(map.getCurrentMap() == 0)
 				{
-					map.setMap(secondMap);
+					map.setMap(secondMap,1);
 					player.setPosition(1,17);
-					curMap++;
 				}
 				else
 				{
-					map.setMap(mainMap);
+					map.setMap(mainMap,0);
 					player.setPosition(44,17);
-					curMap--;
 				}
 			}
 
 
-			//TODO! For some reason trying to set the global state variable here just doesn't work.
-			//New isTile method, takes row and col arguments like is Collision, but also takes tile type, so we can check for whatever tile we want. Thought it'd be handy.
+			window.clear();
+
+			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y); //move shadow/lighting sprite to follow player
+
+			//Check to see if player is entering a store
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
 			{
-				itemStoreObject.setStoreOwnerTexture(0);
+				store.setStoreOwnerTexture(0);
 				state = 2;
-				textBox.setMessage("This is the item store. Buy something or get out.",window);
+				textBox.setMessage(itemStoreMessage,window);
 				textBox.redrawChat(true);
 				cout << state << endl;
 			}
 			else if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore) ) //for item store
 			{
-				itemStoreObject.setStoreOwnerTexture(1);
+				store.setStoreOwnerTexture(1);
 				state = 3;
-				textBox.setMessage("Welcome to the vitamin store! My name is Nibbles, have you met my brother?",window);
+				textBox.setMessage(vitaminStoreMessage,window);
 				textBox.redrawChat(true);
 				cout << state << endl;
 			}
-			
-			//**END**//
 
-
-
-			//DRAW GAME ELEMENTS
+			//**DRAW GAME ELEMENTS**//
 			window.draw(map.getSprite());
 
-			//drawWallTiles(map,window,&wallFront,&wallTorch,&itemWallFront,&statsWallFront,&barrel,&pillarTop,&pillarBottom,&door); //uncomment this to edit stage layout
+			//drawWallTiles(map,window,&wallFront,&wallTorch,&itemWallFront,&statsWallFront,&barrel,&pillarTop,&pillarBottom,&door,&oldMan); //uncomment this to edit stage layout
 
 			//dungeon map/main stage
 
-			if(curMap == 0)
-			{
-				window.draw(dungeonStage);
-			}
-			else
-			{
-				window.draw(shopStage);
-			}
-			
-			window.draw(box);
-
-			window.draw(lightingSprite);
-			//window.draw(ambLightingSprite);
-
-			window.draw(player.getSprite());
+			map.drawMap(window,dungeonStage,shopStage); //draw stage sprite overlay
+			window.draw(lightingSprite); //draw lighting/shadow sprite
+			window.draw(player.getSprite()); //draw player sprite
 
 			//**DRAW PROJECTILES**//
 			for(int i = 0; i < projectiles.size();i++)
@@ -796,25 +767,13 @@ int main()
 			}
 			//**END**//
 
-			//drawGrid(window);
-
-			//CHATBOX TEST EVENT
-			if(box.getGlobalBounds().intersects(player.getSprite().getGlobalBounds()))
-			{
-				textBox.redrawChat(true); //SET IF THE CHATBOX IS REDRAWN OR NOT
-			}
-
-
 			//window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
 
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();
 			HUD.updateCoin();
-
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			textBox.displayMessage(window);
-			
-
 
 			//DISPLAY DRAW COMPONENTS
 			window.display();
@@ -841,7 +800,7 @@ int main()
 							break;
 
 
-						case (sf::Keyboard::Escape): //Chat box
+						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
 							state = 1;
 							textBox.redrawChat(false);
 							player.setPosition(11,11);
@@ -866,12 +825,12 @@ int main()
 		if (timeSinceLastUpdate > timePerBlink)
 		{
 			timeSinceLastUpdate -= timePerBlink;
-			itemStoreObject.blink(0);
+			store.blink(0);
 		}
 
 			window.clear();
 
-			itemStoreObject.displayStore(0,window,player.getGoldStash());
+			store.displayStore(0,window,player.getGoldStash());
 			textBox.displayMessage(window);
 
 		
@@ -902,7 +861,7 @@ int main()
 						case (sf::Keyboard::Down)://Change selection
 							break;
 
-						case (sf::Keyboard::Escape): //Chat box
+						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
 							state = 1;
 							textBox.redrawChat(false);
 							player.setPosition(32,11);
@@ -925,12 +884,12 @@ int main()
 		if (timeSinceLastUpdate > timePerBlink)
 		{
 			timeSinceLastUpdate -= timePerBlink;
-			itemStoreObject.blink(1);
+			store.blink(1); //store type, 0 = item store, 1 = vitamin store. Determines which sprite is drawn
 		}
 
 		window.clear();
 
-		itemStoreObject.displayStore(1,window,player.getGoldStash());
+		store.displayStore(1,window,player.getGoldStash());
 		textBox.displayMessage(window);
 		
 		window.display();
