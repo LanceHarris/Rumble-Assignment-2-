@@ -1,24 +1,120 @@
-﻿Build started 9/11/2015 10:26:29 AM.
-     1>Project "C:\Users\Lance\Desktop\Lance Folder\Unitec\Rumble\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+﻿Build started 9/11/2015 10:44:26 a.m..
+     1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Hud.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Assets.cpp Character.cpp ChatBox.cpp Enemy.cpp Hud.cpp Item.cpp Main.cpp Map.cpp Player.cpp projectile.cpp Store.cpp
+         Store.cpp
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(41): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(59): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(60): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(66): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(66): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(67): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(70): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(71): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(77): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(77): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(78): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(78): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(87): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\store.cpp(87): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         projectile.cpp
+     1>c:\temp\rumble-assignment-2-\game start\projectile.cpp(45): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\temp\rumble-assignment-2-\game start\projectile.cpp(97): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\projectile.cpp(102): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+         Player.cpp
+     1>c:\temp\rumble-assignment-2-\game start\player.cpp(40): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\temp\rumble-assignment-2-\game start\player.cpp(40): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\temp\rumble-assignment-2-\game start\player.cpp(81): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         Map.cpp
+     1>c:\temp\rumble-assignment-2-\game start\map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+         Main.cpp
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(196): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(199): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(199): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(218): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(221): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(221): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(224): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(224): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(224): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(228): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(232): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(236): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(240): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(244): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(248): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(252): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(256): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(260): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(263): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(263): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(267): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(267): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(282): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(282): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(289): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(296): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(303): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(426): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(426): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(435): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(435): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(437): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(437): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(502): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(502): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(503): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(503): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(504): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(695): warning C4482: nonstandard extension used: enum 'sf::Mouse::Button' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(698): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(767): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(790): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(794): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(808): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(810): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(838): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\temp\rumble-assignment-2-\game start\main.cpp(862): warning C4018: '<' : signed/unsigned mismatch
+         Item.cpp
          Hud.cpp
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(17): warning C4305: '=' : truncation from 'double' to 'float'
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(39): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(42): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(44): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(64): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(109): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(128): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(247): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\lance\desktop\lance folder\unitec\rumble\rumble-assignment-2-\game start\hud.cpp(252): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(17): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(39): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(42): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(44): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(64): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(109): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(128): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(247): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\hud.cpp(252): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         Enemy.cpp
+     1>c:\temp\rumble-assignment-2-\game start\enemy.cpp(36): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\enemy.cpp(37): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         ChatBox.cpp
+         Character.cpp
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(31): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(35): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(104): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(124): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(124): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(124): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(144): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(144): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(144): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(164): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(237): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\temp\rumble-assignment-2-\game start\character.cpp(237): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Assets.cpp
+         Generating Code...
        ManifestResourceCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\Game Start.exe.embed.manifest.res" "Debug\Game Start_manifest.rc" 
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Lance\Desktop\Lance Folder\Unitec\Rumble\Rumble-Assignment-2-\Debug\Game Start.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Lance\Desktop\Lance Folder\Unitec\Rumble\Rumble-Assignment-2-\Debug\Game Start.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Lance\Desktop\Lance Folder\Unitec\Rumble\Rumble-Assignment-2-\Debug\Game Start.lib" /MACHINE:X86 "Debug\Game Start.exe.embed.manifest.res"
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.lib" /MACHINE:X86 "Debug\Game Start.exe.embed.manifest.res"
          Debug\Assets.obj
          Debug\Character.obj
          Debug\ChatBox.obj
@@ -31,16 +127,28 @@
          Debug\projectile.obj
          Debug\Store.obj
        Manifest:
+         Deleting file "Debug\Game Start.exe.embed.manifest".
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Game Start.exe.embed.manifest" /manifest "Debug\Game Start.exe.intermediate.manifest"
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\Game Start.exe.embed.manifest.res" "Debug\Game Start_manifest.rc" 
        LinkEmbedManifest:
-         All outputs are up-to-date.
-         Game Start.vcxproj -> C:\Users\Lance\Desktop\Lance Folder\Unitec\Rumble\Rumble-Assignment-2-\Debug\Game Start.exe
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Temp\Rumble-Assignment-2-\Debug\Game Start.lib" /MACHINE:X86 "Debug\Game Start.exe.embed.manifest.res"
+         Debug\Assets.obj
+         Debug\Character.obj
+         Debug\ChatBox.obj
+         Debug\Enemy.obj
+         Debug\Hud.obj
+         Debug\Item.obj
+         Debug\Main.obj
+         Debug\Map.obj
+         Debug\Player.obj
+         Debug\projectile.obj
+         Debug\Store.obj
+         Game Start.vcxproj -> C:\Temp\Rumble-Assignment-2-\Debug\Game Start.exe
        FinalizeBuildStatus:
          Deleting file "Debug\Game Start.unsuccessfulbuild".
          Touching "Debug\Game Start.lastbuildstate".
-     1>Done Building Project "C:\Users\Lance\Desktop\Lance Folder\Unitec\Rumble\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.28
+Time Elapsed 00:00:12.14
