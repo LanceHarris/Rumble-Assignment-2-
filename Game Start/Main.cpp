@@ -41,10 +41,18 @@ Player size after 1.5 scaling: 24
 #include <cmath>
 
 //**CHATBOX MESSAGES**//
-string introductionMessage = "Welcome to Rumble! \n\nPlease choose a character and press 'r' to confirm your \nselection.";
-string oldmanMessage = "Greetings, young one. What brings you down here?";
-string vitaminStoreMessage = "Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger! Have you met my brother?";
-string itemStoreMessage = "This is the item store. Buy something or get out.";
+string introductionMessage = "Welcome to Rumble! \n\nPlease choose a character and press 'r' to confirm your \nselection."; //character select screen message
+string itemNotificationMessage = "You recieved a "; //prefix for recieving an item
+
+string oldManMessages[4] = {"Greetings, young one. What brings you down here?","Perhaps you're lost?","The only way out of here is to defeat all the enemies.","Here's a little something to help you with your efforts."};
+int oldManMessagesIndex = 0; //used to determine which message is being displayed
+bool oldManItemRecieved = false; //whether or not the player has recieved the old man's item (stamina vitamin)
+
+string vitaminStoreMessages[5] = {"Well, hello! I haven't seen you around here before, it's very nice to meet you! Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger!","Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger!","Have you met my brother? He might seem a little grumpy, but he's really a big softy!","You're looking lively today! Feel free to browse my wares.","I heard the cieling outside goes on forever! Can you imagine that? I think it sounds really scary if you ask me!"};
+int vitStoreFirstVisit = true; //whether or not it's the player's first visit, used to display a unique greeting message at index 0
+
+string itemStoreMessages[5] = {"Hello, stranger, it's unusual to see your kind around here... Whatever, This is the item store. Buy something or get out.","This is the item store. Buy something or get out.","My sister keeps bringing me over homemade sweets, I really don't like sweet things but I don't want to hurt her feelings.","You're looking a little beat up, how about buying a health potion?","What do you want?"};
+int itemStoreFirstVisit = true; //whether or not it's the player's first visit, used to display a unique greeting message at index 0
 //**END**//
 
 /*RENDERWINDOW SIZE*/
@@ -55,7 +63,6 @@ int winY = 840; //35 cells
 /*PLAYER STATS*/
 float speed = 3;
 int attack = 1;
-int toughness = 1;
 int health = 50;
 int stamina = 30;
 /*END*/
@@ -265,40 +272,58 @@ void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Tex
 	}
 }
 
-void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &window)
+void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &window, ChatBox &itemBox)
 {
+	int successful = false;
 	switch(player.getFacing())
 	{
 						case 0:
 							if(map.isTile( player.getRow()-1,(player.getSprite().getPosition().x+13)/24,Map::Tile::oldMan))
 							{
-								textBox.setMessage(oldmanMessage,window);
-								textBox.redrawChat(true);
+								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+								successful = true;
 							}
 							break;
 						case 1:
 							if(map.isTile(player.getRow(),player.getColumn()+1,Map::Tile::oldMan))
 							{
-								textBox.setMessage(oldmanMessage,window);
-								textBox.redrawChat(true);
+								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+								successful = true;
 							}
 							break;
 						case 2:
 							if(map.isTile(player.getRow()+1,player.getColumn(),Map::Tile::oldMan))
 							{
-								textBox.setMessage(oldmanMessage,window);
-								textBox.redrawChat(true);
+								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+								successful = true;
 							}
 							break;
 						case 3:
 							if(map.isTile(player.getRow(),player.getColumn()-1,Map::Tile::oldMan))
 							{
-								textBox.setMessage(oldmanMessage,window);
-								textBox.redrawChat(true);
+								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+								successful = true;
 							}
 							break;
 
 	}
+	if(successful)
+	{
+		textBox.redrawChat(true);
+	
+		if(oldManMessagesIndex == 3 && oldManItemRecieved == false)
+		{
+			player.giveStaminaVitamin();
+			itemBox.setMessage(itemNotificationMessage + "Stamina Vitamin", window);
+			itemBox.redrawChat(true);
+			oldManItemRecieved = true;
+			oldManMessagesIndex = 2;
+		}
+
+		if(oldManItemRecieved == false)
+			oldManMessagesIndex++;
+	}
+		
 }
 
 int main()
@@ -421,6 +446,12 @@ int main()
 	bool debug = false;
 
 
+	
+	
+	ChatBox itemNotificationBox = ChatBox(winX,winY);
+	itemNotificationBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::Green);
+	itemNotificationBox.SetCharaterLineLimit(55);
+
 	//CREATE TEXTBOX FOR DISPLAYING DIALOGUE
 	ChatBox textBox = ChatBox(winX,winY);
 	textBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
@@ -500,6 +531,8 @@ int main()
 	Player player(health, speed, stamina);
 	player.setPosition(23,17);//player starting position
 	Hud HUD = Hud(player, window);
+
+	
 
 	sf::Event event;
 
@@ -581,9 +614,13 @@ int main()
 					{
 						textBox.setNext(true);
 					}
+					else if(itemNotificationBox.getRedraw() == true)
+					{
+						itemNotificationBox.setNext(true);
+					}
 					else
 					{
-						talkToOldMan(player,textBox,map,window);
+						talkToOldMan(player,textBox,map,window,itemNotificationBox);
 					}
 					break;
 
@@ -605,6 +642,45 @@ int main()
 
 				case (sf::Keyboard::Num2): //Use stamina potion
 					HUD.useStaminaPotion(1,player);
+					break;
+
+					//**VITAMIN USAGE KEYBINDINGS**//
+				case (sf::Keyboard::Num3): //Use stamina potion
+					if(player.getHealthVitaminNumber() > 0)
+					{
+						HUD.increaseMaxHP(10);
+						player.useHealthVitamin();
+						player.removeHealthVitamin();
+					}
+					else
+					{
+						//error sound
+					}
+					break;
+
+				case (sf::Keyboard::Num4): //Use stamina potion
+					if(player.getStaminaVitaminNumber() > 0)
+					{
+						HUD.increaseMaxSta(10);
+						player.useStaminaVitamin();
+						player.removeStaminaVitamin();
+					}
+					else
+					{
+						//error sound
+					}
+					break;
+
+				case (sf::Keyboard::Num5): //Use stamina potion
+					if(player.getStrengthVitaminNumber() > 0)
+					{
+						player.useStrengthVitamin();
+						player.removeStrengthVitamin();
+					}
+					else
+					{
+						//error sound
+					}
 					break;
 				}
 			}
@@ -701,27 +777,47 @@ int main()
 				}
 			}
 
-
 			window.clear();
 
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y); //move shadow/lighting sprite to follow player
+
+		
 
 			//Check to see if player is entering a store
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
 			{
 				store.setStoreOwnerTexture(0);
-				state = 2;
-				textBox.setMessage(itemStoreMessage,window);
+				
+				if(itemStoreFirstVisit == true)
+				{
+					textBox.setMessage(itemStoreMessages[0],window);
+					itemStoreFirstVisit = false;
+				}
+				else
+				{
+					int randonNumber = rand()%(5-1)+1;
+					textBox.setMessage(itemStoreMessages[randonNumber],window);
+					
+				}
 				textBox.redrawChat(true);
-				cout << state << endl;
+				state = 2;
 			}
 			else if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore) ) //for item store
 			{
+				if(vitStoreFirstVisit == true)
+				{
+					textBox.setMessage(vitaminStoreMessages[0],window);
+					vitStoreFirstVisit = false;
+				}
+				else
+				{
+					int randonNumber = rand()%(5-1)+1;
+					textBox.setMessage(vitaminStoreMessages[randonNumber],window);
+					
+				}
 				store.setStoreOwnerTexture(1);
-				state = 3;
-				textBox.setMessage(vitaminStoreMessage,window);
 				textBox.redrawChat(true);
-				cout << state << endl;
+				state = 3;
 			}
 
 			//**DRAW GAME ELEMENTS**//
@@ -773,8 +869,15 @@ int main()
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();
 			HUD.updateCoin();
+
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
+
+			if(textBox.getRedraw() == false)
+			{
+				itemNotificationBox.displayMessage(window);
+			}
 			textBox.displayMessage(window);
+
 
 			//DISPLAY DRAW COMPONENTS
 			window.display();
@@ -833,7 +936,6 @@ int main()
 
 			store.displayStore(0,window,player.getGoldStash());
 			textBox.displayMessage(window);
-
 		
 			window.display();
 		

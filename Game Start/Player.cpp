@@ -21,8 +21,16 @@ Player::Player(int &health, float &speed, int &stamina) : Character(health, spee
 	SPRITEMAX = 4;
 	SPRITEGAP = 1;
 
+	//potions
 	healthPotionNumber = 1; //to test
 	staminaPotionNumber = 0;
+
+	//vitamins
+	strengthVitaminNumber = 0;
+	healthVitaminNumber = 0;
+	staminaVitaminNumber = 0;
+
+	//gold
 	goldStash = 10;
 
 	if (!texture.loadFromFile("characterSheetCustom.png"))
@@ -103,22 +111,19 @@ void Player::increaseGoldStash(int newGold)
 	goldStash += newGold;
 }
 
-
-//method for using a vitamin. 'h' for health vitamin, 'a' for attack and 's' for stamina. Permanently increases player's stats by the specified amount.
-void Player::useVitamin(char type)
+void Player::useStrengthVitamin()
 {
-	switch(type)
-	{
-		case 'h': //vitamin for health
-			health += 10;
-			break;
-		case 'a': //vitamin for attack
-			attack += 1;
-			break;
-		case 's': //vitamin for stamina
-			stamina += 10;
-			break;
-	}
+	attack += 1;
+}
+
+void Player::useHealthVitamin()
+{
+	health += 10;
+}
+
+void Player::useStaminaVitamin()
+{
+	stamina += 10;
 }
 
 //Potion methods
@@ -140,6 +145,61 @@ void Player::removeHealthPotion()
 void Player::removeStaminaPotion()
 {
 	staminaPotionNumber-=1;
+}
+
+void Player::giveStaminaPotion()
+{
+	staminaPotionNumber+=1;
+}
+
+void Player::giveHealthPotion()
+{
+	healthPotionNumber+=1;
+}
+
+void Player::giveStrengthVitamin()
+{
+	strengthVitaminNumber+=1;
+}
+
+void Player::giveHealthVitamin()
+{
+	healthVitaminNumber+=1;
+}
+	
+void Player::giveStaminaVitamin()
+{
+	staminaVitaminNumber+=1;
+}
+
+void Player::removeStrengthVitamin()
+{
+	strengthVitaminNumber-=1;
+}
+
+void Player::removeHealthVitamin()
+{
+	healthVitaminNumber-=1;
+}
+	
+void Player::removeStaminaVitamin()
+{
+	staminaVitaminNumber-=1;
+}
+
+int Player::getStrengthVitaminNumber()
+{
+	return strengthVitaminNumber;
+}
+
+int Player::getStaminaVitaminNumber()
+{
+	return staminaVitaminNumber;
+}
+
+int Player::getHealthVitaminNumber()
+{
+	return healthVitaminNumber;
 }
 
 Player::~Player()

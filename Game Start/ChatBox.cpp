@@ -120,7 +120,7 @@ void ChatBox::displayMessage(sf::RenderWindow &window)
 	//IF REDRAW IS SET TO TRUE, DRAW CHATBOX(S)
 	if(redraw == true)
 	{
-		boxesDone = count(message.begin(),message.end(),'^')+1; //insert ^(BREAK) into string messages to force new box
+		boxesDone = count(message.begin(),message.end(),'^')+1;
 		
 		//VARIABLE TO STORE LOCATINO OF FOUND (BREAK)'S IN CHATBOX STRING
 		string::size_type loc;

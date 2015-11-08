@@ -181,10 +181,10 @@ bool Hud::getOutOfStamina()
 //USE WHEN PERMANENTLY INCREASING MAX HP
 void Hud::increaseMaxHP(int newHP)
 {
-	this->max_HP += newHP;
-	this->current_HP += newHP;
-	maxLength = (_window->getSize().x / 4) + max_HP;			//Update max length to reflect new values
+	max_HP += newHP; //increase max HP
+	current_HP = max_HP; //restore all HP
 
+	maxLength = (max_HP*3); //update maxLength
 	currLength = ((current_HP * maxLength) / max_HP);			//Update it on screen
 
 	/*std::cout << "Max_HP: " << max_HP << std::endl;
@@ -198,10 +198,8 @@ void Hud::increaseMaxHP(int newHP)
 void Hud::increaseMaxSta(int newSta)
 {
 	this->max_Sta += newSta;
-	this->current_Sta += newSta;
-	maxSLength = (_window->getSize().x / 8) + max_Sta;
 
-	currSLength = ((current_Sta * maxSLength) / max_Sta);
+	maxSLength = (max_Sta*3); //stamina regens on its own, no need to restore it :)
 
 	/*std::cout << "Max Sta: " << max_Sta << std::endl;
 	std::cout << "Current Sta :" << current_Sta << std::endl;

@@ -109,13 +109,32 @@ public:
 	int getStaminaPotionNumber();
 	void removeHealthPotion();
 	void removeStaminaPotion();
+	void giveStaminaPotion();
+	void giveHealthPotion();
 
 	int healthPotionNumber;
 	int staminaPotionNumber;
-	//End//
+
+	//Vitamin stuff//
+	int getStrengthVitaminNumber();
+	int getStaminaVitaminNumber();
+	int getHealthVitaminNumber();
+	void removeStrengthVitamin();
+	void removeHealthVitamin();
+	void removeStaminaVitamin();
+	void giveStrengthVitamin();
+	void giveHealthVitamin();
+	void giveStaminaVitamin();
+	
+	int strengthVitaminNumber;
+	int healthVitaminNumber;
+	int staminaVitaminNumber;
+
+	void useStrengthVitamin();
+	void useHealthVitamin();
+	void useStaminaVitamin();
 
 	void increaseGoldStash(int newGold);
-	void useVitamin(char type);
 };
 
 class Enemy: public Character{
