@@ -261,10 +261,19 @@ void Hud::useStaminaPotion(int potionLevel, Player &player)
 	}
 }
 
-//This is here for when the character uses a potion?
-void Hud::healHealth()
+void Hud::setStaminaBarAttributes(int choice)
 {
+	//WARRIOR STAMINA
+	if(choice == 0)
+	{
+		this->staminaBar.setFillColor(sf::Color(122,207,125,180));
+	}
 
+	//WIZARD MANA
+	else if(choice == 1)
+	{
+		this->staminaBar.setFillColor(sf::Color(103,164,245,180));
+	}
 }
 
 Hud::~Hud(void)

@@ -9,10 +9,7 @@
 
 #include "Character.h"
 
-int goldStash = 0;
-
-
-Player::Player(int &health, float &speed, int &stamina) : Character(health, speed, stamina)
+Player::Player(int &health, float &speed, int &stamina, int choice) : Character(health, speed, stamina)
 {
 	spriteXPos = 0;
 	spriteYPos = 0;
@@ -32,6 +29,7 @@ Player::Player(int &health, float &speed, int &stamina) : Character(health, spee
 
 	//gold
 	goldStash = 10;
+	choice = 1;
 
 	if (!texture.loadFromFile("characterSheetCustom.png"))
 	{
@@ -200,6 +198,36 @@ int Player::getStaminaVitaminNumber()
 int Player::getHealthVitaminNumber()
 {
 	return healthVitaminNumber;
+}
+
+void Player::setSprite(int choice)
+{
+	if(choice==0)
+	{
+		spriteXPos = 0;
+		spriteYPos = 0;
+		SPRITEWIDTH = 16;
+		SPRITEHEIGHT = 16;
+		SPRITEMAX = 4;
+		SPRITEGAP = 1;
+
+		spriteXPosMax = 3;
+		spriteXPosMin = 0;
+	}
+	else if(choice==1)
+	{
+		spriteXPos = 7; //121 / 7 = 17. which is the width of sprite + gap
+		spriteYPos = 0;
+		SPRITEWIDTH = 16;
+		SPRITEHEIGHT = 16;
+		SPRITEMAX = 4;
+		SPRITEGAP = 1;
+
+		spriteXPosMax = 9;
+		spriteXPosMin = 7;
+	}
+	//1,1,17,17 
+	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP, (spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP, SPRITEWIDTH, SPRITEHEIGHT));
 }
 
 Player::~Player()

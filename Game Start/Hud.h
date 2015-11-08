@@ -64,6 +64,7 @@ public:
 	void healHealth();
 	bool getGameOver();
 	bool getOutOfStamina();
+	void setStaminaBarAttributes(int choice);
 
 	void increaseMaxHP(int newHP);
 	void increaseMaxSta(int newSta);

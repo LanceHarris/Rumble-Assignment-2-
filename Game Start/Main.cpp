@@ -65,6 +65,7 @@ float speed = 3;
 int attack = 1;
 int health = 50;
 int stamina = 30;
+int choice = 1;
 /*END*/
 
 //SPEED OF THE GAME
@@ -328,8 +329,6 @@ void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &w
 
 int main()
 {
-
-
 	//**START MUSIC, FEEL FREE TO CHANGE THIS**//
 	startMusic();
 	//**END**//
@@ -444,9 +443,6 @@ int main()
 
 	//SET TO TRUE TO RUN DEBUGGING PRINT OUTS
 	bool debug = false;
-
-
-	
 	
 	ChatBox itemNotificationBox = ChatBox(winX,winY);
 	itemNotificationBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::Green);
@@ -455,6 +451,7 @@ int main()
 	//CREATE TEXTBOX FOR DISPLAYING DIALOGUE
 	ChatBox textBox = ChatBox(winX,winY);
 	textBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
+
 	//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
 	textBox.SetCharaterLineLimit(55);
 	textBox.setMessage(introductionMessage,window);
@@ -528,7 +525,7 @@ int main()
 	sf::Clock timer;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-	Player player(health, speed, stamina);
+	Player player(health, speed, stamina, choice);
 	player.setPosition(23,17);//player starting position
 	Hud HUD = Hud(player, window);
 
@@ -555,25 +552,31 @@ int main()
 					case (sf::Keyboard::D )://Change selection
 						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y +7);
 						characterSelection = 2;
+						choice = 0;
 						break;
 
 					case (sf::Keyboard::Right )://Change selection
 						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y +7);
 						characterSelection = 2;
+						choice = 0;
 						break;
 
 					case (sf::Keyboard::A ): //Change selection
 						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y +7);
 						characterSelection = 1;
+						choice = 1;
 						break;
 
 					case (sf::Keyboard::Left ): //Change selection
 						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y +7);
 						characterSelection = 1;
+						choice = 1;
 						break;
 
 					case (sf::Keyboard::R): //Select character
 						state = 1;
+						player.setSprite(choice);
+						HUD.setStaminaBarAttributes(choice);
 						break;
 
 					}
@@ -692,7 +695,7 @@ int main()
 					case (sf::Mouse::Button::Left): //Shoot event
 						if(!HUD.getOutOfStamina())  //If not out of stamina you can shoot
 						{
-							projectiles.push_back( Projectile(true, player.getFacing(), player.getAttack(), player.getSprite().getPosition(), 9, missileTexture));
+							projectiles.push_back( Projectile(true, player.getFacing(), player.getAttack(), player.getSprite().getPosition(), 9, missileTexture, choice));
 							HUD.takeStamina(8);
 							break;
 						}

@@ -28,13 +28,13 @@ private:
 	static const int FRAMES = 8;
 	static const int FRAMEGAP = 1;
 	static const int FRAMEXY = 10;
-	static const int POSX = 97;
+	int POSX;
 
 	int currentFrame;
 	int axeYPos;
 
 public:
-	Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture);
+	Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture, int choice);
 	~Projectile(void);
 	void updateProjectileLocation(sf::RenderWindow &window);
 	int attackHit(std::vector<Enemy> enemies);

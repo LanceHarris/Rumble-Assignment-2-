@@ -11,7 +11,7 @@
 #include "Character.h"
 
 
-Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture)
+Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture, int choice)
 {
 	isPlayerProjectile = aIsPlayerAttack;
 	damage = aDamage;
@@ -19,6 +19,17 @@ Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::
 	position = userPosition;
 	speed = aSpeed;
 	currentFrame = 0;
+
+	//WARRIOR
+	if(choice == 0)
+	{
+		POSX = 97;
+	}
+	//WIZARD
+	else if (choice == 1)
+	{
+		POSX = 207;
+	}
 
 	attack.setTexture(missileTexture);
 	attack.setPosition(position.x,position.y);

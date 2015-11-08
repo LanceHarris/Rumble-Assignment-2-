@@ -107,9 +107,9 @@ void Character::walk(Map &map, int &iterations)
 
 				if(iterations >= nextSpriteFrameEvery)
 				{
-					if(spriteXPos >= 3)
+					if(spriteXPos >= spriteXPosMax)
 					{
-						spriteXPos = 0;
+					spriteXPos = spriteXPosMin;
 					}
 					else
 					{
@@ -127,9 +127,9 @@ void Character::walk(Map &map, int &iterations)
 
 				if(iterations >= nextSpriteFrameEvery)
 				{
-					if(spriteXPos >= 3)
+					if(spriteXPos >= spriteXPosMax)
 					{
-						spriteXPos = 0;
+					spriteXPos = spriteXPosMin;
 					}
 					else
 					{
@@ -147,9 +147,9 @@ void Character::walk(Map &map, int &iterations)
 
 				if(iterations >= nextSpriteFrameEvery)
 				{
-					if(spriteXPos >= 3)
+					if(spriteXPos >= spriteXPosMax)
 					{
-						spriteXPos = 0;
+					spriteXPos = spriteXPosMin;
 					}
 					else
 					{
@@ -167,9 +167,9 @@ void Character::walk(Map &map, int &iterations)
 
 				if(iterations >= nextSpriteFrameEvery)
 				{
-					if(spriteXPos >= 3)
+					if(spriteXPos >= spriteXPosMax)
 					{
-						spriteXPos = 0;
+					spriteXPos = spriteXPosMin;
 					}
 					else
 					{

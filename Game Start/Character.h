@@ -76,7 +76,7 @@ class Character
 		int stamina;
 		int frame;
 		
-		int spriteXPos;
+		int spriteXPos, spriteXPosMax, spriteXPosMin;
 		int spriteYPos;
 
 		int SPRITEWIDTH;
@@ -96,14 +96,13 @@ class Character
 
 class Player: public Character{
 public:
-	Player(int &health, float &speed, int &stamina);
+	Player(int &health, float &speed, int &stamina, int choice);
 	~Player();
 
 	void processDirectionalKeyPresses(Map &map, int &iterations);
 	void processMouseAiming(sf::Vector2f mPos);
-	int getGoldStash();
+	void setSprite(int choice);
 
-	
 	//Potion stuff//
 	int getHealthPotionNumber();
 	int getStaminaPotionNumber();
@@ -111,9 +110,6 @@ public:
 	void removeStaminaPotion();
 	void giveStaminaPotion();
 	void giveHealthPotion();
-
-	int healthPotionNumber;
-	int staminaPotionNumber;
 
 	//Vitamin stuff//
 	int getStrengthVitaminNumber();
@@ -125,16 +121,22 @@ public:
 	void giveStrengthVitamin();
 	void giveHealthVitamin();
 	void giveStaminaVitamin();
-	
-	int strengthVitaminNumber;
-	int healthVitaminNumber;
-	int staminaVitaminNumber;
-
 	void useStrengthVitamin();
 	void useHealthVitamin();
 	void useStaminaVitamin();
 
+	//GOLD STASH STUFF
+	int getGoldStash();
 	void increaseGoldStash(int newGold);
+
+protected:
+	int strengthVitaminNumber;
+	int healthVitaminNumber;
+	int staminaVitaminNumber;
+	int healthPotionNumber;
+	int staminaPotionNumber;
+	int choice;
+	int goldStash;
 };
 
 class Enemy: public Character{
