@@ -41,8 +41,15 @@ private:
 	sf::RectangleShape staminaBar;
 
 	//====CROWD METER====
-	sf::CircleShape crowdMeter;
-	sf::RectangleShape crowdDial;
+	sf::Sprite crowdDial;
+	sf::Sprite crowdMeterOverlay;
+
+	sf::Texture meterTexture1;
+	sf::Texture meterTexture2;
+	sf::Texture meterTexture3;
+	sf::Texture meterTexture4;
+
+	sf::Texture dialTexture;
 
 	//====GOLD COUNT====
 	sf::Sprite coin;
@@ -75,7 +82,7 @@ public:
 	void useStaminaPotion(int potionLevel, Player &player);
 
 	//Crowd Meter
-	sf::RectangleShape & getCrowdDial();
+	sf::Sprite & getCrowdDial();
 	void updateCrowdMeter();
 	void increaseCrowdMeter(int amount);
 	float calculateMultiplier();

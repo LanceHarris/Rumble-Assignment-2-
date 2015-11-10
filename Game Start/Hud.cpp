@@ -78,17 +78,52 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 	this->goldCount.setString(buff.str());
 
 	//CROWD METER
-	this->crowdMeter.setRadius(35);
-	this->crowdMeter.setPosition(((window.getSize().x-(crowdMeter.getRadius() * 2)) - 10), 10);
-	this->crowdMeter.setFillColor(sf::Color::Transparent);
-	this->crowdMeter.setOutlineThickness(5);
+	if(!meterTexture1.loadFromFile("crowdMeter1.png"))
+	{
+		std::cout << "Error masking image resource crowdMeter1.png" << std::endl;
+	}
+
+	if(!meterTexture2.loadFromFile("crowdMeter2.png"))
+	{
+		std::cout << "Error masking image resource crowdMeter2.png" << std::endl;
+	}
+
+	if(!meterTexture3.loadFromFile("crowdMeter3.png"))
+	{
+		std::cout << "Error masking image resource crowdMeter3.png" << std::endl;
+	}
+
+	if(!meterTexture4.loadFromFile("crowdMeter4.png"))
+	{
+		std::cout << "Error masking image resource crowdMeter4.png" << std::endl;
+	}
+
+	if(!dialTexture.loadFromFile("crowdDial.png"))
+	{
+		std::cout << "Error masking image resource crowdDial.png" << std::endl;
+	}
+
+	// - USEFUL IF THE BACKGROUND ISN'T TRANSPARENT
+	sf::Image dialImage = dialTexture.copyToImage();
+	dialImage.createMaskFromColor(sf::Color(255, 255, 255), 0);
 	
-	this->crowdDial.setSize(sf::Vector2f(5, crowdMeter.getRadius()));
-	this->crowdDial.setPosition((crowdMeter.getPosition().x + crowdMeter.getRadius()), crowdMeter.getPosition().y + crowdMeter.getRadius());
-	this->crowdDial.setOrigin(0, crowdDial.getSize().y);
+	if (!dialTexture.loadFromImage(dialImage))
+	{
+		std::cout << "Error masking image resource crowdDial.png" << std::endl;
+	}
+
+	this->crowdMeterOverlay.setTexture(meterTexture1);
+	this->crowdDial.setTexture(dialTexture);
+
+	this->crowdMeterOverlay.setScale(0.25,0.25);
+	this->crowdMeterOverlay.setPosition(((window.getSize().x - crowdMeterOverlay.getGlobalBounds().width) - 10), 7);
+
+	this->crowdDial.setScale(0.45,0.45);
+	this->crowdDial.setPosition((crowdMeterOverlay.getPosition().x + crowdMeterOverlay.getGlobalBounds().width/2), (crowdMeterOverlay.getPosition().y + crowdMeterOverlay.getGlobalBounds().height/2));
+	this->crowdDial.setOrigin(crowdDial.getGlobalBounds().width, crowdDial.getGlobalBounds().height + 50); //50 centres it around the hilt gem
 }
 
-sf::RectangleShape & Hud::getCrowdDial()
+sf::Sprite & Hud::getCrowdDial()
 {
 	return this->crowdDial;
 }
@@ -100,20 +135,25 @@ void Hud::updateCrowdMeter()
 	if(degrees > 0.05 && degrees < 90)
 	{
 		this->crowdDial.rotate(-0.05);
+		this->crowdMeterOverlay.setTexture(meterTexture1);
 	}
 	else if(degrees > 90 && degrees < 180)
 	{
 		this->crowdDial.rotate(-0.07);
+		this->crowdMeterOverlay.setTexture(meterTexture2);
 	}
 	else if(degrees > 180 && degrees < 270)
 	{
 		this->crowdDial.rotate(-0.12);
+		this->crowdMeterOverlay.setTexture(meterTexture3);
 	}
 	else if(degrees > 270 && degrees < 360)
 	{
 		this->crowdDial.rotate(-0.15);
+		this->crowdMeterOverlay.setTexture(meterTexture4);
 	}
-	std::cout << degrees << std::endl;
+	//std::cout << degrees << std::endl;
+	//std::cout << crowdDial.getOrigin().x << ", " << crowdDial.getOrigin().y << std::endl;
 }
 
 void Hud::increaseCrowdMeter(int amount)
@@ -190,7 +230,7 @@ void Hud::drawHUD()
 	{
 		gameOver = true;
 	}
-	_window->draw(crowdMeter);
+	_window->draw(crowdMeterOverlay);
 	_window->draw(crowdDial);
 }
 

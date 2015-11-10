@@ -612,6 +612,10 @@ int main()
 			{
 				switch (event.key.code)
 				{
+				case (sf::Keyboard::LShift):
+					player.setSpeed(6);
+					break;
+
 				//Other Controls
 				case (sf::Keyboard::R): //Chat box
 					if(textBox.getRedraw() == true)//if textBox is being drawn, procede to next textBox
@@ -688,6 +692,16 @@ int main()
 					break;
 				}
 			}
+			else if (event.type == sf::Event::KeyReleased)
+			{
+				switch (event.key.code)
+				{
+				case (sf::Keyboard::LShift):
+					player.setSpeed(3);
+					break;
+				}
+			}
+
 			else if (event.type == sf::Event::MouseButtonPressed)
 			{
 				//Left as switch event incase we add more functionality, eg a right mouse click
