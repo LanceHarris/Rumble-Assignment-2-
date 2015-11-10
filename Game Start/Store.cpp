@@ -1,8 +1,10 @@
 #include "Store.h"
 
 
-Store::Store(string fontTtf, string aStoreName, int winX, int winY)
+Store::Store(string fontTtf, string aStoreName, int winX, int winY, int aStoreType)
 {
+	storeType = aStoreType;
+
 	//**LOAD ITEM STORE TEXTURES**//
 	if(!aStoreKeeperTexture.loadFromFile("itemStoreOwner.png"))
 	{
@@ -95,6 +97,34 @@ Store::Store(string fontTtf, string aStoreName, int winX, int winY)
 	storeKeeperSprite.setPosition(sf::Vector2f( (winX/2)-(storeKeeperSprite.getGlobalBounds().width/2),(winY-mainBoxHeight)-storeKeeperSprite.getGlobalBounds().height ));
 	
 	currentFrame = 0;
+	currentItem = 1;
+
+	//max number of items for stores
+	if(storeType == 0)
+	{
+		maxItems = 2; //item store
+		firstItem.setString("Health Potion... 10G");
+		secondItem.setString("Stamina Potion... 10G");
+	}
+	else
+	{
+		maxItems = 3; //vitamin store
+		firstItem.setString("Health Vitamin... 100G");
+		secondItem.setString("Stamina Vitamin... 100G");
+		thirdItem.setString("Strength Vitamin... 100G");
+	}
+	firstItem.setFont(font);
+	firstItem.setCharacterSize(20);
+	firstItem.setPosition( ((winX-mainBoxWidth)/2)+15,winY-leftMenuHeight - 15 );
+	firstItem.setColor(sf::Color::Yellow);
+
+	secondItem.setFont(font);
+	secondItem.setCharacterSize(20);
+	secondItem.setPosition( ((winX-mainBoxWidth)/2)+15,winY-leftMenuHeight + 15 );
+
+	thirdItem.setFont(font);
+	thirdItem.setCharacterSize(20);
+	thirdItem.setPosition( ((winX-mainBoxWidth)/2)+15,winY-leftMenuHeight + 45 );
 }
 
 string Store::getStoreName()
@@ -151,6 +181,11 @@ void Store::displayStore(int storeType, sf::RenderWindow &window, int aMoney)
 	window.draw(rightMenu);
 	window.draw(exitInfo);
 	window.draw(moneyAmount);
+
+	window.draw(firstItem);
+	window.draw(secondItem);
+	if(storeType == 1)
+		window.draw(thirdItem);
 }
 
 void Store::setStoreOwnerTexture(int storeType)
@@ -159,6 +194,126 @@ void Store::setStoreOwnerTexture(int storeType)
 		storeKeeperSprite.setTexture(aStoreKeeperTexture);
 	else
 		storeKeeperSprite.setTexture(aVitStoreKeeperTexture);
+}
+
+void Store::setCurrentItem(int value)
+{
+	currentItem = value;
+}
+
+int Store::getCurrentItem()
+{
+	return currentItem;
+}
+
+int Store::getMaxItems()
+{
+	return maxItems;
+}
+
+void Store::moveSelection(int direction) 
+{
+	cout << currentItem << endl;
+
+	if(direction == 0)
+		currentItem-=1; //up
+	else if(direction == 1)
+		currentItem+=1; //down
+
+	if(currentItem > maxItems)
+		currentItem = 1;
+	else if(currentItem <= 0)
+		currentItem = maxItems;
+
+	firstItem.setColor(sf::Color::White);
+	secondItem.setColor(sf::Color::White);
+	thirdItem.setColor(sf::Color::White);
+
+	if(currentItem == 1)
+		firstItem.setColor(sf::Color::Yellow);
+	else if(currentItem == 2)
+		secondItem.setColor(sf::Color::Yellow);
+	else if(currentItem == 3)
+		thirdItem.setColor(sf::Color::Yellow);
+
+	
+	
+}
+
+void Store::purchaseItem(Player &player)
+{
+	if(storeType == 0)
+	{
+		switch(currentItem)
+		{
+		case 1:
+			if(player.getGoldStash() >= HEALTHPOTPRICE)
+			{
+				player.giveHealthPotion();
+				player.decreaseGoldStash(HEALTHPOTPRICE);
+				cout << "You purchased a Health Potion" << endl;
+			}
+			else
+			{
+				cout << "Not enough gold";
+			}
+			break;
+		case 2:
+			if(player.getGoldStash() >= STAMPOTPRICE)
+			{
+				player.giveStaminaPotion();
+				player.decreaseGoldStash(STAMPOTPRICE);
+				cout << "You purchased a Stamina Potion" << endl;
+			}
+			else
+			{
+				cout << "Not enough gold";
+			}
+			break;
+		}
+	}
+	else
+	{
+		switch(currentItem)
+		{
+		case 1:
+			if(player.getGoldStash() >= HEALTHVITPRICE)
+			{
+				player.giveHealthVitamin();
+				player.decreaseGoldStash(HEALTHVITPRICE);
+				cout << "You purchased a Health Vitamin" << endl;
+			}
+			else
+			{
+				cout << "Not enough gold";
+			}
+			break;
+		case 2:
+			if(player.getGoldStash() >= STAMVITPRICE)
+			{
+				player.giveStaminaVitamin();
+				player.decreaseGoldStash(STAMVITPRICE);
+				cout << "You purchased a Stamina Vitamin" << endl;
+			}
+			else
+			{
+				cout << "Not enough gold";
+			}
+			break;
+		case 3:
+			if(player.getGoldStash() >= STRENGTHVITPRICE)
+			{
+				player.giveStrengthVitamin();
+				player.decreaseGoldStash(STRENGTHVITPRICE);
+				cout << "You purchased a Strength Vitamin" << endl;
+			}
+			else
+			{
+				cout << "Not enough gold";
+			}
+			break;
+		}
+	}
 }
 
 Store::~Store(void)

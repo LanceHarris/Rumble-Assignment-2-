@@ -28,7 +28,7 @@ Player::Player(int &health, float &speed, int &stamina, int choice) : Character(
 	staminaVitaminNumber = 0;
 
 	//gold
-	goldStash = 10;
+	goldStash = 9123;
 	choice = 1;
 
 	if (!texture.loadFromFile("characterSheetCustom.png"))
@@ -107,6 +107,11 @@ int Player::getGoldStash()
 void Player::increaseGoldStash(int newGold)
 {
 	goldStash += newGold;
+}
+
+void Player::decreaseGoldStash(int value)
+{
+	goldStash -= value;
 }
 
 void Player::useStrengthVitamin()

@@ -128,6 +128,7 @@ public:
 	//GOLD STASH STUFF
 	int getGoldStash();
 	void increaseGoldStash(int newGold);
+	void decreaseGoldStash(int value);
 
 protected:
 	int strengthVitaminNumber;

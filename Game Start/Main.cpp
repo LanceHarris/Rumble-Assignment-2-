@@ -335,7 +335,11 @@ int main()
 
 	//**STORE STUFF**//
 	sf::Time timePerBlink = sf::seconds(2);
-	Store store("Retro Computer_DEMO.ttf","Item Store",winX,winY);
+	Store itemStore("Retro Computer_DEMO.ttf","Item Store",winX,winY,0);
+	itemStore.setStoreOwnerTexture(0);	
+
+	Store vitaminStore("Retro Computer_DEMO.ttf","Vitamin Store",winX,winY,1);
+	vitaminStore.setStoreOwnerTexture(1);
 	//**END**//
 
 	//**LOAD BACKGROUND TEXTURE MAPS**//
@@ -787,7 +791,7 @@ int main()
 			//Check to see if player is entering a store
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
 			{
-				store.setStoreOwnerTexture(0);
+				
 				
 				if(itemStoreFirstVisit == true)
 				{
@@ -816,7 +820,6 @@ int main()
 					textBox.setMessage(vitaminStoreMessages[randonNumber],window);
 					
 				}
-				store.setStoreOwnerTexture(1);
 				textBox.redrawChat(true);
 				state = 3;
 			}
@@ -901,15 +904,25 @@ int main()
 						{
 
 						//Other Controls
-						case (sf::Keyboard::D )://Change selection
+						case(sf::Keyboard::S):
+							itemStore.moveSelection(1);
 							break;
 
+						case(sf::Keyboard::W):
+							itemStore.moveSelection(0);
+							break;
 
 						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
 							state = 1;
 							textBox.redrawChat(false);
 							player.setPosition(11,11);
 							player.turn(2);
+							break;
+
+						
+						case (sf::Keyboard::R): //Chat box
+							itemStore.purchaseItem(player);
+
 							break;
 						}
 					}
@@ -930,12 +943,12 @@ int main()
 		if (timeSinceLastUpdate > timePerBlink)
 		{
 			timeSinceLastUpdate -= timePerBlink;
-			store.blink(0);
+			itemStore.blink(0);
 		}
 
 			window.clear();
 
-			store.displayStore(0,window,player.getGoldStash());
+			itemStore.displayStore(0,window,player.getGoldStash());
 			textBox.displayMessage(window);
 		
 			window.display();
@@ -956,13 +969,12 @@ int main()
 						switch (event.key.code)
 						{
 						//Other Controls
-						case (sf::Keyboard::W || sf::Keyboard::Up)://Change selection
+						case(sf::Keyboard::S):
+							vitaminStore.moveSelection(1);
 							break;
 
-						case (sf::Keyboard::S)://Change selection
-							break;
-
-						case (sf::Keyboard::Down)://Change selection
+						case(sf::Keyboard::W):
+							vitaminStore.moveSelection(0);
 							break;
 
 						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
@@ -970,6 +982,10 @@ int main()
 							textBox.redrawChat(false);
 							player.setPosition(32,11);
 							player.turn(2);
+							break;
+
+						case (sf::Keyboard::R): //Chat box
+							vitaminStore.purchaseItem(player);
 							break;
 						}
 					}
@@ -988,12 +1004,12 @@ int main()
 		if (timeSinceLastUpdate > timePerBlink)
 		{
 			timeSinceLastUpdate -= timePerBlink;
-			store.blink(1); //store type, 0 = item store, 1 = vitamin store. Determines which sprite is drawn
+			vitaminStore.blink(1); //store type, 0 = item store, 1 = vitamin store. Determines which sprite is drawn
 		}
 
 		window.clear();
 
-		store.displayStore(1,window,player.getGoldStash());
+		vitaminStore.displayStore(1,window,player.getGoldStash());
 		textBox.displayMessage(window);
 		
 		window.display();
