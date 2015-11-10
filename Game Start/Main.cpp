@@ -919,11 +919,15 @@ int main()
 							player.turn(2);
 							break;
 
-						
 						case (sf::Keyboard::R): //Chat box
 							itemStore.purchaseItem(player);
-
 							break;
+
+						case (sf::Keyboard::X):
+							textBox.setMessage(itemStore.getInfo(),window);
+							textBox.redrawChat(true);
+							break;
+
 						}
 					}
 					switch (event.key.code)
@@ -986,6 +990,11 @@ int main()
 
 						case (sf::Keyboard::R): //Chat box
 							vitaminStore.purchaseItem(player);
+							break;
+
+						case (sf::Keyboard::X):
+							textBox.setMessage(vitaminStore.getInfo(),window);
+							textBox.redrawChat(true);
 							break;
 						}
 					}

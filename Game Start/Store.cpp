@@ -39,7 +39,7 @@ Store::Store(string fontTtf, string aStoreName, int winX, int winY, int aStoreTy
 	}
 	exitInfo.setFont(font);
 	exitInfo.setCharacterSize(12);
-	exitInfo.setString("Press ESC to exit at any time");
+	exitInfo.setString("ESC: Exit          R: Confirm          X: Info");
 	exitInfo.setPosition(40,winY-50);
 
 
@@ -311,6 +311,37 @@ void Store::purchaseItem(Player &player)
 			{
 				cout << "Not enough gold";
 			}
+			break;
+		}
+	}
+}
+
+string Store::getInfo()
+{
+	if(storeType == 0)
+	{
+		switch(currentItem)
+		{
+		case 1:
+			return "That's a health potion... It restores your health, do I really need to go over this?";
+			break;
+		case 2:
+			return "A stamina potion, for when you're tired.";
+			break;
+		}
+	}
+	else
+	{
+		switch(currentItem)
+		{
+		case 1:
+			return "That's a health vitamin, it improves your healthiness permanently!";
+			break;
+		case 2:
+			return "This item will make you fitter so you can fight for longer!";
+			break;
+		case 3:
+			return "If you drink a Strength Vitamin, you'll get stronger!... Not that you aren't strong enough already!";
 			break;
 		}
 	}
