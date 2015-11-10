@@ -76,6 +76,83 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 	std::ostringstream buff;
 	buff << player.getGoldStash();
 	this->goldCount.setString(buff.str());
+
+	//CROWD METER
+	this->crowdMeter.setRadius(35);
+	this->crowdMeter.setPosition(((window.getSize().x-(crowdMeter.getRadius() * 2)) - 10), 10);
+	this->crowdMeter.setFillColor(sf::Color::Transparent);
+	this->crowdMeter.setOutlineThickness(5);
+	
+	this->crowdDial.setSize(sf::Vector2f(5, crowdMeter.getRadius()));
+	this->crowdDial.setPosition((crowdMeter.getPosition().x + crowdMeter.getRadius()), crowdMeter.getPosition().y + crowdMeter.getRadius());
+	this->crowdDial.setOrigin(0, crowdDial.getSize().y);
+}
+
+sf::RectangleShape & Hud::getCrowdDial()
+{
+	return this->crowdDial;
+}
+
+void Hud::updateCrowdMeter()
+{
+	float degrees = this->crowdDial.getRotation();
+
+	if(degrees > 0.05 && degrees < 90)
+	{
+		this->crowdDial.rotate(-0.05);
+	}
+	else if(degrees > 90 && degrees < 180)
+	{
+		this->crowdDial.rotate(-0.07);
+	}
+	else if(degrees > 180 && degrees < 270)
+	{
+		this->crowdDial.rotate(-0.12);
+	}
+	else if(degrees > 270 && degrees < 360)
+	{
+		this->crowdDial.rotate(-0.15);
+	}
+	std::cout << degrees << std::endl;
+}
+
+void Hud::increaseCrowdMeter(int amount)
+{
+	float degrees = this->crowdDial.getRotation();
+	int newAmount = 360-degrees;
+
+	if(degrees+amount <= 360)
+	{
+		this->crowdDial.rotate(amount);
+	}
+	else
+	{
+		this->crowdDial.rotate(newAmount);
+	}
+}
+
+float Hud::calculateMultiplier()
+{
+	float degrees = this->crowdDial.getRotation();
+	float multiplier = 0;
+
+	if(degrees > 0.05 && degrees < 90)
+	{
+		multiplier = 1.5;
+	}
+	else if(degrees > 90 && degrees < 180)
+	{
+		multiplier = 2.0;
+	}
+	else if(degrees > 180 && degrees < 270)
+	{
+		multiplier = 2.5;
+	}
+	else if(degrees > 270 && degrees < 360)
+	{
+		multiplier = 3.0;
+	}
+	return multiplier;
 }
 
 //This could be a double up with Character::takeDamage?
@@ -113,6 +190,8 @@ void Hud::drawHUD()
 	{
 		gameOver = true;
 	}
+	_window->draw(crowdMeter);
+	_window->draw(crowdDial);
 }
 
 //CONSTANTLY INCREASES STAMINA AND CHECKS IF ALL STAMINA HAS BEEN USED UP

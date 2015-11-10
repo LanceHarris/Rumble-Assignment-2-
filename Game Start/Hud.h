@@ -42,6 +42,7 @@ private:
 
 	//====CROWD METER====
 	sf::CircleShape crowdMeter;
+	sf::RectangleShape crowdDial;
 
 	//====GOLD COUNT====
 	sf::Sprite coin;
@@ -72,6 +73,12 @@ public:
 	//Potions
 	void useHealthPotion(int potionLevel, Player &player);
 	void useStaminaPotion(int potionLevel, Player &player);
+
+	//Crowd Meter
+	sf::RectangleShape & getCrowdDial();
+	void updateCrowdMeter();
+	void increaseCrowdMeter(int amount);
+	float calculateMultiplier();
 
 	~Hud(void);
 };

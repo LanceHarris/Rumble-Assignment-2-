@@ -19,6 +19,7 @@ Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::
 	position = userPosition;
 	speed = aSpeed;
 	currentFrame = 0;
+	this-> choice = choice;
 
 	//WARRIOR
 	if(choice == 0)
@@ -30,6 +31,9 @@ Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::
 	{
 		POSX = 207;
 	}
+
+	firelight.setFillColor(sf::Color(255,255,255,20));
+	firelight.setRadius(25);
 
 	attack.setTexture(missileTexture);
 	attack.setPosition(position.x,position.y);
@@ -75,6 +79,12 @@ void Projectile::updateProjectileLocation(sf::RenderWindow &window)
 
 	attack.setPosition(position.x,position.y);
 	window.draw(attack);
+
+	if(choice == 1)
+	{	
+		firelight.setPosition(position.x - attack.getGlobalBounds().width/2 + 4,position.y - attack.getGlobalBounds().height/2 + 4);
+		window.draw(firelight);
+	}
 
 	attack.setTextureRect(sf::IntRect(POSX,(FRAMEXY*currentFrame)+(currentFrame*FRAMEGAP)+FRAMEGAP,10,10));
 	currentFrame++;

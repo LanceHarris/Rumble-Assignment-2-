@@ -16,9 +16,8 @@ TO DO:
 5. Stages - Collesseum, Forest Stage, Night City - Need resources and for these to be added to Main
 6. Music, sound effects - Add to each necessary class (eg projectile for throwing sound, player or Hud for taking damage sound)
 7. HUD completion - possibly add Crowd Meter - Hud class
-8. Add character selection sprite (ie the mage if you select the mage) - Player class
-9. Menu/Pause - save game/load game/new game/quit game/mode (eg survival) - Menu class
-10. AI - Quad-tree - Enemy class
+8. Menu/Pause - save game/load game/new game/quit game/mode (eg survival) - UI class
+9. AI - Quad-tree - Enemy class
 */
 
 /*NOTES:
@@ -48,7 +47,7 @@ string oldManMessages[4] = {"Greetings, young one. What brings you down here?","
 int oldManMessagesIndex = 0; //used to determine which message is being displayed
 bool oldManItemRecieved = false; //whether or not the player has recieved the old man's item (stamina vitamin)
 
-string vitaminStoreMessages[5] = {"Well, hello! I haven't seen you around here before, it's very nice to meet you! Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger!","Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger!","Have you met my brother? He might seem a little grumpy, but he's really a big softy!","You're looking lively today! Feel free to browse my wares.","I heard the cieling outside goes on forever! Can you imagine that? I think it sounds really scary if you ask me!"};
+string vitaminStoreMessages[5] = {"Well, hello! I haven't seen you around here before, it's very nice to meet you! Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger!","Welcome to the vitamin store! My name Nibbles! Here you can buy vitamins to make you stronger!","Have you met my brother? He might seem a little grumpy, but he's really a big softy!","You're looking lively today! Feel free to browse my wares.","I heard the ceiling outside goes on forever! Can you imagine that? I think it sounds really scary if you ask me!"};
 int vitStoreFirstVisit = true; //whether or not it's the player's first visit, used to display a unique greeting message at index 0
 
 string itemStoreMessages[5] = {"Hello, stranger, it's unusual to see your kind around here... Whatever, This is the item store. Buy something or get out.","This is the item store. Buy something or get out.","My sister keeps bringing me over homemade sweets, I really don't like sweet things but I don't want to hurt her feelings.","You're looking a little beat up, how about buying a health potion?","What do you want?"};
@@ -529,8 +528,6 @@ int main()
 	player.setPosition(23,17);//player starting position
 	Hud HUD = Hud(player, window);
 
-	
-
 	sf::Event event;
 
     while (window.isOpen())
@@ -717,8 +714,8 @@ int main()
 			
 			view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
 			
-
 			HUD.updateStamina();
+			HUD.updateCrowdMeter();
 
 			//**PROCESS MOUSE MOVEMENT TO AIM**//
 			if(event.type == sf::Event::MouseMoved)
@@ -746,6 +743,7 @@ int main()
 				std::cout << "===============" << std::endl;
 
 				player.increaseGoldStash(5);
+				HUD.increaseCrowdMeter(15);
 				/*
 				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
 				std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;

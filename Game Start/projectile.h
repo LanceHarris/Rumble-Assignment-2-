@@ -32,6 +32,9 @@ private:
 
 	int currentFrame;
 	int axeYPos;
+	int choice;
+
+	sf::CircleShape firelight;
 
 public:
 	Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture, int choice);
