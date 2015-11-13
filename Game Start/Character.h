@@ -144,7 +144,7 @@ class Enemy: public Character{
 public:
 	Enemy(int health, float speed, sf::Vector2f location);
 	~Enemy();
-	void calcMovement(Player target, Map map);
+	void calcMovement(Player target, Map map, int &interations);
 protected:
 	enum Type
 		{

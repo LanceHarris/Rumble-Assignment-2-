@@ -523,6 +523,10 @@ int main()
 
 	//**ARRAY LIST TO STORE ENEMIES**//
 	std::vector<Enemy> enemies;
+
+	sf::RectangleShape fullScreen(sf::Vector2f(winX,winY));
+	fullScreen.setPosition(0,0);
+	QuadTree enemyTree(0, fullScreen);
 	//**END**//
 
 	sf::Clock timer;
@@ -637,7 +641,7 @@ int main()
 					break;
 
 				case (sf::Keyboard::P): //Spawn Enemy
-					enemies.push_back(Enemy(10,4,sf::Vector2f(14,12)));
+					enemies.push_back(Enemy(10,4,sf::Vector2f(14,16)));
 					break;
 
 				case (sf::Keyboard::L): //Take damage for testing
@@ -849,18 +853,33 @@ int main()
 			window.draw(lightingSprite); //draw lighting/shadow sprite
 			window.draw(player.getSprite()); //draw player sprite
 
+			//**RUN / DRAW AI**//
+			enemyTree.clear();
+			for(int i = 0; i < enemies.size();i++)
+			{
+				//enemies[i].walk(map);
+				enemies[i].calcMovement(player, map, iterations);
+
+
+				enemyTree.insert(&enemies[i]);
+
+				window.draw(enemies[i].getSprite());
+			}
+			//**END**//
+
 			//**DRAW PROJECTILES**//
 			for(int i = 0; i < projectiles.size();i++)
 			{
 				projectiles[i].updateProjectileLocation(window);
+				Enemy* hitCheck = projectiles[i].attackHit(&enemyTree);
 
 				if(map.isCollision(projectiles[i].getRow(), projectiles[i].getColumn() ))
 				{
 					projectiles.erase(projectiles.begin()+i);
 				}
-				else if(projectiles[i].attackHit(enemies) != 1000){ //1000 = No hit
+				else if(hitCheck != NULL){
 					projectiles.erase(projectiles.begin()+i);
-					enemies[i].takeDamage(player.getAttack());
+					hitCheck->takeDamage(player.getAttack());
 				}
 				else if(projectiles[i].getPosX() > 1080 || projectiles[i].getPosX() < 0)
 				{
@@ -870,15 +889,6 @@ int main()
 				{
 					projectiles.erase(projectiles.begin()+i);
 				}
-			}
-			//**END**//
-
-			//**RUN / DRAW AI**//
-			for(int i = 0; i < enemies.size();i++)
-			{
-				//enemies[i].walk(map);
-				enemies[i].calcMovement(player, map);
-				window.draw(enemies[i].getSprite());
 			}
 			//**END**//
 

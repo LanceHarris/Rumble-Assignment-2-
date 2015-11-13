@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Character.h"
+#include "QuadTree.h"
 
 class Projectile
 {
@@ -40,7 +41,7 @@ public:
 	Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::Vector2f userPosition, int aSpeed, sf::Texture &missileTexture, int choice);
 	~Projectile(void);
 	void updateProjectileLocation(sf::RenderWindow &window);
-	int attackHit(std::vector<Enemy> enemies);
+	Enemy *attackHit(QuadTree* enemyTree);
 
 	float getPosX();
 	float getPosY();

@@ -95,18 +95,18 @@ int main()
 /////////////////////////////////////////////////////////////////////
 
 	texture.loadFromFile("itemStoreOwner.png");// the path to the image.
-	sf::Sprite sprite(texture);
-	// Declare and load a texture
-	sprite.setTexture(texture);
-	sprite.setPosition(100, 25);
-
-/////////////////////////////////////////////////////////////////////
-
-	texture.loadFromFile("itemStoreOwnerBlink.png");// the path to the image.
 	sf::Sprite itemStore(texture);
 	// Declare and load a texture
 	itemStore.setTexture(texture);
 	itemStore.setPosition(100, 25);
+
+/////////////////////////////////////////////////////////////////////
+
+	texture.loadFromFile("itemStoreOwnerBlink.png");// the path to the image.
+	sf::Sprite itemStoreB(texture);
+	// Declare and load a texture
+	itemStoreB.setTexture(texture);
+	itemStoreB.setPosition(100, 25);
 
 /////////////////////////////////////////////////////////////////////
 

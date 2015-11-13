@@ -45,16 +45,22 @@ Projectile::~Projectile(void)
 {
 }
 
-int Projectile::attackHit(std::vector<Enemy> enemies){
-	for(int i = 0; i < enemies.size();i++)
-			{
-				std::cout << getRow() << " " << enemies[i].getRow() << std::endl;
-				std::cout << getColumn() << " " << enemies[i].getColumn() << std::endl << std::endl;
-				if ((getRow() == enemies[i].getRow()) && (getColumn() == enemies[i].getColumn())){
-					return i;
-				}
-			}
-	return 1000; //1000 = no hit
+Enemy* Projectile::attackHit(QuadTree *enemyTree){
+	int projectileRow = getRow();
+	int projectileColumn = getColumn();
+	std::vector<Enemy *> enemies;
+	enemies.clear();
+	enemies = enemyTree->retrieve(enemies, sf::Vector2f(projectileColumn*24,projectileRow*24));
+	int i = 0;
+	bool hit = false;
+
+	while(i < enemies.size() && !(hit)){
+		if ((projectileRow == enemies[i]->getRow()) && (projectileColumn == enemies[i]->getColumn())){
+			return enemies[i];
+		}
+		i++;
+	}
+	return NULL;
 }
 
 void Projectile::updateProjectileLocation(sf::RenderWindow &window)

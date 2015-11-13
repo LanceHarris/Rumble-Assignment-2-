@@ -32,7 +32,7 @@ Enemy::Enemy(int health, float speed, sf::Vector2f location): Character(health, 
 	moveRow = 0;
 }
 
-void Enemy::calcMovement(Player target, Map map){
+void Enemy::calcMovement(Player target, Map map, int &interations){
 	moveRow = getRow() - target.getRow();
 	moveColumn = getColumn() - target.getColumn();
 
@@ -69,23 +69,18 @@ void Enemy::calcMovement(Player target, Map map){
 	if (moveColumn >= 1){
 		moveColumn -= 1;
 		facing=LEFT;
-
-		//walk(map);
 	}else if (moveColumn <= -1){
 		moveColumn += 1;
 		facing=RIGHT;
-		//walk(map);
 	}
-
 	if (moveRow >= 1){
 		moveRow -= 1;
 		facing=UP;
-		//walk(map);
 	}else if (moveRow <= -1){
 		moveRow += 1;
 		facing=DOWN;
-		//walk(map);
 	}
+	walk(map,interations);
 }
 
 Enemy::~Enemy()
