@@ -27,7 +27,7 @@ Enemy::Enemy(int health, float speed, sf::Vector2f location): Character(health, 
 	facing = RIGHT;
 
 	
-	sprite.setPosition(location.y * 24, location.x * 24);
+	sprite.setPosition(location.x * 24, location.y * 24);
 	moveColumn = 0;
 	moveRow = 0;
 }

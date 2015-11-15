@@ -860,7 +860,6 @@ int main()
 				//enemies[i].walk(map);
 				enemies[i].calcMovement(player, map, iterations);
 
-
 				enemyTree.insert(&enemies[i]);
 
 				window.draw(enemies[i].getSprite());

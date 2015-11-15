@@ -22,10 +22,10 @@ void QuadTree::clear(){
 }
 
 void QuadTree::split(){
-	int subWidth = bounds.getSize().x / 2;
-	int subHeight = bounds.getSize().y / 2;
-	int x = bounds.getPosition().x;
-	int y = bounds.getPosition().y;
+	float subWidth = bounds.getSize().x / 2;
+	float subHeight = bounds.getSize().y / 2;
+	float x = bounds.getPosition().x;
+	float y = bounds.getPosition().y;
 
 	sf::RectangleShape rectangle(sf::Vector2f(subWidth,subHeight));
 

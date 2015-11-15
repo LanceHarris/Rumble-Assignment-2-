@@ -1,28 +1,167 @@
-﻿Build started 6/11/2015 11:52:08 PM.
-     1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+﻿Build started 15/11/2015 4:02:18 PM.
+     1>Project "C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Touching "Release\Game Start.unsuccessfulbuild".
        ClCompile:
-         All outputs are up-to-date.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Assets.cpp Character.cpp ChatBox.cpp Enemy.cpp Hud.cpp Item.cpp Main.cpp Map.cpp Player.cpp projectile.cpp QuadTree.cpp Store.cpp
+         Assets.cpp
+         Character.cpp
+     1>Character.cpp(31): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(35): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(104): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(124): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(124): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(124): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(144): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(144): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(144): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(164): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Character.cpp(237): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Character.cpp(237): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         ChatBox.cpp
+         Enemy.cpp
+     1>Enemy.cpp(36): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Enemy.cpp(37): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         Hud.cpp
+     1>Hud.cpp(17): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Hud.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(39): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(42): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(44): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(64): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Hud.cpp(121): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(121): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(137): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(142): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(147): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(152): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(162): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Hud.cpp(166): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(170): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(226): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(247): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(366): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Hud.cpp(371): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         Item.cpp
+         Main.cpp
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\QuadTree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
+                 c:\users\justin\documents\github\rumble-assignment-2-\game start\Character.h(143) : see declaration of 'Enemy'
+     1>Main.cpp(195): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(198): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(198): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(217): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(220): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(220): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(223): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(223): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(223): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(227): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(231): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(235): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(239): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(243): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(247): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(251): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(255): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(259): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(262): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Main.cpp(262): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Main.cpp(266): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(266): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(281): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(281): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>Main.cpp(288): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(295): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(302): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(429): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Main.cpp(429): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Main.cpp(438): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(438): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(440): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(440): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(505): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Main.cpp(505): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Main.cpp(506): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Main.cpp(506): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(507): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Main.cpp(527): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(527): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(714): warning C4482: nonstandard extension used: enum 'sf::Mouse::Button' used in qualified name
+     1>Main.cpp(717): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Main.cpp(787): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(810): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(814): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>Main.cpp(828): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Main.cpp(830): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>Main.cpp(858): warning C4018: '<' : signed/unsigned mismatch
+     1>Main.cpp(870): warning C4018: '<' : signed/unsigned mismatch
+         Map.cpp
+     1>Map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>Map.cpp(43): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+         Player.cpp
+     1>Player.cpp(40): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Player.cpp(40): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Player.cpp(81): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         projectile.cpp
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\QuadTree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
+                 c:\users\justin\documents\github\rumble-assignment-2-\game start\Character.h(143) : see declaration of 'Enemy'
+     1>projectile.cpp(53): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>projectile.cpp(53): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>projectile.cpp(57): warning C4018: '<' : signed/unsigned mismatch
+     1>projectile.cpp(113): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>projectile.cpp(118): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+         QuadTree.cpp
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\QuadTree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
+                 c:\users\justin\documents\github\rumble-assignment-2-\game start\Character.h(143) : see declaration of 'Enemy'
+     1>QuadTree.cpp(74): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>QuadTree.cpp(74): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>QuadTree.cpp(88): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>QuadTree.cpp(88): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Store.cpp
+     1>Store.cpp(43): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(61): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Store.cpp(62): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Store.cpp(68): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(68): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(69): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(72): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Store.cpp(73): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Store.cpp(79): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(79): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(80): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(80): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(89): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(89): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(118): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(123): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Store.cpp(127): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Temp\Rumble-Assignment-2-\Release\Game Start.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" "sfml-audio.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Temp\Rumble-Assignment-2-\Release\Game Start.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Temp\Rumble-Assignment-2-\Release\Game Start.lib" /MACHINE:X86 Release\Assets.obj
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" "sfml-audio.lib" "sfml-main.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.lib" /MACHINE:X86 Release\Assets.obj
          Release\Character.obj
          Release\ChatBox.obj
          Release\Enemy.obj
          Release\Hud.obj
+         Release\Item.obj
          Release\Main.obj
          Release\Map.obj
          Release\Player.obj
          Release\projectile.obj
-     1>ChatBox.obj : error LNK2001: unresolved external symbol "public: static class sf::Color const sf::Color::White" (?White@Color@sf@@2V12@B)
-     1>ChatBox.obj : error LNK2001: unresolved external symbol "public: static class sf::RenderStates const sf::RenderStates::Default" (?Default@RenderStates@sf@@2V12@B)
-     1>ChatBox.obj : error LNK2001: unresolved external symbol "public: static class sf::Color const sf::Color::Black" (?Black@Color@sf@@2V12@B)
-     1>Main.obj : error LNK2001: unresolved external symbol "public: static class sf::Color const sf::Color::Cyan" (?Cyan@Color@sf@@2V12@B)
-     1>Main.obj : error LNK2001: unresolved external symbol "public: static class sf::Color const sf::Color::Transparent" (?Transparent@Color@sf@@2V12@B)
-     1>Main.obj : error LNK2001: unresolved external symbol "public: static class sf::Time const sf::Time::Zero" (?Zero@Time@sf@@2V12@B)
-     1>C:\Temp\Rumble-Assignment-2-\Release\Game Start.exe : fatal error LNK1120: 6 unresolved externals
-     1>Done Building Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)) -- FAILED.
+         Release\QuadTree.obj
+         Release\Store.obj
+         Generating code
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\store.cpp(348): warning C4715: 'Store::getInfo' : not all control paths return a value
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.cpp(96): warning C4715: 'QuadTree::insert' : not all control paths return a value
+         Finished generating code
+         Game Start.vcxproj -> C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.exe;#1" /manifest "Release\Game Start.exe.intermediate.manifest"
+       FinalizeBuildStatus:
+         Deleting file "Release\Game Start.unsuccessfulbuild".
+         Touching "Release\Game Start.lastbuildstate".
+     1>Done Building Project "C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:00.53
+Time Elapsed 00:00:09.41
