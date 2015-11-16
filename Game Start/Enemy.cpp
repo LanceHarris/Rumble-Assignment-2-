@@ -9,7 +9,7 @@
 
 #include "Character.h"
 
-Enemy::Enemy(int health, float speed, sf::Vector2f location): Character(health, speed, stamina)
+Enemy::Enemy(int health, float speed, int attack, sf::Vector2f location): Character(health, speed, stamina)
 {
 	spriteXPos = 0;
 	spriteYPos = 0;
@@ -30,9 +30,11 @@ Enemy::Enemy(int health, float speed, sf::Vector2f location): Character(health, 
 	sprite.setPosition(location.x * 24, location.y * 24);
 	moveColumn = 0;
 	moveRow = 0;
+	fullHealth = health;
+	this->attack = attack;
 }
 
-void Enemy::calcMovement(Player target, Map map, int &interations){
+bool Enemy::calcMovement(Player target, Map map, int &interations){
 	moveRow = getRow() - target.getRow();
 	moveColumn = getColumn() - target.getColumn();
 
@@ -40,7 +42,7 @@ void Enemy::calcMovement(Player target, Map map, int &interations){
 		//std::cout << "YOU LOSE" << std::endl;
 		moveRow = 0;
 		moveColumn = 0;
-		//DAMAGE
+		return true;
 	}else if (abs(moveRow/moveColumn) <= 1){
 		moveRow = moveRow/abs(moveColumn);
 		if (moveColumn > 0){
@@ -81,6 +83,11 @@ void Enemy::calcMovement(Player target, Map map, int &interations){
 		facing=DOWN;
 	}
 	walk(map,interations);
+	return false;
+}
+
+int Enemy::getFHealth(){
+	return fullHealth;
 }
 
 Enemy::~Enemy()

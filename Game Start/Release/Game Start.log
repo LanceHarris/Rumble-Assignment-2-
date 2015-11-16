@@ -1,12 +1,49 @@
-﻿Build started 16/11/2015 5:18:10 PM.
+﻿Build started 17/11/2015 11:13:50 AM.
      1>Project "C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Hud.cpp
+         Hud.cpp
+     1>Hud.cpp(17): warning C4305: '=' : truncation from 'double' to 'float'
+     1>Hud.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(39): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(42): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(44): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(64): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Hud.cpp(121): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(121): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(137): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(142): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(147): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(152): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Hud.cpp(162): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Hud.cpp(166): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(170): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(228): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(249): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Hud.cpp(368): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>Hud.cpp(373): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
        Link:
-         All outputs are up-to-date.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" "sfml-audio.lib" "sfml-main.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.lib" /MACHINE:X86 Release\Assets.obj
+         Release\Character.obj
+         Release\ChatBox.obj
+         Release\Enemy.obj
+         Release\Hud.obj
+         Release\Item.obj
+         Release\Main.obj
+         Release\Map.obj
+         Release\Player.obj
+         Release\projectile.obj
+         Release\QuadTree.obj
+         Release\Store.obj
+         Generating code
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.cpp(95): warning C4715: 'QuadTree::insert' : not all control paths return a value
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\store.cpp(348): warning C4715: 'Store::getInfo' : not all control paths return a value
+         Finished generating code
          Game Start.vcxproj -> C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.exe;#1" /manifest "Release\Game Start.exe.intermediate.manifest"
        FinalizeBuildStatus:
          Deleting file "Release\Game Start.unsuccessfulbuild".
          Touching "Release\Game Start.lastbuildstate".
@@ -14,4 +51,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.07
+Time Elapsed 00:00:02.84

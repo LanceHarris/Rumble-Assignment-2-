@@ -527,6 +527,14 @@ int main()
 	sf::RectangleShape fullScreen(sf::Vector2f(winX,winY));
 	fullScreen.setPosition(0,0);
 	QuadTree enemyTree(0, fullScreen);
+
+	//Enemy Health Bars
+	sf::RectangleShape healthBar(sf::Vector2f(24,7));
+	sf::RectangleShape healthGauge(sf::Vector2f(20,3));
+
+	healthBar.setFillColor(sf::Color(20,20,20,240));
+	healthGauge.setFillColor(sf::Color::Red);
+	
 	//**END**//
 
 	sf::Clock timer;
@@ -641,7 +649,7 @@ int main()
 					break;
 
 				case (sf::Keyboard::P): //Spawn Enemy
-					enemies.push_back(Enemy(10,2,sf::Vector2f(14,16)));
+					enemies.push_back(Enemy(10,2,10,sf::Vector2f(14,16)));
 					break;
 
 				case (sf::Keyboard::L): //Take damage for testing
@@ -862,7 +870,13 @@ int main()
 					if (enemies[eLoop].getHealth() <= 0){
 						enemies.erase(enemies.begin()+eLoop);
 					}else{
-						enemies[eLoop].calcMovement(player, map, iterations);
+						if (enemies[eLoop].calcMovement(player, map, iterations)){
+							if (player.takeDamage(enemies[eLoop].getAttack())){
+								//GAME OVER
+								std::cout << "Game Over" << std::endl;
+							}
+							std::cout << "ouch!!   Player Health: "<< player.getHealth() << std::endl;
+						}
 						enemyTree.insert(&enemies[eLoop]);
 					
 						eLoop += 2;
@@ -871,7 +885,15 @@ int main()
 
 				for(int i = 0; i < enemies.size();i++)
 				{
-						window.draw(enemies[i].getSprite());
+					//Enemy Health
+					sf::Vector2f ePosition = enemies[i].getPosition();
+					healthBar.setPosition(ePosition.x, ePosition.y - 14);
+					healthGauge.setPosition(ePosition.x + 2, ePosition.y - 12);
+					healthGauge.setSize(sf::Vector2f((20/enemies[i].getFHealth())*enemies[i].getHealth(),3));
+
+					window.draw(healthBar);
+					window.draw(healthGauge);
+					window.draw(enemies[i].getSprite());
 				}
 			}
 			//**END**//

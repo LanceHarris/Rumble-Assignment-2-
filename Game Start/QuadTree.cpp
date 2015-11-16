@@ -1,6 +1,6 @@
 #include "QuadTree.h"
 
-QuadTree::QuadTree(int level, sf::RectangleShape bounds): test(10,1,sf::Vector2f(12,12))
+QuadTree::QuadTree(int level, sf::RectangleShape bounds)
 {
 	this->level = level;
 	this->bounds = bounds;
@@ -8,7 +8,6 @@ QuadTree::QuadTree(int level, sf::RectangleShape bounds): test(10,1,sf::Vector2f
 	this->nodes[1] = nullptr;
 	this->nodes[2] = nullptr;
 	this->nodes[3] = nullptr;
-	data.push_back(&test);
 }
 
 void QuadTree::clear(){

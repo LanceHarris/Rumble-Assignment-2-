@@ -35,6 +35,11 @@ int Character::getRow()
 	return sprite.getPosition().y / 24;
 }
 
+sf::Vector2f Character::getPosition()
+{
+	return sprite.getPosition();
+}
+
 //Mutator and accessor methods for character attributes (NB: some of these may need to be moved to the Player or Enemy classes at a later date)
 void Character::setHealth(int health)
 {
@@ -90,7 +95,6 @@ Character::Character(int health, float speed, int stamina)
 //GET HIT
 bool Character::takeDamage(int Damage){
 	health -= Damage;
-	std::cout << health << std::endl;
 	if (health <= 0){
 		return true;
 	}else{

@@ -55,7 +55,9 @@ Enemy* Projectile::attackHit(QuadTree *enemyTree){
 	bool hit = false;
 
 	while(i < enemies.size() && !(hit)){
-		if ((projectileRow == enemies[i]->getRow()) && (projectileColumn == enemies[i]->getColumn())){
+		bool xCollision = (attack.getPosition().x + 20 >= enemies[i]->getPosition().x) && (attack.getPosition().x < enemies[i]->getPosition().x + 24);
+		bool yCollision = (attack.getPosition().y + 20 >= enemies[i]->getPosition().y) && (attack.getPosition().y < enemies[i]->getPosition().y + 24);
+		if (xCollision && yCollision){
 			return enemies[i];
 		}
 		i++;

@@ -20,5 +20,4 @@ private:
 	int level;
 	std::list<struct Enemy*> data;
 	QuadTree *nodes[4];
-	Enemy test;
 };

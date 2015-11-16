@@ -51,6 +51,7 @@ class Character
 		int getAttack();
 		int getToughness();
 		int getStamina();
+		sf::Vector2f getPosition();
 
 		void walk(Map &map, int &iterations);
 
@@ -142,9 +143,10 @@ protected:
 
 class Enemy: public Character{
 public:
-	Enemy(int health, float speed, sf::Vector2f location);
+	Enemy(int health, float speed, int attack, sf::Vector2f location);
 	~Enemy();
-	void calcMovement(Player target, Map map, int &interations);
+	bool calcMovement(Player target, Map map, int &interations);
+	int getFHealth();
 protected:
 	enum Type
 		{
@@ -153,6 +155,7 @@ protected:
 			SKELETON,
 			HELLHOUND
 		};
+	int fullHealth;
 	float moveColumn;
 	float moveRow;
 };
