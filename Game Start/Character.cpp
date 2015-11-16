@@ -88,8 +88,14 @@ Character::Character(int health, float speed, int stamina)
 }
 
 //GET HIT
-void Character::takeDamage(int Damage){
-	setHealth(health - Damage);
+bool Character::takeDamage(int Damage){
+	health -= Damage;
+	std::cout << health << std::endl;
+	if (health <= 0){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 //MOVEMENT

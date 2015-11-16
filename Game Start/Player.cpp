@@ -18,6 +18,9 @@ Player::Player(int &health, float &speed, int &stamina, int choice) : Character(
 	SPRITEMAX = 4;
 	SPRITEGAP = 1;
 
+	//base stats
+	attack = 2;
+
 	//potions
 	healthPotionNumber = 1; //to test
 	staminaPotionNumber = 0;

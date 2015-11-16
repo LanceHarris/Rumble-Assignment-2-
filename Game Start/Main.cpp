@@ -641,7 +641,7 @@ int main()
 					break;
 
 				case (sf::Keyboard::P): //Spawn Enemy
-					enemies.push_back(Enemy(10,4,sf::Vector2f(14,16)));
+					enemies.push_back(Enemy(10,2,sf::Vector2f(14,16)));
 					break;
 
 				case (sf::Keyboard::L): //Take damage for testing
@@ -855,14 +855,24 @@ int main()
 
 			//**RUN / DRAW AI**//
 			enemyTree.clear();
-			for(int i = 0; i < enemies.size();i++)
-			{
-				//enemies[i].walk(map);
-				enemies[i].calcMovement(player, map, iterations);
+			if (enemies.size() > 0){
+				int eLoop = (iterations % (enemies.size()+1/2));
+				while(eLoop < enemies.size())
+				{
+					if (enemies[eLoop].getHealth() <= 0){
+						enemies.erase(enemies.begin()+eLoop);
+					}else{
+						enemies[eLoop].calcMovement(player, map, iterations);
+						enemyTree.insert(&enemies[eLoop]);
+					
+						eLoop += 2;
+					}
+				}
 
-				enemyTree.insert(&enemies[i]);
-
-				window.draw(enemies[i].getSprite());
+				for(int i = 0; i < enemies.size();i++)
+				{
+						window.draw(enemies[i].getSprite());
+				}
 			}
 			//**END**//
 

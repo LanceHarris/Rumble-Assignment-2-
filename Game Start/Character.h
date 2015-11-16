@@ -58,7 +58,7 @@ class Character
 		void setFacing(Facing facing);
 		void turn(int direction);
 		void setPosition(int row, int column);
-		void takeDamage(int damage);
+		bool takeDamage(int damage);
 
 		int getFacing();
 

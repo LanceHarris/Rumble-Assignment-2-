@@ -37,7 +37,7 @@ void Enemy::calcMovement(Player target, Map map, int &interations){
 	moveColumn = getColumn() - target.getColumn();
 
 	if (moveRow == 0 && moveColumn == 0){
-		std::cout << "YOU LOSE" << std::endl;
+		//std::cout << "YOU LOSE" << std::endl;
 		moveRow = 0;
 		moveColumn = 0;
 		//DAMAGE
