@@ -195,13 +195,6 @@ float Hud::calculateMultiplier()
 	return multiplier;
 }
 
-////This could be a double up with Character::takeDamage?  -  YES I'VE CHANGED AND MOVED THE CODE INTO THE DRAW FUNCTION FOR EASE, not sure if it's called anywhere though so left it for you to clean up ;)
-void Hud::takeDamage(int damage)
-{
-	current_HP -= damage;
-	currLength = ((current_HP * maxLength) / max_HP); //Calculates the percentage of the bar that has been lost (eg. if you have lost 10% of your 100 HP, it will give you 90% of the bar's total length. In this case 243
-}
-
 //USE THIS TO DECREASE THE STAMINA (EG WHEN AN AXE IS THROWN)
 void Hud::takeStamina(float stamina)
 {

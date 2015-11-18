@@ -102,6 +102,11 @@ bool Character::takeDamage(int Damage){
 	}
 }
 
+
+void Character::knockback(Map &map, int &iterations, int Direction){
+	//Fun Time
+}
+
 //MOVEMENT
 void Character::walk(Map &map, int &iterations)
 {

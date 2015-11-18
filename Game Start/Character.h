@@ -54,6 +54,7 @@ class Character
 		sf::Vector2f getPosition();
 
 		void walk(Map &map, int &iterations);
+		void knockback(Map &map, int &iterations, int Direction);
 
 		sf::Sprite getSprite();
 		void setFacing(Facing facing);
@@ -145,7 +146,7 @@ class Enemy: public Character{
 public:
 	Enemy(int health, float speed, int attack, sf::Vector2f location);
 	~Enemy();
-	bool calcMovement(Player target, Map map, int &interations);
+	bool calcMovement(Player target, Map map);
 	int getFHealth();
 protected:
 	enum Type

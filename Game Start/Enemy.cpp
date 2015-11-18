@@ -34,7 +34,7 @@ Enemy::Enemy(int health, float speed, int attack, sf::Vector2f location): Charac
 	this->attack = attack;
 }
 
-bool Enemy::calcMovement(Player target, Map map, int &interations){
+bool Enemy::calcMovement(Player target, Map map){
 	moveRow = getRow() - target.getRow();
 	moveColumn = getColumn() - target.getColumn();
 
@@ -82,7 +82,6 @@ bool Enemy::calcMovement(Player target, Map map, int &interations){
 		moveRow += 1;
 		facing=DOWN;
 	}
-	walk(map,interations);
 	return false;
 }
 

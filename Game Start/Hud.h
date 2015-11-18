@@ -64,7 +64,6 @@ private:
 public:
 	Hud(Player &player, sf::RenderWindow &window);
 
-	void takeDamage(int damage);
 	void takeStamina(float stamina);
 	void drawHUD();
 	void updateStamina();

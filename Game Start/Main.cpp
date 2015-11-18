@@ -652,10 +652,6 @@ int main()
 					enemies.push_back(Enemy(10,2,10,sf::Vector2f(14,16)));
 					break;
 
-				case (sf::Keyboard::L): //Take damage for testing
-					HUD.takeDamage(30);
-					break;
-
 				case (sf::Keyboard::Num1): //Use health potion
 					HUD.useHealthPotion(1,player);
 					break;
@@ -864,13 +860,13 @@ int main()
 			//**RUN / DRAW AI**//
 			enemyTree.clear();
 			if (enemies.size() > 0){
-				int eLoop = (iterations % (enemies.size()+1/2));
+				int eLoop = (iterations % ((enemies.size()+1)/2));
 				while(eLoop < enemies.size())
 				{
 					if (enemies[eLoop].getHealth() <= 0){
 						enemies.erase(enemies.begin()+eLoop);
 					}else{
-						if (enemies[eLoop].calcMovement(player, map, iterations)){
+						if (enemies[eLoop].calcMovement(player, map)){
 							if (player.takeDamage(enemies[eLoop].getAttack())){
 								//GAME OVER
 								std::cout << "Game Over" << std::endl;
@@ -890,6 +886,9 @@ int main()
 					healthBar.setPosition(ePosition.x, ePosition.y - 14);
 					healthGauge.setPosition(ePosition.x + 2, ePosition.y - 12);
 					healthGauge.setSize(sf::Vector2f((20/enemies[i].getFHealth())*enemies[i].getHealth(),3));
+
+					
+					enemies[i].walk(map,iterations);
 
 					window.draw(healthBar);
 					window.draw(healthGauge);
