@@ -104,6 +104,8 @@ public:
 	void processDirectionalKeyPresses(Map &map, int &iterations);
 	void processMouseAiming(sf::Vector2f mPos);
 	void setSprite(int choice);
+	int getChoice();
+	void setChoice(int choice);
 
 	//Potion stuff//
 	int getHealthPotionNumber();

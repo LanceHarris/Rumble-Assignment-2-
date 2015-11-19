@@ -119,3 +119,8 @@ int Projectile::getColumn()
 {
 	return position.x / 24;
 }
+
+int Projectile::getDirection()
+{
+	return direction;
+}

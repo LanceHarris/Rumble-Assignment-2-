@@ -14,7 +14,7 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 {
 	gameOver = false;
 	outOfStamina = false;
-	regenSpeed = 0.1;
+	regenSpeed = 0.3;
 	repercussion = 0;
 
 	coinXPos = 0;
@@ -120,7 +120,7 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 
 	this->crowdDial.setScale(0.45,0.45);
 	this->crowdDial.setPosition((crowdMeterOverlay.getPosition().x + crowdMeterOverlay.getGlobalBounds().width/2), (crowdMeterOverlay.getPosition().y + crowdMeterOverlay.getGlobalBounds().height/2));
-	this->crowdDial.setOrigin(crowdDial.getGlobalBounds().width, crowdDial.getGlobalBounds().height + 50); //50 centres it around the hilt gem
+	this->crowdDial.setOrigin(crowdDial.getGlobalBounds().width, crowdDial.getGlobalBounds().height + 40); //40 centres it around the hilt gem
 }
 
 sf::Sprite & Hud::getCrowdDial()

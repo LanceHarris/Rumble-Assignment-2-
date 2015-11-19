@@ -16,8 +16,6 @@
 
 class Projectile
 {
-
-
 private:
 	sf::Sprite attack;
 	sf::Vector2f position;
@@ -32,6 +30,7 @@ private:
 
 	int currentFrame;
 	int axeYPos;
+	
 	int choice;
 
 	sf::CircleShape firelight;
@@ -48,5 +47,6 @@ public:
 	float getPosY();
 	int getRow();
 	int getColumn();
+	int getDirection();
 };
 

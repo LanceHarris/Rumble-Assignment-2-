@@ -10,14 +10,11 @@
 /*
 TO DO: 
 1. Hub area - interactable character (shopkeep)/shops - requires UI (for all menus), Item(?) and NPC classes
-2. Particle effects - (multi-coloured) blood, glowing floating lights,  - Requires Effects or Blood class
-3. Player - stats/levelling up; Resilience (HP), Endurance (stamina), Toughness (defence), Fastness (speed), Attack (Strength?) - Add to Player class
-4. Enemy experience (based on level) - Add to enemy class
-5. Stages - Collesseum, Forest Stage, Night City - Need resources and for these to be added to Main
-6. Music, sound effects - Add to each necessary class (eg projectile for throwing sound, player or Hud for taking damage sound)
-7. HUD completion - possibly add Crowd Meter - Hud class
-8. Menu/Pause - save game/load game/new game/quit game/mode (eg survival) - UI class
-9. AI - Quad-tree - Enemy class
+2. Player - stats/levelling up; Resilience (HP), Endurance (stamina), Toughness (defence), Fastness (speed), Attack (Strength?) - Add to Player class
+3. Enemy experience (based on level) - Add to enemy class
+4. Stages - Collesseum, Forest Stage, Night City - Need resources and for these to be added to Main
+5. Music, sound effects - Add to each necessary class (eg projectile for throwing sound, player or Hud for taking damage sound)
+6. Menu/Pause - save game/load game/new game/quit game/mode (eg survival) - UI class
 */
 
 /*NOTES:
@@ -35,6 +32,8 @@ Player size after 1.5 scaling: 24
 #include "Hud.h"
 #include "Item.h"
 #include "Store.h"
+#include "Effects.h"
+#include "Particle.h"
 
 #include <list>
 #include <cmath>
@@ -166,7 +165,6 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 //int *maps[2] = {*mainMap,*secondMap}; // it'd be ideal to use a array like this of pointers to each map, and then just change a indexValue variable to change which map was being loaded,
 //but having some issues being able to pass usable pointers, so I'm giving up for now, if anyone feels like trying to get this to work, go for it :D
 
-
 /*LOAD AND START ALL SOUND EFFECTS AND MUSIC*/
 void startMusic()
 {
@@ -181,29 +179,6 @@ void startMusic()
 		//music.setPitch(1);		 //set music pitch
 		music.play();				 //play the music
 
-}
-
-
-//COLOURS EMPTY TILES (or any others that you specify) CYAN FOR DEBUGGING PURPOSES
-void drawEmptyTiles(Map &map, sf::RenderWindow &window)
-{
-	for (int row = 0; row < map.COLUMN_COUNT; row++)
-	{
-		for (int col = 0; col < map.ROW_COUNT; col++)
-		{
-			Map::Tile tile = map.getTile(col, row);
-			if (tile == Map::Tile::TileEmpty)
-			{
-				sf::RectangleShape rectangle;
-				rectangle.setPosition(row * 24, col * 24);
-				rectangle.setSize(sf::Vector2f(24, 24));
-
-				rectangle.setFillColor(sf::Color::Cyan);
-
-				window.draw(rectangle);
-			}
-		}
-	}
 }
 
 void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch, sf::Texture *itemWallFront, sf::Texture *statsWallFront, sf::Texture *aBarrel, sf::Texture *topPillar, sf::Texture *bottomPillar, sf::Texture *aDoor, sf::Texture *oldMan)
@@ -332,7 +307,6 @@ int main()
 	startMusic();
 	//**END**//
 	
-
 	//**STORE STUFF**//
 	sf::Time timePerBlink = sf::seconds(2);
 	Store itemStore("Retro Computer_DEMO.ttf","Item Store",winX,winY,0);
@@ -346,7 +320,7 @@ int main()
 	sf::Texture dungeonMap;
 	if(!dungeonMap.loadFromFile("dungeonMap.jpg"))
 	{
-		//error
+		std::cout<<"Error loading resource dungeonMap.jpg"<<std::endl; //error
 	}
 	sf::Sprite dungeonStage;
 	dungeonStage.setTexture(dungeonMap);
@@ -354,7 +328,7 @@ int main()
 	sf::Texture shopMap;
 	if(!shopMap.loadFromFile("shopMap.jpg"))
 	{
-		//error
+		std::cout<<"Error loading resource shopMap.jpg"<<std::endl; //error
 	}
 	sf::Sprite shopStage;
 	shopStage.setTexture(shopMap);
@@ -364,65 +338,63 @@ int main()
 	sf::Texture wallFront;
 	if(!wallFront.loadFromFile("wallFront.jpg"))
 	{
-		//error
+		std::cout<<"Error loading resource wallFront.jpg"<<std::endl; //error
 	}
 
 	//**GOATFENNEC OLDMAN**//
 	sf::Texture oldMan;
 	if(!oldMan.loadFromFile("goatFennecOldMan.png"))
 	{
-		//error
+		std::cout<<"Error loading resource goatFennecOldMan.png"<<std::endl; //error
 	}
-
 
 	sf::Texture door;
 	if(!door.loadFromFile("door.png"))
 	{
-		//error
+		std::cout<<"Error loading resource door.png"<<std::endl; //error
 	}
 
 	sf::Texture pillarTop;
 	if(!pillarTop.loadFromFile("pillarTop.jpg"))
 	{
-		//error
-		cout << "pillarTop.jpg can't load" << endl;
+		std::cout<<"Error loading resource pillarTop.jpg"<<std::endl; //error
 	}
 
 	sf::Texture pillarBottom;
 	if(!pillarBottom.loadFromFile("pillarBottom.png"))
 	{
-		//error
+		std::cout<<"Error loading resource pillarBottom.png"<<std::endl; //error
 	}
 
 	sf::Texture itemWallFront;
 	if(!itemWallFront.loadFromFile("itemFrontWall.jpg"))
 	{
-		//error
+		std::cout<<"Error loading resource itemFrontWall.jpg"<<std::endl; //error
 	}
 
 	sf::Texture barrel;
 	if(!barrel.loadFromFile("barrel.png"))
 	{
-		//error
+		std::cout<<"Error loading resource barrel.png"<<std::endl; //error
 	}
 
 	sf::Texture statsWallFront;
 	if(!statsWallFront.loadFromFile("statsFrontWall.jpg"))
 	{
-		//error
+		std::cout<<"Error loading resource statsFrontWall.jpg"<<std::endl; //error
 	}
 
 	sf::Texture wallTorch;
 	if(!wallTorch.loadFromFile("wallFrontTorchOff.jpg"))
 	{
-		//error
+		std::cout<<"Error loading resource wallFrontTorchOff.jpg"<<std::endl; //error
 	}
 
 	//**LIGHTING TEST**//
 	sf::Texture lighting;
 	if(!lighting.loadFromFile("lightingTest.png"))
 	{
-		//failed
+		std::cout<<"Error loading resource lightingTest.png"<<std::endl; //error
 	}
 	sf::Sprite lightingSprite;
 	lightingSprite.setTexture(lighting);
@@ -432,18 +404,12 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
 
-	
 	// view for moving around, follows player
 	sf::View view1;
 	view1.reset(sf::FloatRect(0,0,winX,winY)); //view covers whole screen
 	view1.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
 	view1.setSize(winX,winY); //size of view window */
 	
-
-	//SET BOTH TO TRUE IF YOU WANT TO COLOUR IN THE EMPTY CELLS WITH CYAN
-	bool drawGridCells = false;
-	bool drawEmptyPath = false;
-
 	//SET TO TRUE TO RUN DEBUGGING PRINT OUTS
 	bool debug = false;
 	
@@ -463,19 +429,17 @@ int main()
 	Map map(winX, winY, mainMap); //load main map by default when object is created
 	map.setMap(mainMap,0); //pass it whatever map to load it
 
-	
-
 	//**LOAD CHARACTER SELECT TEXUTRES**//
 	sf::Texture wizardSelect;
 	if(!wizardSelect.loadFromFile("wizardSelect.png"))
 	{
-		//error
+		std::cout<<"Error loading resource wizardSelect.png"<<std::endl; //error
 	}
 
 	sf::Texture warriorSelect;
 	if(!warriorSelect.loadFromFile("warriorSelect.png"))
 	{
-		//error
+		std::cout<<"Error loading resource warriorSelect.png"<<std::endl; //error
 	}
 
 	sf::RectangleShape warriorBox(sf::Vector2f(250,250));
@@ -497,7 +461,7 @@ int main()
 	sf::Texture rumbleLogo;
 	if(!rumbleLogo.loadFromFile("RumbleLogo.png"))
 	{
-		//error
+		std::cout<<"Error loading resource RumbleLogo.png"<<std::endl; //error
 	}
 
 	sf::Sprite logo;
@@ -513,7 +477,7 @@ int main()
 	sf::Texture missileTexture; //since allot of projectile objects are created all the time, I feel like it'd be more efficient to load this here only once, and pass it as an argument
 	if(!missileTexture.loadFromFile("characterSheetCustom.png"))
 	{
-		std::cout << "Error loading projectile texture" << std::endl;
+		std::cout<<"Error loading resource characterSheetCustom.png - projectile sheet."<<std::endl; //error
 	}
 	//**END**//
 	
@@ -544,7 +508,7 @@ int main()
 	Player player(health, speed, stamina, choice);
 	player.setPosition(23,17);//player starting position
 	Hud HUD = Hud(player, window);
-
+	Effects effect (view1, window, map, HUD, player, projectiles);
 	sf::Event event;
 
     while (window.isOpen())
@@ -590,6 +554,7 @@ int main()
 					case (sf::Keyboard::R): //Select character
 						state = 1;
 						player.setSprite(choice);
+						player.setChoice(choice);
 						HUD.setStaminaBarAttributes(choice);
 						break;
 
@@ -725,6 +690,7 @@ int main()
 						{
 							projectiles.push_back( Projectile(true, player.getFacing(), player.getAttack(), player.getSprite().getPosition(), 9, missileTexture, choice));
 							HUD.takeStamina(8);
+							effect.weaponTrail();
 							break;
 						}
 						else
@@ -773,22 +739,18 @@ int main()
 				std::cout << "Player facing: " << (player.getFacing()) << std::endl;
 				std::cout << "===============" << std::endl;
 
-				player.increaseGoldStash(5);
-				HUD.increaseCrowdMeter(15);
-				/*
-				std::cout << "Time since last update: " << timeSinceLastUpdate.asSeconds() << std::endl;
-				std::cout << "Elapsed Time: " << elapsedTime.asSeconds() << std::endl;
-				std::cout << "===============" << std::endl;
-				std::cout << HUD.getGameOver() << std::endl;
-				*/	
+				//player.increaseGoldStash(5);
+				//HUD.increaseCrowdMeter(15);
 
-				if (drawGridCells)
-				{
-					if (drawEmptyPath)
-					{
-						drawEmptyTiles(map, window);
-					}
-				}
+				//SPECIAL EFFECTS// - ambience method needs to be called in the render loop and weaponTrail should be called straight after an attack
+
+				//effect.zoomFreeze(150, 5.0); //Zoom out - you can optionally set the interval. It defaults to 0.05 (ie. it runs the .zoom method every 0.05 seconds)
+				//effect.zoomFreeze(50, 5.0);   //Zoom in
+				//effect.screenShake(1, 20);  //shake screen at power 2 for 20 frames (60 frames = 1 second)
+				//effect.fade(0,0,0,0,300,255); //Lot of variables, but the first 4 are just the colour, then frames, then the final alpha amount you want (255 = opaque, 0 = transparent)
+				//effect.blood(player); //'player' is the target of the blood spray
+				//effect.weaponTrail(); //just sets a bool to true, should be written into the attack section but written here as an example
+
 				debug = false;
 			}
 
@@ -812,8 +774,6 @@ int main()
 			window.clear();
 
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y); //move shadow/lighting sprite to follow player
-
-		
 
 			//Check to see if player is entering a store
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
@@ -861,6 +821,10 @@ int main()
 			map.drawMap(window,dungeonStage,shopStage); //draw stage sprite overlay
 			window.draw(lightingSprite); //draw lighting/shadow sprite
 			window.draw(player.getSprite()); //draw player sprite
+			//effect.bloodUpdate(TimePerFrame);
+			effect.weaponTrailUpdate(projectiles, player);
+			//effect.ambience();
+			//effect.screenShakeUpdate();
 
 			//**RUN / DRAW AI**//
 			enemyTree.clear();
@@ -959,6 +923,7 @@ int main()
 			}
 			textBox.displayMessage(window);
 
+			//effect.fadeUpdate();
 
 			//DISPLAY DRAW COMPONENTS
 			window.display();
@@ -1016,16 +981,15 @@ int main()
 
 					
 				}
-		}
+			}
 		
-
-		sf::Time elapsedTime = timer.restart();
-		timeSinceLastUpdate += elapsedTime;
-		if (timeSinceLastUpdate > timePerBlink)
-		{
-			timeSinceLastUpdate -= timePerBlink;
-			itemStore.blink(0);
-		}
+			sf::Time elapsedTime = timer.restart();
+			timeSinceLastUpdate += elapsedTime;
+			if (timeSinceLastUpdate > timePerBlink)
+			{
+				timeSinceLastUpdate -= timePerBlink;
+				itemStore.blink(0);
+			}
 
 			window.clear();
 
@@ -1083,7 +1047,6 @@ int main()
 					}
 				}
 		}
-
 
 		sf::Time elapsedTime = timer.restart();
 		timeSinceLastUpdate += elapsedTime;
