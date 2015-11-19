@@ -63,9 +63,5 @@ private:
 
 	sf::Texture wallTexture;
 	sf::Sprite wallSprite;
-
-
-
-	
 };
 

@@ -23,7 +23,6 @@ private:
 	sf::Vector2f position;
 	bool isPlayerProjectile;
 	float damage;
-	int direction;
 	int speed;
 
 	static const int FRAMES = 8;
@@ -42,6 +41,8 @@ public:
 	~Projectile(void);
 	void updateProjectileLocation(sf::RenderWindow &window);
 	Enemy *attackHit(QuadTree* enemyTree);
+
+	int direction;
 
 	float getPosX();
 	float getPosY();

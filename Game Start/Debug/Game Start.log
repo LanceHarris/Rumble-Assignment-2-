@@ -1,24 +1,12 @@
-﻿Build started 17/11/2015 11:03:43 AM.
+﻿Build started 19/11/2015 1:36:04 PM.
      1>Project "C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Character.cpp Enemy.cpp Hud.cpp Main.cpp Player.cpp QuadTree.cpp Store.cpp projectile.cpp
-         projectile.cpp
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
-                 c:\users\justin\documents\github\rumble-assignment-2-\game start\character.h(144) : see declaration of 'Enemy'
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\projectile.cpp(53): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\projectile.cpp(53): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\projectile.cpp(57): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\projectile.cpp(115): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\projectile.cpp(120): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
-         Player.cpp
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\player.cpp(43): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\player.cpp(43): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\player.cpp(84): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Character.cpp Enemy.cpp Hud.cpp Main.cpp Map.cpp Player.cpp QuadTree.cpp Store.cpp projectile.cpp
          Main.cpp
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
-                 c:\users\justin\documents\github\rumble-assignment-2-\game start\character.h(144) : see declaration of 'Enemy'
+                 c:\users\justin\documents\github\rumble-assignment-2-\game start\character.h(145) : see declaration of 'Enemy'
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(195): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(198): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(198): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
@@ -59,47 +47,47 @@
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(507): warning C4305: 'argument' : truncation from 'double' to 'float'
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(527): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(527): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(722): warning C4482: nonstandard extension used: enum 'sf::Mouse::Button' used in qualified name
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(725): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(795): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(818): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(822): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(836): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(838): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(868): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(883): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(889): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(899): warning C4018: '<' : signed/unsigned mismatch
-         Enemy.cpp
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\enemy.cpp(37): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\enemy.cpp(38): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(718): warning C4482: nonstandard extension used: enum 'sf::Mouse::Button' used in qualified name
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(721): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(791): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(814): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(818): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(832): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(834): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(864): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(882): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(888): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\main.cpp(901): warning C4018: '<' : signed/unsigned mismatch
          Character.cpp
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(31): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
      1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(35): warning C4244: 'return' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(114): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(134): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(134): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(134): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(154): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(154): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(154): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(174): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(247): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(247): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(112): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(132): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(132): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(132): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(152): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(152): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(152): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(172): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(211): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(231): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(231): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(231): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(251): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(251): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(251): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(271): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(344): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\character.cpp(344): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
          Generating Code...
-         Compiling...
-         QuadTree.cpp
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
-                 c:\users\justin\documents\github\rumble-assignment-2-\game start\character.h(144) : see declaration of 'Enemy'
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.cpp(74): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.cpp(74): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.cpp(88): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.cpp(88): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Generating Code...
-     1>c:\users\justin\documents\github\rumble-assignment-2-\game start\quadtree.cpp(96): warning C4715: 'QuadTree::insert' : not all control paths return a value
          Skipping... (no relevant changes detected)
+         projectile.cpp
          Store.cpp
+         QuadTree.cpp
+         Player.cpp
+         Map.cpp
          Hud.cpp
+         Enemy.cpp
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -129,4 +117,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.45
+Time Elapsed 00:00:03.22

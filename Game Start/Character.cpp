@@ -8,6 +8,7 @@
 */
 
 #include "Character.h"
+#include <cmath>
 
 //These FRAMES are currently not used to determine which frame to display, just kept in from the Pacman code
 const int Character::left[FRAMES] = { 12,13,14,15 };
@@ -102,9 +103,104 @@ bool Character::takeDamage(int Damage){
 	}
 }
 
-
 void Character::knockback(Map &map, int &iterations, int Direction){
-	//Fun Time
+	int nextSpriteFrameEvery = 10; //used to determine how often the sprite is redrawn. Number represents number of frames. So 60 should equal 1 second.
+
+	int height = SPRITEHEIGHT * sprite.getScale().y;
+	int width = SPRITEWIDTH * sprite.getScale().x;
+
+	sf::Vector2f pos = sprite.getPosition();
+	switch (Direction)
+	{
+		case RIGHT:
+			if (!map.isCollision( this->getRow(), this->getColumn() + ceil((float)width/24) ) && !map.isCollision( ((this->sprite.getPosition().y+height)/24) , this->getColumn() + ceil((float)width/24)))
+			{
+				pos.x += 12;
+
+				if(iterations >= nextSpriteFrameEvery)
+				{
+					if(spriteXPos >= spriteXPosMax)
+					{
+					spriteXPos = spriteXPosMin;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
+				}
+			}
+			//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
+			break;
+		case LEFT:
+			if (!map.isCollision(this->getRow(), ((this->getSprite().getPosition().x+width)/24) - ceil((float)width/24) ) && !map.isCollision(((this->getSprite().getPosition().y+height)/24), ((this->getSprite().getPosition().x+width)/24) - ceil((float)width/24)))
+			{
+				pos.x -= 12;
+
+				if(iterations >= nextSpriteFrameEvery)
+				{
+					if(spriteXPos >= spriteXPosMax)
+					{
+					spriteXPos = spriteXPosMin;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
+				}
+			}
+			//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
+			break;
+		case UP:
+			if (!map.isCollision( ((this->sprite.getPosition().y+height)/24) - ceil((float)height/24), this->getColumn()) && !map.isCollision( ((this->sprite.getPosition().y+height)/24) - ceil((float)height/24), ((this->sprite.getPosition().x+width)/24)))
+			{
+				pos.y -= 12;
+
+				if(iterations >= nextSpriteFrameEvery)
+				{
+					if(spriteXPos >= spriteXPosMax)
+					{
+					spriteXPos = spriteXPosMin;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
+				}
+			}
+			//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
+			break;
+		case DOWN:
+			if (!map.isCollision(this->getRow() + ceil((float)height/24), this->getColumn() ) && !map.isCollision(this->getRow() + ceil((float)height/24), (this->sprite.getPosition().x+width)/24))
+			{
+				pos.y += 12;
+
+				if(iterations >= nextSpriteFrameEvery)
+				{
+					if(spriteXPos >= spriteXPosMax)
+					{
+					spriteXPos = spriteXPosMin;
+					}
+					else
+					{
+						spriteXPos+=1;
+					}
+					iterations = 0;
+				}
+			}
+			//this->sprite.setTextureRect(sf::IntRect(down[frame] * 24, 0, 24, 24));
+			break;
+		default:
+			std::cout << "this is an error";
+			break;
+	}
+	//frame = (frame + 1) % 2; - kept from the Pacman code
+
+	//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
+	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
+	sprite.setPosition(pos);
 }
 
 //MOVEMENT
@@ -112,11 +208,14 @@ void Character::walk(Map &map, int &iterations)
 {
 	int nextSpriteFrameEvery = 10; //used to determine how often the sprite is redrawn. Number represents number of frames. So 60 should equal 1 second.
 
+	int height = floor(SPRITEHEIGHT * sprite.getScale().y);
+	int width = floor(SPRITEWIDTH * sprite.getScale().x);
+
 	sf::Vector2f pos = sprite.getPosition();
 	switch (facing)
 	{
 		case RIGHT:
-			if (!map.isCollision( this->getRow(), this->getColumn() + 1 ) && !map.isCollision( ((this->sprite.getPosition().y+18)/24) , this->getColumn() + 1))
+			if (!map.isCollision( this->getRow(), this->getColumn() + ceil((float)width/24) ) && !map.isCollision( ((this->sprite.getPosition().y+(height-2))/24) , this->getColumn() + ceil((float)width/24)))
 			{
 				pos.x += speed;
 
@@ -136,7 +235,7 @@ void Character::walk(Map &map, int &iterations)
 			//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
 			break;
 		case LEFT:
-			if (!map.isCollision(this->getRow(), ((this->getSprite().getPosition().x+18)/24) - 1 ) && !map.isCollision(((this->getSprite().getPosition().y+18)/24), ((this->getSprite().getPosition().x+18)/24) - 1 ))
+			if (!map.isCollision(this->getRow(), ((this->getSprite().getPosition().x+(width-2))/24) - ceil((float)width/24) ) && !map.isCollision(((this->getSprite().getPosition().y+(height-2))/24), ((this->getSprite().getPosition().x+(width-2))/24) - ceil((float)width/24)))
 			{
 				pos.x -= speed;
 
@@ -156,7 +255,7 @@ void Character::walk(Map &map, int &iterations)
 			//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
 			break;
 		case UP:
-			if (!map.isCollision( ((this->sprite.getPosition().y+18)/24) - 1, this->getColumn()) && !map.isCollision( ((this->sprite.getPosition().y+18)/24) - 1, ((this->sprite.getPosition().x+18)/24)))
+			if (!map.isCollision( ((this->sprite.getPosition().y+(height-2))/24) - ceil((float)height/24), this->getColumn()) && !map.isCollision( ((this->sprite.getPosition().y+(height-2))/24) - ceil((float)height/24), ((this->sprite.getPosition().x+(width-2))/24)))
 			{
 				pos.y -= speed;
 
@@ -176,7 +275,7 @@ void Character::walk(Map &map, int &iterations)
 			//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
 			break;
 		case DOWN:
-			if (!map.isCollision(this->getRow() + 1, this->getColumn() ) && !map.isCollision(this->getRow() + 1, (this->sprite.getPosition().x+18)/24))
+			if (!map.isCollision(this->getRow() + ceil((float)height/24), this->getColumn() ) && !map.isCollision(this->getRow() + ceil((float)height/24), (this->sprite.getPosition().x+(width-2))/24))
 			{
 				pos.y += speed;
 

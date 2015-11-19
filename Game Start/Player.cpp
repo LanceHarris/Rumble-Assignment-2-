@@ -40,7 +40,7 @@ Player::Player(int &health, float &speed, int &stamina, int choice) : Character(
 	}
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-	sprite.setScale(1.6, 1.6);
+	sprite.setScale(1.5, 1.5);
 	facing = RIGHT;
 }
 

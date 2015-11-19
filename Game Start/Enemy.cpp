@@ -9,7 +9,7 @@
 
 #include "Character.h"
 
-Enemy::Enemy(int health, float speed, int attack, sf::Vector2f location): Character(health, speed, stamina)
+Enemy::Enemy(int health, float speed, int attack, Type type, sf::Vector2f location): Character(health, speed, stamina)
 {
 	spriteXPos = 0;
 	spriteYPos = 0;
@@ -22,27 +22,41 @@ Enemy::Enemy(int health, float speed, int attack, sf::Vector2f location): Charac
 		std::cout << "Error loading resource characterSheet.png" << std::endl;
 	}
 	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-	sprite.setScale(1.5, 1.5);
+	
+	switch(type){
+	case ZOMBIE:
+		sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
+		sprite.setScale(1.5, 1.5);
+		break;
+	case BOSS:
+		sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
+		sprite.setScale(2.6, 2.6);
+		break;
+	}
 	facing = RIGHT;
 
 	
 	sprite.setPosition(location.x * 24, location.y * 24);
 	moveColumn = 0;
 	moveRow = 0;
+
+	attackTimer = 0;
 	fullHealth = health;
 	this->attack = attack;
+	this->type = type;
 }
 
-bool Enemy::calcMovement(Player target, Map map){
+bool Enemy::calcMovement(Player target, Map &map, int &iterations){
 	moveRow = getRow() - target.getRow();
 	moveColumn = getColumn() - target.getColumn();
 
 	if (moveRow == 0 && moveColumn == 0){
-		//std::cout << "YOU LOSE" << std::endl;
-		moveRow = 0;
-		moveColumn = 0;
-		return true;
+		if (attackTimer <= 0){
+			//take damage
+			target.knockback(map,iterations,facing);
+			attackTimer = 30;
+			return true;
+		}
 	}else if (abs(moveRow/moveColumn) <= 1){
 		moveRow = moveRow/abs(moveColumn);
 		if (moveColumn > 0){

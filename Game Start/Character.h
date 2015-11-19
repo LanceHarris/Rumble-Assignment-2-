@@ -144,18 +144,19 @@ protected:
 
 class Enemy: public Character{
 public:
-	Enemy(int health, float speed, int attack, sf::Vector2f location);
-	~Enemy();
-	bool calcMovement(Player target, Map map);
-	int getFHealth();
-protected:
 	enum Type
 		{
-			GHOST,
 			ZOMBIE,
-			SKELETON,
-			HELLHOUND
+			BOSS
 		};
+	Enemy(int health, float speed, int attack, Type type, sf::Vector2f location);
+	~Enemy();
+	bool calcMovement(Player target, Map &map, int &iterations);
+	int getFHealth();
+	int attackTimer;
+	Type type;
+
+protected:
 	int fullHealth;
 	float moveColumn;
 	float moveRow;

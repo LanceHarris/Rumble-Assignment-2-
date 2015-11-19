@@ -528,6 +528,7 @@ int main()
 	fullScreen.setPosition(0,0);
 	QuadTree enemyTree(0, fullScreen);
 
+	int eLoop;
 	//Enemy Health Bars
 	sf::RectangleShape healthBar(sf::Vector2f(24,7));
 	sf::RectangleShape healthGauge(sf::Vector2f(20,3));
@@ -649,7 +650,11 @@ int main()
 					break;
 
 				case (sf::Keyboard::P): //Spawn Enemy
-					enemies.push_back(Enemy(10,2,10,sf::Vector2f(14,16)));
+					enemies.push_back(Enemy(10,2,10,Enemy::ZOMBIE,sf::Vector2f(14,16)));
+					break;
+				
+				case (sf::Keyboard::B): //Spawn Enemy
+					enemies.push_back(Enemy(100,1,20,Enemy::BOSS,sf::Vector2f(14,16)));
 					break;
 
 				case (sf::Keyboard::Num1): //Use health potion
@@ -860,13 +865,16 @@ int main()
 			//**RUN / DRAW AI**//
 			enemyTree.clear();
 			if (enemies.size() > 0){
-				int eLoop = (iterations % ((enemies.size()+1)/2));
-				while(eLoop < enemies.size())
+
+				if (eLoop >= enemies.size()){
+					eLoop = 0;
+				}
+				for(int i = 0; eLoop < enemies.size() && i < 2; i ++)
 				{
 					if (enemies[eLoop].getHealth() <= 0){
 						enemies.erase(enemies.begin()+eLoop);
 					}else{
-						if (enemies[eLoop].calcMovement(player, map)){
+						if (enemies[eLoop].calcMovement(player, map, iterations)){
 							if (player.takeDamage(enemies[eLoop].getAttack())){
 								//GAME OVER
 								std::cout << "Game Over" << std::endl;
@@ -875,7 +883,7 @@ int main()
 						}
 						enemyTree.insert(&enemies[eLoop]);
 					
-						eLoop += 2;
+						eLoop ++;
 					}
 				}
 
@@ -885,10 +893,24 @@ int main()
 					sf::Vector2f ePosition = enemies[i].getPosition();
 					healthBar.setPosition(ePosition.x, ePosition.y - 14);
 					healthGauge.setPosition(ePosition.x + 2, ePosition.y - 12);
-					healthGauge.setSize(sf::Vector2f((20/enemies[i].getFHealth())*enemies[i].getHealth(),3));
+					
+					if (enemies[i].type == Enemy::ZOMBIE){
+						healthBar.setFillColor(sf::Color::Black);
+						healthGauge.setFillColor(sf::Color::Red);
+						
+						healthBar.setSize(sf::Vector2f(24,7));
+						healthGauge.setSize(sf::Vector2f(((float)20/(float)enemies[i].getFHealth())*enemies[i].getHealth(),3));
+					}else if (enemies[i].type == Enemy::BOSS){
+						healthBar.setFillColor(sf::Color::Yellow);
+						healthGauge.setFillColor(sf::Color::Magenta);
+
+						healthBar.setSize(sf::Vector2f(42,7));
+						healthGauge.setSize(sf::Vector2f(((float)38/(float)enemies[i].getFHealth())*enemies[i].getHealth(),3));
+					}
 
 					
 					enemies[i].walk(map,iterations);
+					enemies[i].attackTimer --;
 
 					window.draw(healthBar);
 					window.draw(healthGauge);
@@ -908,6 +930,7 @@ int main()
 					projectiles.erase(projectiles.begin()+i);
 				}
 				else if(hitCheck != NULL){
+ 					hitCheck->knockback(map,iterations,projectiles[i].direction);
 					projectiles.erase(projectiles.begin()+i);
 					hitCheck->takeDamage(player.getAttack());
 				}
