@@ -32,7 +32,7 @@ Projectile::Projectile(bool aIsPlayerAttack, int aDirection, float aDamage, sf::
 		POSX = 207;
 	}
 
-	firelight.setFillColor(sf::Color(255,255,255,20));
+	firelight.setFillColor(sf::Color(255,255,255,40));
 	firelight.setRadius(25);
 
 	attack.setTexture(missileTexture);

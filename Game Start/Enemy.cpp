@@ -107,16 +107,6 @@ bool Enemy::calcMovement(Player target, Map &map, int &iterations){
 		facing=DOWN;
 	}
 
-	//This is making the enemies animate really fast
-	if(spriteXPos >= spriteXPosMax)
-	{
-		spriteXPos = spriteXPosMin;
-	}
-	else
-	{
-		spriteXPos+=1;
-	}
-
 	this->turn(facing); //sets the enemy facing the right way
 	return false;
 }

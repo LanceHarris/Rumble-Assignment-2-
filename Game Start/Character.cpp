@@ -16,17 +16,6 @@ const int Character::right[FRAMES] = { 4,5,6,7 };
 const int Character::down[FRAMES] = { 8,9,10,11 };
 const int Character::up[FRAMES] = { 0,1,2,3 };
 
-/*
-bool Character::rowBoundary()
-{
-	return ((int)sprite.getPosition().y % 24 == 0);
-}
-bool Character::columnBoundary()
-{
-	return ((int)sprite.getPosition().x % 24 == 0);
-}
-*/
-
 int Character::getColumn()
 {
 	return sprite.getPosition().x / 24;
@@ -79,7 +68,6 @@ int Character::getStamina()
 	return stamina;
 }
 
-
 //Interesting note, if facing (enum) is returned as an int, or outputed with cout it displays as an integer value corresponding to it's position in the enum declartion (Up = 0; Right = 1; Down = 2; Left = 3;)
 int Character::getFacing()
 {
@@ -131,7 +119,7 @@ void Character::knockback(Map &map, int &iterations, int Direction){
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
@@ -151,7 +139,7 @@ void Character::knockback(Map &map, int &iterations, int Direction){
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
@@ -171,7 +159,7 @@ void Character::knockback(Map &map, int &iterations, int Direction){
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
@@ -191,7 +179,7 @@ void Character::knockback(Map &map, int &iterations, int Direction){
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(down[frame] * 24, 0, 24, 24));
@@ -203,7 +191,7 @@ void Character::knockback(Map &map, int &iterations, int Direction){
 	//frame = (frame + 1) % 2; - kept from the Pacman code
 
 	//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
-	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
+	sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
 	sprite.setPosition(pos);
 }
 
@@ -233,7 +221,7 @@ void Character::walk(Map &map, int &iterations)
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(right[frame] * 24, 0, 24, 24));
@@ -253,7 +241,7 @@ void Character::walk(Map &map, int &iterations)
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(left[frame] * 24, 0, 24, 24));
@@ -273,7 +261,7 @@ void Character::walk(Map &map, int &iterations)
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(up[frame] * 24, 0, 24, 24)); - kept from the Pacman code
@@ -293,7 +281,7 @@ void Character::walk(Map &map, int &iterations)
 					{
 						spriteXPos+=1;
 					}
-					iterations = 0;
+					//iterations = 0;
 				}
 			}
 			//this->sprite.setTextureRect(sf::IntRect(down[frame] * 24, 0, 24, 24));
@@ -305,8 +293,8 @@ void Character::walk(Map &map, int &iterations)
 	//frame = (frame + 1) % 2; - kept from the Pacman code
 
 	//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
-	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
- 	this->sprite.setPosition(pos);
+	sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
+ 	sprite.setPosition(pos);
 }
 //END OF MOVEMENT
 

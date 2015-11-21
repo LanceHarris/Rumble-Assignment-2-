@@ -161,7 +161,7 @@ void Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
 	float stepPercent; 
 	int wSCopy = windowXPercent;		//The lower percent
 	int wSMax = _window->getSize().x;
-	int iterations = 0;
+	int iterations = 0;					//This is not the same iterations as used in the main.cpp
 	
 	//An attempt to find the factor that should be used to take the given seconds (ie zoom in by 1% to get to 50% in 5 seconds)
 	//If you are zooming out

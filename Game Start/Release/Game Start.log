@@ -1,62 +1,19 @@
-﻿Build started 21/11/2015 10:40:03 p.m..
-     1>Project "C:\Users\User\Desktop\Uni\Game Programming\Rumble\Copy\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+﻿Build started 22/11/2015 12:45:39 p.m..
+     1>Project "C:\Users\User\Desktop\Uni\Game Programming\Rumble\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
-         Main.cpp
-     1>c:\users\user\desktop\uni\game programming\rumble\copy\rumble-assignment-2-\game start\QuadTree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
-                 c:\users\user\desktop\uni\game programming\rumble\copy\rumble-assignment-2-\game start\Character.h(149) : see declaration of 'Enemy'
-     1>Main.cpp(192): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(195): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(195): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(198): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(198): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(198): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(202): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(206): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(210): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(214): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(218): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(222): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(226): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(230): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(234): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(237): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Main.cpp(237): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Main.cpp(241): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(241): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(256): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(256): warning C4244: 'argument' : conversion from 'const float' to 'int', possible loss of data
-     1>Main.cpp(263): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(270): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(277): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(401): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>Main.cpp(401): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>Main.cpp(415): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(415): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(417): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(417): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(475): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>Main.cpp(475): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
-     1>Main.cpp(476): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Main.cpp(476): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(477): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Main.cpp(497): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(497): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(698): warning C4482: nonstandard extension used: enum 'sf::Mouse::Button' used in qualified name
-     1>Main.cpp(701): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(767): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(788): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(790): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
-     1>Main.cpp(804): warning C4482: nonstandard extension used: enum 'Map::Tile' used in qualified name
-     1>Main.cpp(806): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
-     1>Main.cpp(841): warning C4018: '>=' : signed/unsigned mismatch
-     1>Main.cpp(845): warning C4018: '<' : signed/unsigned mismatch
-     1>Main.cpp(870): warning C4018: '<' : signed/unsigned mismatch
-     1>Main.cpp(907): warning C4018: '<' : signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Temp\SFML-2.3.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt projectile.cpp
+         projectile.cpp
+     1>c:\users\user\desktop\uni\game programming\rumble\rumble-assignment-2-\game start\QuadTree.h(21): warning C4099: 'Enemy' : type name first seen using 'class' now seen using 'struct'
+                 c:\users\user\desktop\uni\game programming\rumble\rumble-assignment-2-\game start\Character.h(149) : see declaration of 'Enemy'
+     1>projectile.cpp(53): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>projectile.cpp(53): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>projectile.cpp(57): warning C4018: '<' : signed/unsigned mismatch
+     1>projectile.cpp(115): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>projectile.cpp(120): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Copy\Rumble-Assignment-2-\Release\Game Start.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" "sfml-audio.lib" "sfml-main.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Copy\Rumble-Assignment-2-\Release\Game Start.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Copy\Rumble-Assignment-2-\Release\Game Start.lib" /MACHINE:X86 Release\Assets.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Rumble-Assignment-2-\Release\Game Start.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Temp\SFML-2.3.2\lib" "sfml-graphics.lib" "sfml-window.lib" "sfml-system.lib" "sfml-audio.lib" "sfml-main.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Game Start.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Rumble-Assignment-2-\Release\Game Start.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Rumble-Assignment-2-\Release\Game Start.lib" /MACHINE:X86 Release\Assets.obj
          Release\Character.obj
          Release\ChatBox.obj
          Release\Effects.obj
@@ -73,16 +30,16 @@
          Generating code
      1>c:\users\user\desktop\uni\game programming\rumble\copy\rumble-assignment-2-\game start\quadtree.cpp(95): warning C4715: 'QuadTree::insert' : not all control paths return a value
      1>c:\users\user\desktop\uni\game programming\rumble\copy\rumble-assignment-2-\game start\store.cpp(348): warning C4715: 'Store::getInfo' : not all control paths return a value
-     1>c:\users\user\desktop\uni\game programming\rumble\copy\rumble-assignment-2-\game start\main.cpp(841): warning C4700: uninitialized local variable 'eLoop' used
+     1>c:\users\user\desktop\uni\game programming\rumble\rumble-assignment-2-\game start\main.cpp(840): warning C4700: uninitialized local variable 'eLoop' used
          Finished generating code
-         Game Start.vcxproj -> C:\Users\User\Desktop\Uni\Game Programming\Rumble\Copy\Rumble-Assignment-2-\Release\Game Start.exe
+         Game Start.vcxproj -> C:\Users\User\Desktop\Uni\Game Programming\Rumble\Rumble-Assignment-2-\Release\Game Start.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Copy\Rumble-Assignment-2-\Release\Game Start.exe;#1" /manifest "Release\Game Start.exe.intermediate.manifest"
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\User\Desktop\Uni\Game Programming\Rumble\Rumble-Assignment-2-\Release\Game Start.exe;#1" /manifest "Release\Game Start.exe.intermediate.manifest"
        FinalizeBuildStatus:
          Deleting file "Release\Game Start.unsuccessfulbuild".
          Touching "Release\Game Start.lastbuildstate".
-     1>Done Building Project "C:\Users\User\Desktop\Uni\Game Programming\Rumble\Copy\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\User\Desktop\Uni\Game Programming\Rumble\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.94
+Time Elapsed 00:00:02.86

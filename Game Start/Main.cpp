@@ -826,7 +826,6 @@ int main()
 			//dungeon map/main stage
 
 			map.drawMap(window,dungeonStage,shopStage); //draw stage sprite overlay
-			window.draw(lightingSprite); //draw lighting/shadow sprite
 			window.draw(player.getSprite()); //draw player sprite
 			effect.bloodUpdate(TimePerFrame);
 			effect.weaponTrailUpdate(projectiles, player);
@@ -930,6 +929,8 @@ int main()
 			}
 			//**END**//
 
+			window.draw(lightingSprite); //draw lighting/shadow sprite
+
 			window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
 
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
@@ -948,7 +949,11 @@ int main()
 
 			//DISPLAY DRAW COMPONENTS
 			window.display();
-			
+
+			if(iterations >= 10)
+			{
+				iterations = 0;
+			}		
 		}
     }
 	else if (state == 2)//Item store
