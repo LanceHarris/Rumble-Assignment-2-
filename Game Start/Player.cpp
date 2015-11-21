@@ -9,8 +9,10 @@
 
 #include "Character.h"
 
-Player::Player(int &health, float &speed, int &stamina, int choice) : Character(health, speed, stamina)
+Player::Player(int &health, float &speed, int &stamina, int choice, sf::Texture playerTexture) : Character(health, speed, stamina)
 {
+	this->texture = playerTexture;
+
 	spriteXPos = 0;
 	spriteYPos = 0;
 	SPRITEWIDTH = 16;
@@ -34,10 +36,6 @@ Player::Player(int &health, float &speed, int &stamina, int choice) : Character(
 	goldStash = 9123;
 	choice = 1;
 
-	if (!texture.loadFromFile("characterSheetCustom.png"))
-	{
-		std::cout << "Error loading resource characterSheet.png" << std::endl;
-	}
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
 	sprite.setScale(1.5, 1.5);
@@ -210,24 +208,12 @@ void Player::setSprite(int choice)
 	if(choice==0)
 	{
 		spriteXPos = 0;
-		spriteYPos = 0;
-		SPRITEWIDTH = 16;
-		SPRITEHEIGHT = 16;
-		SPRITEMAX = 4;
-		SPRITEGAP = 1;
-
 		spriteXPosMax = 3;
 		spriteXPosMin = 0;
 	}
 	else if(choice==1)
 	{
 		spriteXPos = 7; //121 / 7 = 17. which is the width of sprite + gap
-		spriteYPos = 0;
-		SPRITEWIDTH = 16;
-		SPRITEHEIGHT = 16;
-		SPRITEMAX = 4;
-		SPRITEGAP = 1;
-
 		spriteXPosMax = 9;
 		spriteXPosMin = 7;
 	}

@@ -91,6 +91,10 @@ Character::Character(int health, float speed, int stamina)
 	this->health = health;
 	this->speed = speed;
 	this->stamina = stamina;
+	if (!texture.loadFromFile("characterSheetCustom.png"))
+	{
+		std::cout << "Error loading resource characterSheetCustom.png" << std::endl;
+	}
 }
 
 //GET HIT
@@ -223,7 +227,7 @@ void Character::walk(Map &map, int &iterations)
 				{
 					if(spriteXPos >= spriteXPosMax)
 					{
-					spriteXPos = spriteXPosMin;
+						spriteXPos = spriteXPosMin;
 					}
 					else
 					{
@@ -243,7 +247,7 @@ void Character::walk(Map &map, int &iterations)
 				{
 					if(spriteXPos >= spriteXPosMax)
 					{
-					spriteXPos = spriteXPosMin;
+						spriteXPos = spriteXPosMin;
 					}
 					else
 					{
@@ -263,7 +267,7 @@ void Character::walk(Map &map, int &iterations)
 				{
 					if(spriteXPos >= spriteXPosMax)
 					{
-					spriteXPos = spriteXPosMin;
+						spriteXPos = spriteXPosMin;
 					}
 					else
 					{
@@ -283,7 +287,7 @@ void Character::walk(Map &map, int &iterations)
 				{
 					if(spriteXPos >= spriteXPosMax)
 					{
-					spriteXPos = spriteXPosMin;
+						spriteXPos = spriteXPosMin;
 					}
 					else
 					{
@@ -302,7 +306,7 @@ void Character::walk(Map &map, int &iterations)
 
 	//SET CURRENT PLAYER SPRITE THAT'S BEING USED. SPRITEGAP IS THE GAP BETWEEN EACH SPRITE, SPRITEWIDTH IS THE WIDTH OF EACH SPRITE
 	this->sprite.setTextureRect(sf::IntRect((spriteXPos * SPRITEWIDTH) + (SPRITEGAP * spriteXPos)+SPRITEGAP ,(spriteYPos * SPRITEWIDTH) + (SPRITEGAP * spriteYPos)+SPRITEGAP  ,SPRITEWIDTH,SPRITEHEIGHT));
-	sprite.setPosition(pos);
+ 	this->sprite.setPosition(pos);
 }
 //END OF MOVEMENT
 
@@ -354,6 +358,11 @@ void Character::setPosition(int row, int column)
 void Character::setStamina(int &stamina)
 {
 	this->stamina = stamina;
+}
+
+void Character::setSprite(sf::Sprite sprite)
+{
+	this->sprite = sprite;
 }
 
 Character::~Character()

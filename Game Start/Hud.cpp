@@ -14,7 +14,7 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 {
 	gameOver = false;
 	outOfStamina = false;
-	regenSpeed = 0.1;
+	regenSpeed = 0.5;
 	repercussion = 0;
 
 	coinXPos = 0;

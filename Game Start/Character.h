@@ -17,88 +17,90 @@ const int FRAMES = 4;
 
 class Character
 {
-	public:
-		enum Facing
-		{
-			UP,
-			RIGHT,
-			DOWN,
-			LEFT
-		};
+public:
+	enum Facing
+	{
+		UP,
+		RIGHT,
+		DOWN,
+		LEFT
+	};
 
-		bool rowBoundary();
-		bool columnBoundary();
+	bool rowBoundary();
+	bool columnBoundary();
 
-		int getColumn();
-		int getRow();
+	int getColumn();
+	int getRow();
 
-		enum Aiming
-		{
-			UPAIM,
-			RIGHTAIM,
-			DOWNAIM,
-			LEFTAIM
-		};
+	enum Aiming
+	{
+		UPAIM,
+		RIGHTAIM,
+		DOWNAIM,
+		LEFTAIM
+	};
 
-		void setHealth(int health);
-		void setSpeed(float speed);
-		void setAttack(int attack);
-		void setToughness(int toughness);
-		void setStamina(int &stamina);
+	void setHealth(int health);
+	void setSpeed(float speed);
+	void setAttack(int attack);
+	void setToughness(int toughness);
+	void setStamina(int &stamina);
 
-		int getHealth();
-		float getSpeed();
-		int getAttack();
-		int getToughness();
-		int getStamina();
-		sf::Vector2f getPosition();
+	int getHealth();
+	float getSpeed();
+	int getAttack();
+	int getToughness();
+	int getStamina();
+	sf::Vector2f getPosition();
 
-		void walk(Map &map, int &iterations);
-		void knockback(Map &map, int &iterations, int Direction);
+	void walk(Map &map, int &iterations);
+	void knockback(Map &map, int &iterations, int Direction);
 
-		sf::Sprite getSprite();
-		void setFacing(Facing facing);
-		void turn(int direction);
-		void setPosition(int row, int column);
-		bool takeDamage(int damage);
+	sf::Sprite getSprite();
+	void setFacing(Facing facing);
+	void turn(int direction);
+	void setPosition(int row, int column);
+	bool takeDamage(int damage);
 
-		int getFacing();
+	void setSprite(sf::Sprite sprite);
 
-		Character(int health, float speed, int stamina);
-		~Character();
+	int getFacing();
 
-	protected:
-		Facing facing;
-		Aiming aiming;
+	Character(int health, float speed, int stamina);
+	~Character();
 
-		int health;
-		float speed;
-		int attack;
-		int toughness;
-		int stamina;
-		int frame;
+protected:
+	Facing facing;
+	Aiming aiming;
+
+	int health;
+	float speed;
+	int attack;
+	int toughness;
+	int stamina;
+	int frame;
 		
-		int spriteXPos, spriteXPosMax, spriteXPosMin;
-		int spriteYPos;
+	int spriteXPos, spriteXPosMax, spriteXPosMin;
+	int spriteYPos;
 
-		int SPRITEWIDTH;
-		int SPRITEHEIGHT;
-		int SPRITEMAX;
-		int SPRITEGAP;
+	int SPRITEWIDTH;
+	int SPRITEHEIGHT;
+	int SPRITEMAX;
+	int SPRITEGAP;
 
-		static const int left[FRAMES];
-		static const int right[FRAMES];
-		static const int down[FRAMES];
-		static const int up[FRAMES];
+	static const int left[FRAMES];
+	static const int right[FRAMES];
+	static const int down[FRAMES];
+	static const int up[FRAMES];
 
-		sf::Sprite sprite;
-		sf::Texture texture;
+	sf::Sprite sprite;
+	sf::Texture texture;
 };
 
 
 class Player: public Character{
 public:
-	Player(int &health, float &speed, int &stamina, int choice);
+	Player(int &health, float &speed, int &stamina, int choice, sf::Texture playerTexture);
 	~Player();
 
 	void processDirectionalKeyPresses(Map &map, int &iterations);
@@ -147,11 +149,11 @@ protected:
 class Enemy: public Character{
 public:
 	enum Type
-		{
-			ZOMBIE,
-			BOSS
-		};
-	Enemy(int health, float speed, int attack, Type type, sf::Vector2f location);
+	{
+		ZOMBIE,
+		BOSS
+	};
+	Enemy(int health, float speed, int attack, Type type, sf::Vector2f location, sf::Texture enemyTexture);
 	~Enemy();
 	bool calcMovement(Player target, Map &map, int &iterations);
 	int getFHealth();

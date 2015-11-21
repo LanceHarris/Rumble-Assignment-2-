@@ -9,34 +9,37 @@
 
 #include "Character.h"
 
-Enemy::Enemy(int health, float speed, int attack, Type type, sf::Vector2f location): Character(health, speed, stamina)
+Enemy::Enemy(int health, float speed, int attack, Type type, sf::Vector2f location, sf::Texture enemyTexture): Character(health, speed, stamina)
 {
-	spriteXPos = 0;
+	this->texture = enemyTexture;
+
+	spriteXPos = 14;
 	spriteYPos = 0;
 	SPRITEWIDTH = 16;
 	SPRITEHEIGHT = 16;
 	SPRITEMAX = 4;
-	SPRITEGAP = 3;
-	if (!texture.loadFromFile("characterSheet.png"))
-	{
-		std::cout << "Error loading resource characterSheet.png" << std::endl;
-	}
-	sprite.setTexture(texture);
-	
-	switch(type){
-	case ZOMBIE:
-		sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-		sprite.setScale(1.5, 1.5);
-		break;
-	case BOSS:
-		sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
-		sprite.setScale(2.6, 2.6);
-		break;
-	}
-	facing = RIGHT;
+	SPRITEGAP = 1;
 
+	spriteXPosMax = 16;
+	spriteXPosMin = 14;
+
+	sprite.setTexture(texture);
+
+	switch(type)
+	{
+		case ZOMBIE:
+			sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
+			sprite.setScale(1.5, 1.5);
+			break;
+		case BOSS:
+			sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
+			sprite.setScale(2.6, 2.6);
+			break;
+	}
 	
 	sprite.setPosition(location.x * 24, location.y * 24);
+	facing = RIGHT;
+
 	moveColumn = 0;
 	moveRow = 0;
 
@@ -47,6 +50,7 @@ Enemy::Enemy(int health, float speed, int attack, Type type, sf::Vector2f locati
 }
 
 bool Enemy::calcMovement(Player target, Map &map, int &iterations){
+
 	moveRow = getRow() - target.getRow();
 	moveColumn = getColumn() - target.getColumn();
 
@@ -82,20 +86,38 @@ bool Enemy::calcMovement(Player target, Map &map, int &iterations){
 	std::cout << "Movement Needed: " <<getColumn() - target.getColumn() << ", " << getRow() - target.getRow() << std::endl;
 	std::cout << "Enemy movement: " << moveColumn << ", " << moveRow << std::endl;*/
 
-	if (moveColumn >= 1){
+	if (moveColumn >= 1)
+	{
 		moveColumn -= 1;
 		facing=LEFT;
-	}else if (moveColumn <= -1){
+	}
+	else if (moveColumn <= -1)
+	{
 		moveColumn += 1;
 		facing=RIGHT;
 	}
-	if (moveRow >= 1){
+	if (moveRow >= 1)
+	{
 		moveRow -= 1;
 		facing=UP;
-	}else if (moveRow <= -1){
+	}
+	else if (moveRow <= -1)
+	{
 		moveRow += 1;
 		facing=DOWN;
 	}
+
+	//This is making the enemies animate really fast
+	if(spriteXPos >= spriteXPosMax)
+	{
+		spriteXPos = spriteXPosMin;
+	}
+	else
+	{
+		spriteXPos+=1;
+	}
+
+	this->turn(facing); //sets the enemy facing the right way
 	return false;
 }
 

@@ -280,7 +280,7 @@ void Effects::screenShakeUpdate()
     {
 		int xShake = rand() % 10; //gives a random number between 0 and 10 for the X axis
 		int yShake = rand() % 5;
-		_view->move(sf::Vector2f(xShake * power, yShake * power));
+		_view->move(sf::Vector2f((float)xShake * power, (float)yShake * power));
 
         // Increase the shake timer by one frame and check if we have been shaking long enough
         shakeTimer++;

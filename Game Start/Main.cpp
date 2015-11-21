@@ -400,6 +400,12 @@ int main()
 	lightingSprite.setTexture(lighting);
 	lightingSprite.setOrigin(lighting.getSize().x/2,lighting.getSize().y/2);
 	lightingSprite.scale(2,2);
+	
+	sf::Texture spriteTexture;
+	if (!spriteTexture.loadFromFile("characterSheetCustom.png"))
+	{
+		std::cout << "Error loading resource characterSheetCustom.png" << std::endl;
+	}
 	//**END**//
 
     sf::RenderWindow window(sf::VideoMode(winX, winY), "Rumble!");
@@ -505,8 +511,12 @@ int main()
 	sf::Clock timer;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-	Player player(health, speed, stamina, choice);
-	player.setPosition(23,17);//player starting position
+	Player player(health, speed, stamina, choice, spriteTexture);
+	player.setPosition(23,16);//player starting position
+	
+	//Zombie enemies
+	Enemy newEnemy(10,2.5,10,Enemy::ZOMBIE,sf::Vector2f(14,16), spriteTexture);
+
 	Hud HUD = Hud(player, window);
 	Effects effect (view1, window, map, HUD, player, projectiles);
 	sf::Event event;
@@ -557,7 +567,6 @@ int main()
 						player.setChoice(choice);
 						HUD.setStaminaBarAttributes(choice);
 						break;
-
 					}
 				}
 			}
@@ -615,11 +624,12 @@ int main()
 					break;
 
 				case (sf::Keyboard::P): //Spawn Enemy
-					enemies.push_back(Enemy(10,2,10,Enemy::ZOMBIE,sf::Vector2f(14,16)));
+					enemies.push_back(newEnemy);
+					//enemies.push_back(Enemy(10,2.5,10,Enemy::ZOMBIE,sf::Vector2f(14,16), spriteTexture));
 					break;
 				
 				case (sf::Keyboard::B): //Spawn Enemy
-					enemies.push_back(Enemy(100,1,20,Enemy::BOSS,sf::Vector2f(14,16)));
+					enemies.push_back(Enemy(100,1,20,Enemy::BOSS,sf::Vector2f(14,16), spriteTexture));
 					break;
 
 				case (sf::Keyboard::Num1): //Use health potion
@@ -725,7 +735,6 @@ int main()
 			//**PROCESS KEYBOARD MOVEMENT**//
 			player.processDirectionalKeyPresses(map, iterations);
 
-
 			//DEBUG
 			if(debug)
 			{
@@ -778,8 +787,6 @@ int main()
 			//Check to see if player is entering a store
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
 			{
-				
-				
 				if(itemStoreFirstVisit == true)
 				{
 					textBox.setMessage(itemStoreMessages[0],window);
@@ -821,36 +828,45 @@ int main()
 			map.drawMap(window,dungeonStage,shopStage); //draw stage sprite overlay
 			window.draw(lightingSprite); //draw lighting/shadow sprite
 			window.draw(player.getSprite()); //draw player sprite
-			//effect.bloodUpdate(TimePerFrame);
+			effect.bloodUpdate(TimePerFrame);
 			effect.weaponTrailUpdate(projectiles, player);
 			//effect.ambience();
-			//effect.screenShakeUpdate();
+			effect.screenShakeUpdate();
 
 			//**RUN / DRAW AI**//
-			enemyTree.clear();
-			if (enemies.size() > 0){
 
-				if (eLoop >= enemies.size()){
+			enemyTree.clear();
+			if (enemies.size() > 0)
+			{
+				if (eLoop >= enemies.size())
+				{
 					eLoop = 0;
 				}
 				for(int i = 0; eLoop < enemies.size() && i < 2; i ++)
 				{
-					if (enemies[eLoop].getHealth() <= 0){
+					if (enemies[eLoop].getHealth() <= 0)
+					{
 						enemies.erase(enemies.begin()+eLoop);
-					}else{
-						if (enemies[eLoop].calcMovement(player, map, iterations)){
-							if (player.takeDamage(enemies[eLoop].getAttack())){
+						HUD.increaseCrowdMeter(15);
+					}
+					else
+					{
+						if (enemies[eLoop].calcMovement(player, map, iterations))
+						{
+							if (player.takeDamage(enemies[eLoop].getAttack()))
+							{
 								//GAME OVER
 								std::cout << "Game Over" << std::endl;
 							}
 							std::cout << "ouch!!   Player Health: "<< player.getHealth() << std::endl;
+							effect.blood(player);
 						}
 						enemyTree.insert(&enemies[eLoop]);
 					
 						eLoop ++;
 					}
 				}
-
+				
 				for(int i = 0; i < enemies.size();i++)
 				{
 					//Enemy Health
@@ -858,13 +874,17 @@ int main()
 					healthBar.setPosition(ePosition.x, ePosition.y - 14);
 					healthGauge.setPosition(ePosition.x + 2, ePosition.y - 12);
 					
-					if (enemies[i].type == Enemy::ZOMBIE){
+					if (enemies[i].type == Enemy::ZOMBIE)
+					{
 						healthBar.setFillColor(sf::Color::Black);
 						healthGauge.setFillColor(sf::Color::Red);
 						
 						healthBar.setSize(sf::Vector2f(24,7));
 						healthGauge.setSize(sf::Vector2f(((float)20/(float)enemies[i].getFHealth())*enemies[i].getHealth(),3));
-					}else if (enemies[i].type == Enemy::BOSS){
+
+					}
+					else if (enemies[i].type == Enemy::BOSS)
+					{
 						healthBar.setFillColor(sf::Color::Yellow);
 						healthGauge.setFillColor(sf::Color::Magenta);
 
@@ -872,7 +892,6 @@ int main()
 						healthGauge.setSize(sf::Vector2f(((float)38/(float)enemies[i].getFHealth())*enemies[i].getHealth(),3));
 					}
 
-					
 					enemies[i].walk(map,iterations);
 					enemies[i].attackTimer --;
 
@@ -881,6 +900,7 @@ int main()
 					window.draw(enemies[i].getSprite());
 				}
 			}
+
 			//**END**//
 
 			//**DRAW PROJECTILES**//
@@ -897,6 +917,7 @@ int main()
  					hitCheck->knockback(map,iterations,projectiles[i].direction);
 					projectiles.erase(projectiles.begin()+i);
 					hitCheck->takeDamage(player.getAttack());
+					effect.screenShake(1, 10);
 				}
 				else if(projectiles[i].getPosX() > 1080 || projectiles[i].getPosX() < 0)
 				{
@@ -977,9 +998,7 @@ int main()
 					case (sf::Keyboard::R): //Chat box
 						textBox.setNext(true);
 						break;
-					}
-
-					
+					}		
 				}
 			}
 		
@@ -1046,7 +1065,7 @@ int main()
 						break;
 					}
 				}
-		}
+			}
 
 		sf::Time elapsedTime = timer.restart();
 		timeSinceLastUpdate += elapsedTime;
@@ -1062,8 +1081,7 @@ int main()
 		textBox.displayMessage(window);
 		
 		window.display();
-	}
-
+		}
 	}
     return 0;
 }
