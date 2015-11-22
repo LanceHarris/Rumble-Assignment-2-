@@ -14,7 +14,7 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 {
 	gameOver = false;
 	outOfStamina = false;
-	regenSpeed = 0.5;
+	regenSpeed = 0.1;
 	repercussion = 0;
 
 	coinXPos = 0;
@@ -373,6 +373,11 @@ void Hud::useStaminaPotion(int potionLevel, Player &player)
 	{
 		cout<<"No Stamina potions"<<endl; //remove this later and add an error sound "EH-EH!!" or something :P
 	}
+}
+
+void Hud::increaseRegenSpeed()
+{
+	regenSpeed+=0.01;
 }
 
 void Hud::setStaminaBarAttributes(int choice)

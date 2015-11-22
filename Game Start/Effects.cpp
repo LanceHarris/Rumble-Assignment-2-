@@ -476,8 +476,8 @@ void Effects::weaponTrailUpdate(std::vector<Projectile> &weapon, Player &player)
 	float currentLife; //of the particle
 
 	//If you chose the wizard
-	if(player.getChoice() == 1)
-	{
+	//if(player.getChoice() == 1)
+	//{
 		//If you have attacked
 		if(attacked)
 		{
@@ -556,5 +556,5 @@ void Effects::weaponTrailUpdate(std::vector<Projectile> &weapon, Player &player)
 				attacked = false;	
 			}
 		}
-	}
+	//}
 }
