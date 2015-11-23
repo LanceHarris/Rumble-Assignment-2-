@@ -123,6 +123,12 @@ int mainMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // The Arena
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 };
 
+const int SPAWNLOACTIONS = 4;
+sf::Vector2f spawnPoints[SPAWNLOACTIONS] = {
+	sf::Vector2f(3,4),
+	sf::Vector2f(3,30),
+	sf::Vector2f(30,30),
+	sf::Vector2f(30,4)};
 
 int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -508,14 +514,37 @@ int main()
 	
 	//**END**//
 
+	//**Rounds**//
+	int currentRound = 0;
+	int rounds[10][2] = {
+		{0,0}, //Placeholder
+		{2,0}, //Wave 1
+		{4,0}, //Wave 2
+		{6,0}, //Wave 3
+		{8,0}, //Wave 4
+		{4,1}, //Wave 5
+		{8,1}, //Wave 6
+		{10,2}, //Wave 7
+		{15,4}, //Wave 8
+		{20,4}, //Wave 9
+	};
+
+	sf::Clock spawnTimer;
+	int SPAWNWAIT = 2000;
+
+	bool roundActive = false;
+	bool store = false; //is PLayer in store
+	//**END**//
+
 	sf::Clock timer;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
 	Player player(health, speed, stamina, choice, spriteTexture);
 	player.setPosition(23,16);//player starting position
 	
-	//Zombie enemies
-	Enemy newEnemy(10,2.5,10,Enemy::ZOMBIE,sf::Vector2f(14,16), spriteTexture);
+	//Create enemies
+	Enemy newEnemy_Zombie(10,2.5,10,Enemy::ZOMBIE,sf::Vector2f(14,16), spriteTexture);
+	Enemy newEnemy_Boss(10,2.5,10,Enemy::BOSS,sf::Vector2f(14,16), spriteTexture);
 
 	Hud HUD = Hud(player, window);
 	Effects effect (view1, window, map, HUD, player, projectiles);
@@ -624,12 +653,18 @@ int main()
 					break;
 
 				case (sf::Keyboard::P): //Spawn Enemy
-					enemies.push_back(newEnemy);
-					//enemies.push_back(Enemy(10,2.5,10,Enemy::ZOMBIE,sf::Vector2f(14,16), spriteTexture));
+					enemies.push_back(newEnemy_Zombie);
+					break;
+
+				case (sf::Keyboard::Space):
+					if (!(store && roundActive)){
+						roundActive = true;
+						currentRound ++;
+					}
 					break;
 				
 				case (sf::Keyboard::B): //Spawn Enemy
-					enemies.push_back(Enemy(100,1,20,Enemy::BOSS,sf::Vector2f(14,16), spriteTexture));
+					enemies.push_back(newEnemy_Boss);
 					break;
 
 				case (sf::Keyboard::Num1): //Use health potion
@@ -712,7 +747,31 @@ int main()
 				}
 			}
         }
-		
+
+		//SPAWN ENEMIES
+
+		if (spawnTimer.getElapsedTime().asMilliseconds() > SPAWNWAIT && roundActive ) {
+			int i = 0;
+			while (i < SPAWNLOACTIONS && rounds[currentRound][0] > 0){
+				newEnemy_Zombie.setPosition(spawnPoints[i].x,spawnPoints[i].y);
+				enemies.push_back(newEnemy_Zombie);
+				rounds[currentRound][0] --;
+				i++;
+			}
+			while (i < SPAWNLOACTIONS && rounds[currentRound][1] > 0){
+				newEnemy_Boss.setPosition(spawnPoints[i].x,spawnPoints[i].y);
+				enemies.push_back(newEnemy_Boss);
+				rounds[currentRound][1] --;
+				i++;
+			}
+			spawnTimer.restart();
+		}
+		if (enemies.size() == 0 && rounds[currentRound][1] == 0 && rounds[currentRound][1] == 0){
+			roundActive = false;
+		}
+
+
+
 		sf::Time elapsedTime = timer.restart();
 		timeSinceLastUpdate += elapsedTime;
 		if (timeSinceLastUpdate > TimePerFrame)
@@ -765,17 +824,19 @@ int main()
 			}
 
 			//**MAP TRANSITIONS**/
-			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition) )
+			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition)  && !(roundActive))
 			{	
 				projectiles.clear();//clear projectiles so they don't appear on the second map
 				window.setView(window.getDefaultView()); //change view back to normal to display the stores properly
 				if(map.getCurrentMap() == 0)
 				{
+					store = true;
 					map.setMap(secondMap,1);
 					player.setPosition(1,17);
 				}
 				else
 				{
+					store = false;
 					map.setMap(mainMap,0);
 					player.setPosition(44,17);
 				}
@@ -851,18 +912,8 @@ int main()
 					}
 					else
 					{
-						if (enemies[eLoop].calcMovement(player, map, iterations))
-						{
-							if (player.takeDamage(enemies[eLoop].getAttack()))
-							{
-								//GAME OVER
-								std::cout << "Game Over" << std::endl;
-							}
-							std::cout << "ouch!!   Player Health: "<< player.getHealth() << std::endl;
-							effect.blood(player);
-						}
+						enemies[eLoop].calcMovement(player, map, iterations);
 						enemyTree.insert(&enemies[eLoop]);
-					
 						eLoop ++;
 					}
 				}
@@ -899,6 +950,29 @@ int main()
 					window.draw(healthGauge);
 					window.draw(enemies[i].getSprite());
 				}
+			}
+
+			std::vector<Enemy *> playerCollision;
+			playerCollision.clear();
+			playerCollision = enemyTree.retrieve(playerCollision, sf::Vector2f(player.getPosition().x,player.getPosition().y));
+			int i = 0;
+
+			while(i < playerCollision.size()){
+				bool xCollision = (player.getPosition().x + 20 >= playerCollision[i]->getPosition().x) && (player.getPosition().x < playerCollision[i]->getPosition().x + 24);
+				bool yCollision = (player.getPosition().y + 20 >= playerCollision[i]->getPosition().y) && (player.getPosition().y < playerCollision[i]->getPosition().y + 24);
+				if (xCollision && yCollision){
+					if (playerCollision[i]->attackTimer <= 0){
+						if (player.takeDamage(enemies[eLoop].getAttack())){
+							//GAME OVER
+							std::cout << "Game Over" << std::endl;
+						}
+						std::cout << "ouch!!   Player Health: "<< player.getHealth() << std::endl;
+						effect.blood(player);
+						player.knockback(map,iterations,playerCollision[i]->getFacing());
+						playerCollision[i]->attackTimer = 30;
+					}	
+				}
+				i++;
 			}
 
 			//**END**//

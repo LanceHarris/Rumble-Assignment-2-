@@ -15,7 +15,7 @@ public:
 	std::vector<Enemy*> retrieve(std::vector<Enemy *> returntreeObjects, sf::Vector2f location);
 	sf::RectangleShape bounds;
 private:
-	static const int MAXLEVELS = 15;
+	static const int MAXLEVELS = 4;
 	static const int MAXDATA = 2;
 	int level;
 	std::list<struct Enemy*> data;

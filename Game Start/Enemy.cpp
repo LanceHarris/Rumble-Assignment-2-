@@ -55,12 +55,7 @@ bool Enemy::calcMovement(Player target, Map &map, int &iterations){
 	moveColumn = getColumn() - target.getColumn();
 
 	if (moveRow == 0 && moveColumn == 0){
-		if (attackTimer <= 0){
-			//take damage
-			target.knockback(map,iterations,facing);
-			attackTimer = 30;
-			return true;
-		}
+		return true;
 	}else if (abs(moveRow/moveColumn) <= 1){
 		moveRow = moveRow/abs(moveColumn);
 		if (moveColumn > 0){

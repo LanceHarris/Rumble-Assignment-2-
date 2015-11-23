@@ -46,15 +46,11 @@ Projectile::~Projectile(void)
 }
 
 Enemy* Projectile::attackHit(QuadTree *enemyTree){
-	int projectileRow = getRow();
-	int projectileColumn = getColumn();
 	std::vector<Enemy *> enemies;
 	enemies.clear();
-	enemies = enemyTree->retrieve(enemies, sf::Vector2f(projectileColumn*24,projectileRow*24));
+	enemies = enemyTree->retrieve(enemies, sf::Vector2f(attack.getPosition().x,attack.getPosition().y));
 	int i = 0;
-	bool hit = false;
-
-	while(i < enemies.size() && !(hit)){
+	while(i < enemies.size()){
 		bool xCollision = (attack.getPosition().x + 20 >= enemies[i]->getPosition().x) && (attack.getPosition().x < enemies[i]->getPosition().x + 24);
 		bool yCollision = (attack.getPosition().y + 20 >= enemies[i]->getPosition().y) && (attack.getPosition().y < enemies[i]->getPosition().y + 24);
 		if (xCollision && yCollision){
