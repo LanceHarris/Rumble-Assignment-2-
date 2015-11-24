@@ -34,6 +34,7 @@ Player size after 1.5 scaling: 24
 #include "Store.h"
 #include "Effects.h"
 #include "Particle.h"
+#include "Coin.h"
 
 #include <list>
 #include <cmath>
@@ -548,6 +549,15 @@ int main()
 
 	Hud HUD = Hud(player, window);
 	Effects effect (view1, window, map, HUD, player, projectiles);
+
+	//COIN DROP TEXTURE
+	sf::Texture dropCoinTexture;
+	if (!dropCoinTexture.loadFromFile("spinning_coin_gold.png"))
+	{
+		std::cout << "Error loading resource spinning_coin_gold.png" << std::endl;
+	}
+	std::vector<Coin> droppedCoins;
+
 	sf::Event event;
 
     while (window.isOpen())
@@ -888,6 +898,25 @@ int main()
 			//dungeon map/main stage
 
 			map.drawMap(window,dungeonStage,shopStage); //draw stage sprite overlay
+
+			//**ENEMY DROPS**//
+			for(int i = 0; i < droppedCoins.size(); i ++)
+			{
+				if(droppedCoins.size() > 0)
+				{
+					if (droppedCoins[i].getConsumed())
+					{
+						droppedCoins.erase(droppedCoins.begin()+i);
+					}
+					else
+					{
+						droppedCoins[i].updateCoinDrop(window, player, iterations); //Draws the coins
+						droppedCoins[i].pickedUpCoin(player);						//adds the amount to your stash over time
+					}
+				}
+			}
+			//**END**//
+
 			window.draw(player.getSprite()); //draw player sprite
 			effect.bloodUpdate(TimePerFrame);
 			effect.weaponTrailUpdate(projectiles, player);
@@ -907,8 +936,10 @@ int main()
 				{
 					if (enemies[eLoop].getHealth() <= 0)
 					{
+						Coin newCoin = Coin(enemies[eLoop], dropCoinTexture);
 						enemies.erase(enemies.begin()+eLoop);
 						HUD.increaseCrowdMeter(15);
+						droppedCoins.push_back(newCoin);
 					}
 					else
 					{
@@ -1004,13 +1035,13 @@ int main()
 			}
 			//**END**//
 
-			window.draw(lightingSprite); //draw lighting/shadow sprite
+			//window.draw(lightingSprite); //draw lighting/shadow sprite
 
 			window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
 
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();
-			HUD.updateCoin();
+			HUD.updateCoin(iterations);
 
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 
