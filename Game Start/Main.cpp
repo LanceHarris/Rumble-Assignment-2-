@@ -309,6 +309,8 @@ void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &w
 
 int main()
 {
+	std::srand(time(NULL));
+
 	//**START MUSIC, FEEL FREE TO CHANGE THIS**//
 	startMusic();
 	//**END**//
@@ -534,6 +536,11 @@ int main()
 
 	bool roundActive = false;
 	bool store = false; //is PLayer in store
+
+	bool infinite = false; //infinite spawn mode
+	int infWait = 5000;
+	int infRound = 1;
+
 	//**END**//
 
 	sf::Clock timer;
@@ -543,8 +550,8 @@ int main()
 	player.setPosition(23,16);//player starting position
 	
 	//Create enemies
-	Enemy newEnemy_Zombie(10,2.5,10,Enemy::ZOMBIE,sf::Vector2f(14,16), spriteTexture);
-	Enemy newEnemy_Boss(10,2.5,10,Enemy::BOSS,sf::Vector2f(14,16), spriteTexture);
+	Enemy newEnemy_Zombie(10,2,10,Enemy::ZOMBIE,sf::Vector2f(14,16), spriteTexture);
+	Enemy newEnemy_Boss(25,1,20,Enemy::BOSS,sf::Vector2f(14,16), spriteTexture);
 
 	Hud HUD = Hud(player, window);
 	Effects effect (view1, window, map, HUD, player, projectiles);
@@ -652,6 +659,9 @@ int main()
 					debug = true;
 					break;
 
+				case (sf::Keyboard::M):
+					infinite = true;
+					break;
 				case (sf::Keyboard::P): //Spawn Enemy
 					enemies.push_back(newEnemy_Zombie);
 					break;
@@ -749,28 +759,52 @@ int main()
         }
 
 		//SPAWN ENEMIES
-
-		if (spawnTimer.getElapsedTime().asMilliseconds() > SPAWNWAIT && roundActive ) {
-			int i = 0;
-			while (i < SPAWNLOACTIONS && rounds[currentRound][0] > 0){
-				newEnemy_Zombie.setPosition(spawnPoints[i].x,spawnPoints[i].y);
-				enemies.push_back(newEnemy_Zombie);
-				rounds[currentRound][0] --;
-				i++;
+		int spawnAt = std::rand() % SPAWNLOACTIONS;
+		if (!infinite){
+			if (spawnTimer.getElapsedTime().asMilliseconds() > SPAWNWAIT && roundActive ) {
+				int i = 0;
+				while (i < SPAWNLOACTIONS && rounds[currentRound][0] > 0){
+					if (spawnAt == SPAWNLOACTIONS){spawnAt = 0;}
+					newEnemy_Zombie.setPosition(spawnPoints[spawnAt].x,spawnPoints[spawnAt].y);
+					enemies.push_back(newEnemy_Zombie);
+					rounds[currentRound][0] --;
+					i++;
+					spawnAt ++;
+				}
+				while (i < SPAWNLOACTIONS && rounds[currentRound][1] > 0){
+					if (spawnAt == SPAWNLOACTIONS){spawnAt = 0;}
+					newEnemy_Boss.setPosition(spawnPoints[spawnAt].x,spawnPoints[spawnAt].y);
+					enemies.push_back(newEnemy_Boss);
+					rounds[currentRound][1] --;
+					i++;
+					spawnAt ++;
+				}
+				spawnTimer.restart();
 			}
-			while (i < SPAWNLOACTIONS && rounds[currentRound][1] > 0){
-				newEnemy_Boss.setPosition(spawnPoints[i].x,spawnPoints[i].y);
+			if (enemies.size() == 0 && rounds[currentRound][1] == 0 && rounds[currentRound][1] == 0){
+				roundActive = false;
+			}
+		}else{
+			//zombies
+			if (spawnTimer.getElapsedTime().asMilliseconds() > infWait) {
+				if (spawnAt == SPAWNLOACTIONS){spawnAt = 0;}
+				newEnemy_Zombie.setPosition(spawnPoints[spawnAt].x,spawnPoints[spawnAt].y);
+				enemies.push_back(newEnemy_Zombie);
+				spawnAt ++;
+			}
+			if (spawnTimer.getElapsedTime().asMilliseconds() > infWait && infWait % ((((int)40/infRound)+1)*50) == 0 && infWait < 4750){
+				if (spawnAt == SPAWNLOACTIONS){spawnAt = 0;}
+				newEnemy_Boss.setPosition(spawnPoints[spawnAt].x,spawnPoints[spawnAt].y);
 				enemies.push_back(newEnemy_Boss);
 				rounds[currentRound][1] --;
-				i++;
+				spawnAt ++;
 			}
-			spawnTimer.restart();
+			if (spawnTimer.getElapsedTime().asMilliseconds() > infWait){
+				spawnTimer.restart();
+				infRound ++;
+				if (infWait > 500){infWait -= 50;}; //speed things up :)
+			}
 		}
-		if (enemies.size() == 0 && rounds[currentRound][1] == 0 && rounds[currentRound][1] == 0){
-			roundActive = false;
-		}
-
-
 
 		sf::Time elapsedTime = timer.restart();
 		timeSinceLastUpdate += elapsedTime;
@@ -962,7 +996,7 @@ int main()
 				bool yCollision = (player.getPosition().y + 20 >= playerCollision[i]->getPosition().y) && (player.getPosition().y < playerCollision[i]->getPosition().y + 24);
 				if (xCollision && yCollision){
 					if (playerCollision[i]->attackTimer <= 0){
-						if (player.takeDamage(enemies[eLoop].getAttack())){
+						if (player.takeDamage(playerCollision[i]->getAttack())){
 							//GAME OVER
 							std::cout << "Game Over" << std::endl;
 						}
