@@ -67,7 +67,7 @@ public:
 	void takeStamina(float stamina);
 	void drawHUD();
 	void updateStamina();
-	void updateCoin();
+	void updateCoin(int &iterations);
 	void healHealth();
 	bool getGameOver();
 	bool getOutOfStamina();

@@ -260,23 +260,26 @@ void Hud::updateStamina()
 }
 
 //INCREMENTS THE SPRITE INTRECT AND UPDATES COIN AMOUNT
-void Hud::updateCoin()
+void Hud::updateCoin(int &iterations)
 {
-	if(coinXPos >= 7)
+	if(iterations >= 10)
 	{
-		coinXPos = 0;
-	}
-	else
-	{
-		coinXPos+=1;
+		if(coinXPos >= 7)
+		{
+			coinXPos = 0;
+		}
+		else
+		{
+			coinXPos+=1;
+		}
 	}
 
-	this->coin.setTextureRect(sf::IntRect((coinXPos * coinWidth) + (coinGap * coinXPos)+coinGap,0,coinWidth,coinHeight));
+	coin.setTextureRect(sf::IntRect((coinXPos * coinWidth) + (coinGap * coinXPos)+coinGap,0,coinWidth,coinHeight));
 
 	std::ostringstream buff;
 	buff << _player->getGoldStash();
 
-	this->goldCount.setString(buff.str());
+	goldCount.setString(buff.str());
 
 	_window->draw(coin);
 	_window->draw(goldCount);
