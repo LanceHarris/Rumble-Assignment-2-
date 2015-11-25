@@ -10,7 +10,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include <SFML/Audio.hpp>
 #include "Character.h"
 
 #include <random>
@@ -19,7 +19,7 @@ class Coin
 {
 public:
 	void updateCoinDrop(sf::RenderWindow &window, Player & player, int &iterations);
-	void pickedUpCoin(Player & player);
+	void pickedUpCoin(Player & player, sf::Sound &sound);
 	bool getConsumed();
 
 	Coin();

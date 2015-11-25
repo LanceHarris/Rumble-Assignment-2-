@@ -12,6 +12,11 @@
 
 Hud::Hud(Player &player, sf::RenderWindow &window)
 {
+	if(!font.loadFromFile("Retro Computer_DEMO.ttf"))
+	{
+		cout << "Retro Computer_DEMO.ttf font not found" << endl;
+	}
+
 	gameOver = false;
 	outOfStamina = false;
 	regenSpeed = 0.1;
@@ -121,6 +126,60 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 	this->crowdDial.setScale(0.45,0.45);
 	this->crowdDial.setPosition((crowdMeterOverlay.getPosition().x + crowdMeterOverlay.getGlobalBounds().width/2), (crowdMeterOverlay.getPosition().y + crowdMeterOverlay.getGlobalBounds().height/2));
 	this->crowdDial.setOrigin(crowdDial.getGlobalBounds().width, crowdDial.getGlobalBounds().height + 40); //40 centres it around the hilt gem
+
+		//action bar stuff
+	if(!actionBar.loadFromFile("actionBar.png"))
+	{
+		cout << "actionBar.png texture not found" << endl;
+	}
+	actionBarSprite.setTexture(actionBar);
+	actionBarSprite.setPosition((window.getSize().x/2)-actionBar.getSize().x/2,window.getSize().y - 80);
+
+	itemAmountsHealthPot.setFont(font);
+	itemAmountsStamPot.setFont(font);
+	itemAmountsHealthVit.setFont(font);
+	itemAmountsStamVit.setFont(font);
+	itemAmountsStrVit.setFont(font);
+
+	itemAmountsHealthPot.setCharacterSize(10);
+	itemAmountsStamPot.setCharacterSize(10);
+	itemAmountsHealthVit.setCharacterSize(10);
+	itemAmountsStamVit.setCharacterSize(10);
+	itemAmountsStrVit.setCharacterSize(10);
+
+	sf::Vector2f itemNumPos((window.getSize().x/2)-actionBar.getSize().x/2+40,window.getSize().y-18);
+
+	itemAmountsHealthPot.setPosition(itemNumPos);
+	itemNumPos.x+=57;
+	itemAmountsStamPot.setPosition(itemNumPos);
+	itemNumPos.x+=59;
+	itemAmountsHealthVit.setPosition(itemNumPos);
+	itemNumPos.x+=59;
+	itemAmountsStamVit.setPosition(itemNumPos);
+	itemNumPos.x+=58;
+	itemAmountsStrVit.setPosition(itemNumPos);
+
+	itemAmountsHealthPot.setString("0");
+	itemAmountsStamPot.setString("0");
+	itemAmountsHealthVit.setString("0");
+	itemAmountsStamVit.setString("0");
+	itemAmountsStrVit.setString("0");
+}
+
+void Hud::updateActionbar(int healthPot, int stamPot, int healthVit, int stamVit, int strVit)
+{
+	itemAmountsHealthPot.setString(NumberToString(healthPot));
+	itemAmountsStamPot.setString(NumberToString(stamPot));
+	itemAmountsHealthVit.setString(NumberToString(healthVit));
+	itemAmountsStamVit.setString(NumberToString(stamVit));
+	itemAmountsStrVit.setString(NumberToString(strVit));
+}
+
+string Hud::NumberToString(int Number)
+{
+	stringstream ss;
+	ss << Number;
+	return ss.str();
 }
 
 sf::Sprite & Hud::getCrowdDial()
@@ -227,6 +286,14 @@ void Hud::drawHUD()
 	}
 	_window->draw(crowdMeterOverlay);
 	_window->draw(crowdDial);
+
+	_window->draw(itemAmountsHealthPot);
+	_window->draw(itemAmountsStamPot);
+	_window->draw(itemAmountsHealthVit);
+	_window->draw(itemAmountsStamVit);
+	_window->draw(itemAmountsStrVit);
+
+	_window->draw(actionBarSprite);
 }
 
 //CONSTANTLY INCREASES STAMINA AND CHECKS IF ALL STAMINA HAS BEEN USED UP
@@ -325,11 +392,12 @@ void Hud::increaseMaxSta(int newSta)
 	*/
 }
 
-void Hud::useHealthPotion(int potionLevel, Player &player)
+bool Hud::useHealthPotion(int potionLevel, Player &player)
 {
 	if(current_HP == max_HP)
 	{
 		cout<<"Health already full"<<endl; //full health
+		return false;
 	}
 	else if(player.getHealthPotionNumber() > 0)
 	{
@@ -337,9 +405,15 @@ void Hud::useHealthPotion(int potionLevel, Player &player)
 		int missingHP = max_HP - current_HP;
 
 		if( healAmount < missingHP )
+		{
 			current_HP += healAmount;
+			player.setHealth(current_HP);
+		}
 		else
+		{
 			current_HP = max_HP;
+			player.setHealth(max_HP);
+		}
 
 		player.removeHealthPotion();
 		currLength = ((current_HP * maxLength) / max_HP);
@@ -348,18 +422,23 @@ void Hud::useHealthPotion(int potionLevel, Player &player)
 	else//for both having no health potions and having full health
 	{
 		cout<<"No health potions"<<endl; //remove this later and add an error sound "EH-EH!!" or something :P
+		return false;
 	}
-	
+	return true;
 }
 
-void Hud::useStaminaPotion(int potionLevel, Player &player)
+bool Hud::useStaminaPotion(int potionLevel, Player &player)
 {
 	if(current_Sta == max_Sta)
 	{
 		cout<<"Stamina already full"<<endl; //full health
+		return false;
 	}
 	else if(player.getStaminaPotionNumber() > 0)
 	{	
+		if(current_Sta < 0)
+			current_Sta = 0;
+
 		int healAmount = 40 * potionLevel;
 		int missingSta = max_Sta - current_Sta;
 
@@ -375,7 +454,9 @@ void Hud::useStaminaPotion(int potionLevel, Player &player)
 	else//for having no stamina potions and full stamina
 	{
 		cout<<"No Stamina potions"<<endl; //remove this later and add an error sound "EH-EH!!" or something :P
+		return false;
 	}
+	return true;
 }
 
 void Hud::increaseRegenSpeed()

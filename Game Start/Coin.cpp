@@ -69,7 +69,7 @@ void Coin::updateCoinDrop(sf::RenderWindow & window, Player & player, int &itera
 }
 
 //Adds the effect of coins being added to your stash over time then marks the coin as consumed so the vector can erase it
-void Coin::pickedUpCoin(Player & player)
+void Coin::pickedUpCoin(Player & player, sf::Sound &sound)
 {
 	//If the coin has been pickedUp...
 	if(pickedUp)
@@ -77,6 +77,7 @@ void Coin::pickedUpCoin(Player & player)
 		if(increment < amount)
 		{
 			player.increaseGoldStash(1);
+			sound.play();
 			increment++;
 		}
 		else

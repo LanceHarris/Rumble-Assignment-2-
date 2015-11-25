@@ -53,7 +53,13 @@ int vitStoreFirstVisit = true; //whether or not it's the player's first visit, u
 
 string itemStoreMessages[5] = {"Hello, stranger, it's unusual to see your kind around here... Whatever, This is the item store. Buy something or get out.","This is the item store. Buy something or get out.","My sister keeps bringing me over homemade sweets, I really don't like sweet things but I don't want to hurt her feelings.","You're looking a little beat up, how about buying a health potion?","What do you want?"};
 int itemStoreFirstVisit = true; //whether or not it's the player's first visit, used to display a unique greeting message at index 0
+
+string victoryMessages[10] = {"Good job, Hero. But this is the first of many battles.","Your fight has only just begun, Hero. There are many more battles ahead. Many more opportunities for you to die.","You are powerful, Hero. I can admit that much, but no matter how powerful you are, all humans must grow weary.","Are you tiring of this yet, Hero?","Is it me, or are you slowing down? Nheheheh!","You're starting to annoy me, Hero. Why won't you just die?","Why do you struggle so? Wouldn't it be easier to just... Let go?","There is no end to my minions, Hero. Eventually, one of these times, you WILL fall.","DIE, HERO! JUST DIE! YOU WILL DIE EVEN IF I HAVE TO PUT YOU DOWN MYSELF!","How... Could you... Defeat... Everyone of my..."};
 //**END**//
+
+int roundMessages[10] = {0,0,0,0,0,0,0,0,0,0};
+bool firstRoundDone = false;
+
 
 /*RENDERWINDOW SIZE*/
 int winX = 1080; //45 cells
@@ -84,6 +90,24 @@ int characterSelection; //to record character choice
 
 //**MUSIC AND SOUND**//
 sf::Music music;
+
+sf::SoundBuffer bufferPotion;
+sf::Sound soundPotion;
+
+sf::SoundBuffer bufferCoin;
+sf::Sound soundCoin;
+
+sf::SoundBuffer bufferVitamin;
+sf::Sound soundVitamin;
+
+sf::SoundBuffer bufferError;
+sf::Sound soundError;
+
+sf::SoundBuffer bufferFireball;
+sf::Sound soundFireball;
+
+sf::SoundBuffer bufferAxe;
+sf::Sound soundAxe;
 //**END**//
 
 //**MAPS**//
@@ -317,6 +341,46 @@ void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &w
 			oldManMessagesIndex++;
 	}
 		
+}
+
+void loadSounds()
+{
+	if(!bufferPotion.loadFromFile("potion.ogg"))
+	{
+		cout << "cannot load potion.ogg" << endl;
+	}
+	soundPotion.setBuffer(bufferPotion);
+
+	if(!bufferVitamin.loadFromFile("pill.ogg"))
+	{
+		cout << "cannot load pill.ogg" << endl;
+	}
+	soundVitamin.setBuffer(bufferVitamin);
+
+	if(!bufferCoin.loadFromFile("coin.ogg"))
+	{
+		cout << "cannot load coin.ogg" << endl;
+	}
+	soundCoin.setBuffer(bufferCoin);
+
+	if(!bufferError.loadFromFile("error.ogg"))
+	{
+		cout << "cannot load error.ogg" << endl;
+	}
+	soundError.setBuffer(bufferError);
+
+	if(!bufferFireball.loadFromFile("fireball.ogg"))
+	{
+		cout << "cannot load fireball.ogg" << endl;
+	}
+	soundFireball.setBuffer(bufferFireball);
+	soundFireball.setVolume(30);
+
+	if(!bufferAxe.loadFromFile("axe.ogg"))
+	{
+		cout << "cannot load axe.ogg" << endl;
+	}
+	soundAxe.setBuffer(bufferAxe);
 }
 
 int main()
@@ -598,6 +662,8 @@ int main()
 	}
 	std::vector<Coin> droppedCoins;
 
+	loadSounds();
+
 	sf::Event event;
 
     while (window.isOpen())
@@ -645,7 +711,7 @@ int main()
 						player.setSprite(choice);
 						player.setChoice(choice);
 						HUD.setStaminaBarAttributes(choice);
-
+						/*
 						if(choice == 0)
 						{
 							health = 60;
@@ -658,7 +724,7 @@ int main()
 						}
 						player.setStamina(stamina);
 						player.setHealth(health);
-
+						*/
 						break;
 					}
 				}
@@ -735,11 +801,18 @@ int main()
 					break;
 
 				case (sf::Keyboard::Num1): //Use health potion
-					HUD.useHealthPotion(1,player);
+					
+					if(HUD.useHealthPotion(1,player))
+						soundPotion.play();
+					else
+						soundError.play();
 					break;
 
 				case (sf::Keyboard::Num2): //Use stamina potion
-					HUD.useStaminaPotion(1,player);
+					if(HUD.useStaminaPotion(1,player))
+						soundPotion.play();
+					else
+						soundError.play();
 					break;
 
 					//**VITAMIN USAGE KEYBINDINGS**//
@@ -749,10 +822,11 @@ int main()
 						HUD.increaseMaxHP(10);
 						player.useHealthVitamin();
 						player.removeHealthVitamin();
+						soundVitamin.play();
 					}
 					else
 					{
-						//error sound
+						soundError.play();
 					}
 					break;
 
@@ -763,10 +837,11 @@ int main()
 						player.useStaminaVitamin();
 						player.removeStaminaVitamin();
 						HUD.increaseRegenSpeed();
+						soundVitamin.play();
 					}
 					else
 					{
-						//error sound
+						soundError.play();
 					}
 					break;
 
@@ -775,10 +850,11 @@ int main()
 					{
 						player.useStrengthVitamin();
 						player.removeStrengthVitamin();
+						soundVitamin.play();
 					}
 					else
 					{
-						//error sound
+						soundError.play();
 					}
 					break;
 				}
@@ -804,6 +880,11 @@ int main()
 							projectiles.push_back( Projectile(true, player.getFacing(), player.getAttack(), player.getSprite().getPosition(), 9, missileTexture, choice));
 							HUD.takeStamina(8);
 							effect.weaponTrail();
+							if(choice == 0)
+								soundAxe.play();
+							else
+								soundFireball.play();
+
 							break;
 						}
 						else
@@ -980,6 +1061,18 @@ int main()
 
 			map.drawMap(window,dungeonStage,shopStage); //draw stage sprite overlay
 
+			//Victory messages stuff
+			if(!firstRoundDone && roundActive) //whether or not first round has begun
+				firstRoundDone = true;
+
+			if(enemies.size() == 0 && roundMessages[currentRound] == 0 && firstRoundDone)
+			{
+				textBox.setMessage(victoryMessages[currentRound],window);
+				textBox.redrawChat(true);
+				roundMessages[currentRound] = 1;
+			}
+			//Victory messages stuff end
+
 			//**ENEMY DROPS**//
 			for(int i = 0; i < droppedCoins.size(); i ++)
 			{
@@ -988,11 +1081,12 @@ int main()
 					if (droppedCoins[i].getConsumed())
 					{
 						droppedCoins.erase(droppedCoins.begin()+i);
+						
 					}
 					else
 					{
 						droppedCoins[i].updateCoinDrop(window, player, iterations); //Draws the coins
-						droppedCoins[i].pickedUpCoin(player);						//adds the amount to your stash over time
+						droppedCoins[i].pickedUpCoin(player,soundCoin);						//adds the amount to your stash over time
 					}
 				}
 			}
@@ -1159,6 +1253,7 @@ int main()
 			//DISPLAY HUD LAST OVER TOP OF EVERYTHING ELSE EXCEPT CHATBOXES
 			HUD.drawHUD();
 			HUD.updateCoin(iterations);
+			HUD.updateActionbar(player.getHealthPotionNumber(),player.getStaminaPotionNumber(),player.getHealthVitaminNumber(),player.getStaminaVitaminNumber(),player.getStrengthVitaminNumber());
 
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 

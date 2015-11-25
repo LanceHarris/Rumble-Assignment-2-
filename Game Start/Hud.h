@@ -49,6 +49,15 @@ private:
 	sf::Texture meterTexture3;
 	sf::Texture meterTexture4;
 
+	sf::Texture actionBar;
+	sf::Sprite actionBarSprite;
+	sf::Text itemAmountsHealthPot;
+	sf::Text itemAmountsStamPot;
+	sf::Text itemAmountsHealthVit;
+	sf::Text itemAmountsStamVit;
+	sf::Text itemAmountsStrVit;
+	sf::Font font;
+
 	sf::Texture dialTexture;
 
 	//====GOLD COUNT====
@@ -77,8 +86,8 @@ public:
 	void increaseMaxSta(int newSta);
 
 	//Potions
-	void useHealthPotion(int potionLevel, Player &player);
-	void useStaminaPotion(int potionLevel, Player &player);
+	bool useHealthPotion(int potionLevel, Player &player);
+	bool useStaminaPotion(int potionLevel, Player &player);
 	void increaseRegenSpeed();
 
 	//Crowd Meter
@@ -86,6 +95,9 @@ public:
 	void updateCrowdMeter();
 	void increaseCrowdMeter(int amount);
 	float calculateMultiplier();
+
+	string NumberToString( int Number); //for conversion of int to strings
+	void updateActionbar(int healthPot, int stamPot, int healthVit, int stamVit, int strVit);
 
 	~Hud(void);
 };
