@@ -68,7 +68,7 @@ public:
 	int getCurrentItem();
 	int getMaxItems();
 	void moveSelection(int direction);
-	void purchaseItem(Player &player);
+	bool purchaseItem(Player &player);
 	string getInfo();
 	~Store(void); 
 };

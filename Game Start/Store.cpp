@@ -213,7 +213,6 @@ int Store::getMaxItems()
 
 void Store::moveSelection(int direction) 
 {
-	cout << currentItem << endl;
 
 	if(direction == 0)
 		currentItem-=1; //up
@@ -235,12 +234,9 @@ void Store::moveSelection(int direction)
 		secondItem.setColor(sf::Color::Yellow);
 	else if(currentItem == 3)
 		thirdItem.setColor(sf::Color::Yellow);
-
-	
-	
 }
 
-void Store::purchaseItem(Player &player)
+bool Store::purchaseItem(Player &player)
 {
 	if(storeType == 0)
 	{
@@ -252,10 +248,12 @@ void Store::purchaseItem(Player &player)
 				player.giveHealthPotion();
 				player.decreaseGoldStash(HEALTHPOTPRICE);
 				cout << "You purchased a Health Potion" << endl;
+				return true;
 			}
 			else
 			{
 				cout << "Not enough gold";
+				return false;
 			}
 			break;
 		case 2:
@@ -264,10 +262,12 @@ void Store::purchaseItem(Player &player)
 				player.giveStaminaPotion();
 				player.decreaseGoldStash(STAMPOTPRICE);
 				cout << "You purchased a Stamina Potion" << endl;
+				return true;
 			}
 			else
 			{
 				cout << "Not enough gold";
+				return false;
 			}
 			break;
 		}
@@ -282,10 +282,12 @@ void Store::purchaseItem(Player &player)
 				player.giveHealthVitamin();
 				player.decreaseGoldStash(HEALTHVITPRICE);
 				cout << "You purchased a Health Vitamin" << endl;
+				return true;
 			}
 			else
 			{
 				cout << "Not enough gold";
+				return false;
 			}
 			break;
 		case 2:
@@ -294,10 +296,12 @@ void Store::purchaseItem(Player &player)
 				player.giveStaminaVitamin();
 				player.decreaseGoldStash(STAMVITPRICE);
 				cout << "You purchased a Stamina Vitamin" << endl;
+				return true;
 			}
 			else
 			{
 				cout << "Not enough gold";
+				return false;
 			}
 			break;
 		case 3:
@@ -306,10 +310,12 @@ void Store::purchaseItem(Player &player)
 				player.giveStrengthVitamin();
 				player.decreaseGoldStash(STRENGTHVITPRICE);
 				cout << "You purchased a Strength Vitamin" << endl;
+				return true;
 			}
 			else
 			{
 				cout << "Not enough gold";
+				return false;
 			}
 			break;
 		}

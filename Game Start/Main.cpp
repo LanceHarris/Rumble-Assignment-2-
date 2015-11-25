@@ -89,7 +89,10 @@ int characterSelection; //to record character choice
 //**END**//
 
 //**MUSIC AND SOUND**//
-sf::Music music;
+sf::Music musicAmbient;
+sf::Music musicStore;
+sf::Music musicGameOver;
+sf::Music musicCombat;
 
 sf::SoundBuffer bufferPotion;
 sf::Sound soundPotion;
@@ -108,6 +111,12 @@ sf::Sound soundFireball;
 
 sf::SoundBuffer bufferAxe;
 sf::Sound soundAxe;
+
+sf::SoundBuffer bufferChangeSelection;
+sf::Sound soundChangeSelection;
+
+sf::SoundBuffer bufferNewGame;
+sf::Sound soundNewGame;
 //**END**//
 
 //**MAPS**//
@@ -201,26 +210,33 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 void startMusic()
 {
 		//if(!(music.openFromFile("DST-Orchards.ogg"))) //load music file
-		if(!music.openFromFile("DST-TheDying.ogg"))
+		if(!musicAmbient.openFromFile("ambientcave.ogg"))
 		{
 			printf("Could not load");
 		}
+		musicAmbient.setVolume(80);         //set music volume
+		musicAmbient.setLoop(true);         //set music to loop
 
-		music.setVolume(20);         //set music volume
-		music.setLoop(true);         //set music to loop
-		//music.setPitch(1);		 //set music pitch
-		music.play();				 //play the music
-}
+		if(!musicStore.openFromFile("store.ogg"))
+		{
+			printf("Could not load");
+		}
+		musicStore.setVolume(30);         //set music volume
+		musicStore.setLoop(true);         //set music to loop
 
-void startGameOverMusic()
-{
-	if(!music.openFromFile("DST-Xend.ogg"))
-	{
-		std::cout<<"Could not load DST-Xend.ogg"<<std::endl;
-	}
-	music.setVolume(20);         //set music volume
-	music.setLoop(true);         //set music to loop
-	music.play();				 //play the music
+		if(!musicGameOver.openFromFile("DST-Xend.ogg"))
+		{
+			std::cout<<"Could not load DST-Xend.ogg"<<std::endl;
+		}
+		musicGameOver.setVolume(20);         //set music volume
+		musicGameOver.setLoop(true);         //set music to loop
+
+		if(!musicCombat.openFromFile("DST-TheDying.ogg"))
+		{
+			std::cout<<"Could not load DST-TheDying"<<std::endl;
+		}
+		musicCombat.setVolume(20);         //set music volume
+		musicCombat.setLoop(true);         //set music to loop
 }
 
 void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch, sf::Texture *itemWallFront, sf::Texture *statsWallFront, sf::Texture *aBarrel, sf::Texture *topPillar, sf::Texture *bottomPillar, sf::Texture *aDoor, sf::Texture *oldMan)
@@ -368,6 +384,7 @@ void loadSounds()
 		cout << "cannot load error.ogg" << endl;
 	}
 	soundError.setBuffer(bufferError);
+	soundError.setVolume(45);
 
 	if(!bufferFireball.loadFromFile("fireball.ogg"))
 	{
@@ -381,6 +398,19 @@ void loadSounds()
 		cout << "cannot load axe.ogg" << endl;
 	}
 	soundAxe.setBuffer(bufferAxe);
+
+	if(!bufferChangeSelection.loadFromFile("changeSelection.ogg"))
+	{
+		cout << "cannot load axe.ogg" << endl;
+	}
+	soundChangeSelection.setBuffer(bufferChangeSelection);
+
+	if(!bufferNewGame.loadFromFile("newGame.ogg"))
+	{
+		cout << "cannot load axe.ogg" << endl;
+	}
+	soundNewGame.setBuffer(bufferNewGame);
+	soundNewGame.setVolume(30);
 }
 
 int main()
@@ -663,6 +693,7 @@ int main()
 	std::vector<Coin> droppedCoins;
 
 	loadSounds();
+	musicAmbient.play();
 
 	sf::Event event;
 
@@ -685,28 +716,33 @@ int main()
 					case (sf::Keyboard::D )://Change selection
 						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y +7);
 						characterSelection = 2;
+						soundChangeSelection.play();
 						choice = 0;
 						break;
 
 					case (sf::Keyboard::Right )://Change selection
 						selectionOutline.setPosition(warriorLoc.x - 10, warriorLoc.y +7);
 						characterSelection = 2;
+						soundChangeSelection.play();
 						choice = 0;
 						break;
 
 					case (sf::Keyboard::A ): //Change selection
 						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y +7);
 						characterSelection = 1;
+						soundChangeSelection.play();
 						choice = 1;
 						break;
 
 					case (sf::Keyboard::Left ): //Change selection
 						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y +7);
 						characterSelection = 1;
+						soundChangeSelection.play();
 						choice = 1;
 						break;
 
 					case (sf::Keyboard::R): //Select character
+						soundNewGame.play();
 						state = 1;
 						player.setSprite(choice);
 						player.setChoice(choice);
@@ -767,9 +803,11 @@ int main()
 					if(textBox.getRedraw() == true)//if textBox is being drawn, procede to next textBox
 					{
 						textBox.setNext(true);
+						soundChangeSelection.play();
 					}
 					else if(itemNotificationBox.getRedraw() == true)
 					{
+						soundChangeSelection.play();
 						itemNotificationBox.setNext(true);
 					}
 					else
@@ -896,6 +934,7 @@ int main()
 			}
         }
 
+
 		//SPAWN ENEMIES
 		int spawnAt = std::rand() % SPAWNLOACTIONS;
 		if (!infinite){
@@ -1021,6 +1060,8 @@ int main()
 			//Check to see if player is entering a store
 			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
 			{
+				musicAmbient.stop();
+				musicStore.play();
 				if(itemStoreFirstVisit == true)
 				{
 					textBox.setMessage(itemStoreMessages[0],window);
@@ -1037,6 +1078,8 @@ int main()
 			}
 			else if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore) ) //for item store
 			{
+				musicAmbient.stop();
+				musicStore.play();
 				if(vitStoreFirstVisit == true)
 				{
 					textBox.setMessage(vitaminStoreMessages[0],window);
@@ -1176,9 +1219,11 @@ int main()
 							sf::Sound deathScream;
 							deathScream.setBuffer(buffer);
 							// Play the sound
-							deathScream.play();
 
-							startGameOverMusic();
+							musicAmbient.stop();
+							deathScream.play();
+							musicGameOver.play();
+
 							player.setDead(choice);
 							effect.zoomFreeze(40,5);
 						
@@ -1292,10 +1337,12 @@ int main()
 						//Other Controls
 						case(sf::Keyboard::S):
 							itemStore.moveSelection(1);
+							soundChangeSelection.play();
 							break;
 
 						case(sf::Keyboard::W):
 							itemStore.moveSelection(0);
+							soundChangeSelection.play();
 							break;
 
 						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
@@ -1303,10 +1350,15 @@ int main()
 							textBox.redrawChat(false);
 							player.setPosition(11,12);
 							player.turn(2);
+							musicStore.stop();
+							musicAmbient.play();
 							break;
 
 						case (sf::Keyboard::R): //Chat box
-							itemStore.purchaseItem(player);
+							if(itemStore.purchaseItem(player))
+								soundNewGame.play();
+							else
+								soundError.play();
 							break;
 
 						case (sf::Keyboard::X):
@@ -1316,12 +1368,16 @@ int main()
 
 						}
 					}
-					switch (event.key.code)
+					else
 					{
-					case (sf::Keyboard::R): //Chat box
-						textBox.setNext(true);
-						break;
-					}		
+						switch (event.key.code)
+						{
+						case (sf::Keyboard::R): //Chat box
+							soundChangeSelection.play();
+							textBox.setNext(true);
+							break;
+						}		
+					}
 				}
 			}
 		
@@ -1358,10 +1414,12 @@ int main()
 						//Other Controls
 						case(sf::Keyboard::S):
 							vitaminStore.moveSelection(1);
+							soundChangeSelection.play();
 							break;
 
 						case(sf::Keyboard::W):
 							vitaminStore.moveSelection(0);
+							soundChangeSelection.play();
 							break;
 
 						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
@@ -1369,10 +1427,15 @@ int main()
 							textBox.redrawChat(false);
 							player.setPosition(32,12);
 							player.turn(2);
+							musicStore.stop();
+							musicAmbient.play();
 							break;
 
 						case (sf::Keyboard::R): //Chat box
-							vitaminStore.purchaseItem(player);
+							if(vitaminStore.purchaseItem(player))
+								soundNewGame.play();
+							else
+								soundError.play();
 							break;
 
 						case (sf::Keyboard::X):
@@ -1381,11 +1444,15 @@ int main()
 							break;
 						}
 					}
-					switch (event.key.code)
+					else
 					{
-					case (sf::Keyboard::R): //Chat box
-						textBox.setNext(true);
-						break;
+						switch (event.key.code)
+						{
+						case (sf::Keyboard::R): //Chat box
+							soundChangeSelection.play();
+							textBox.setNext(true);
+							break;
+						}
 					}
 				}
 			}
@@ -1430,33 +1497,39 @@ int main()
 				//Other Controls
 				case (sf::Keyboard::D )://Change selection - NO
 					selectionOutline.setPosition(noText.getPosition().x - 30, noText.getPosition().y + 7);
+					soundChangeSelection.play();
 					retryChoice = 0;
 					break;
 
 				case (sf::Keyboard::Right )://Change selection - NO
 					selectionOutline.setPosition(noText.getPosition().x - 30, noText.getPosition().y + 7);
+					soundChangeSelection.play();
 					retryChoice = 0;
 					break;
 
 				case (sf::Keyboard::A ): //Change selection - YES
 					selectionOutline.setPosition(yesText.getPosition().x - 7, noText.getPosition().y + 7);
+					soundChangeSelection.play();
 					retryChoice = 1;
 					break;
 
 				case (sf::Keyboard::Left ): //Change selection - YES
 					selectionOutline.setPosition(yesText.getPosition().x - 7, noText.getPosition().y + 7);
+					soundChangeSelection.play();
 					retryChoice = 1;
 					break;
 
 				case (sf::Keyboard::R): //Select character
 					if(retryChoice == 1)
 					{
+						soundNewGame.play();
 						//will need to reset more values than this
 						state=0;
 						selectionOutline.setSize(sf::Vector2f(warriorBox.getSize().x,warriorBox.getSize().y));
 						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y+7);
 						enemies.clear();
-						startMusic();
+						musicAmbient.play();
+						musicGameOver.stop();
 					}
 					//Go back to main menu??
 					else
