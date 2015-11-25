@@ -42,6 +42,7 @@ Player size after 1.5 scaling: 24
 //**CHATBOX MESSAGES**//
 string introductionMessage = "Welcome to Rumble! \n\nPlease choose a character and press 'r' to confirm your \nselection."; //character select screen message
 string itemNotificationMessage = "You recieved a "; //prefix for recieving an item
+string gameOverMessages[10] = {"Black Knight: 'Tis but a scratch.\nKing Arthur: A scratch? Your arm's off!", "Your mother was a hamster and your father smelt\nof elderberries!","Bring out yer dead.","King Arthur: Look, you stupid bastard, you've got no arms!\nBlack Knight: Yes I have.\nKing Arthur: Look!\nBlack Knight: It's just a flesh wound.","Please! This is supposed to be a happy occasion.\nLet's not bicker and argue over who killed who.","Look, that rabbit's got a vicious streak a mile wide!\nIt's a killer!","Dennis: Come and see the violence inherent in the system.\nHelp! Help! I'm being repressed!\nKing Arthur: Bloody peasant!","We are now the Knights who say...\n\"Ekki-ekki-ekki-ekki-PTANG. Zoom-Boing, z'nourrwringmm.\"","King Arthur: Who are you who can summon fire\nwithout flint or tinder?\nTim: There are some who call me... Tim.","On second thought, let's not go to Camelot. It is a silly place."};
 
 string oldManMessages[4] = {"Greetings, young one. What brings you down here?","Perhaps you're lost?","The only way out of here is to defeat all the enemies.","Here's a little something to help you with your efforts."};
 int oldManMessagesIndex = 0; //used to determine which message is being displayed
@@ -175,17 +176,27 @@ int secondMap[Map::ROW_COUNT][Map::COLUMN_COUNT] = { // Shop hub
 /*LOAD AND START ALL SOUND EFFECTS AND MUSIC*/
 void startMusic()
 {
-		if(!(music.openFromFile("DST-Orchards.ogg"))) //load music file
+		//if(!(music.openFromFile("DST-Orchards.ogg"))) //load music file
+		if(!music.openFromFile("DST-TheDying.ogg"))
 		{
 			printf("Could not load");
 		}
 
-		
 		music.setVolume(20);         //set music volume
 		music.setLoop(true);         //set music to loop
 		//music.setPitch(1);		 //set music pitch
 		music.play();				 //play the music
+}
 
+void startGameOverMusic()
+{
+	if(!music.openFromFile("DST-Xend.ogg"))
+	{
+		std::cout<<"Could not load DST-Xend.ogg"<<std::endl;
+	}
+	music.setVolume(20);         //set music volume
+	music.setLoop(true);         //set music to loop
+	music.play();				 //play the music
 }
 
 void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch, sf::Texture *itemWallFront, sf::Texture *statsWallFront, sf::Texture *aBarrel, sf::Texture *topPillar, sf::Texture *bottomPillar, sf::Texture *aDoor, sf::Texture *oldMan)
@@ -432,6 +443,28 @@ int main()
 	itemNotificationBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::Green);
 	itemNotificationBox.SetCharaterLineLimit(55);
 
+	//GAME OVER TEXT BOX & FONT
+	ChatBox textBox2 = ChatBox(winX,winY);
+	sf::Font gameOverFont;
+	if(!gameOverFont.loadFromFile("8-BIT WONDER.ttf"))
+	{
+		std::cout << "Error masking image resource 8-BIT WONDER.ttf" << std::endl;
+	}
+	sf::Text yesText("Yes", gameOverFont, 50);
+	sf::Text noText("No", gameOverFont, 50);
+	sf::Text continueText("Continue", gameOverFont, 50);
+	int retryChoice = 1;
+	int randomMessage = 0;
+
+	// Declare a new sound buffer
+	sf::SoundBuffer buffer;
+	// Load it from a file
+	if (!buffer.loadFromFile("DeathScream.wav"))
+	{
+		std::cout<< "Error masking image resource DeathScream.wav" <<std::endl;
+	}
+
+
 	//CREATE TEXTBOX FOR DISPLAYING DIALOGUE
 	ChatBox textBox = ChatBox(winX,winY);
 	textBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
@@ -612,6 +645,20 @@ int main()
 						player.setSprite(choice);
 						player.setChoice(choice);
 						HUD.setStaminaBarAttributes(choice);
+
+						if(choice == 0)
+						{
+							health = 60;
+							stamina = 30;
+						}
+						else
+						{
+							health = 40;
+							stamina = 50;
+						}
+						player.setStamina(stamina);
+						player.setHealth(health);
+
 						break;
 					}
 				}
@@ -1027,9 +1074,45 @@ int main()
 				bool yCollision = (player.getPosition().y + 20 >= playerCollision[i]->getPosition().y) && (player.getPosition().y < playerCollision[i]->getPosition().y + 24);
 				if (xCollision && yCollision){
 					if (playerCollision[i]->attackTimer <= 0){
-						if (player.takeDamage(playerCollision[i]->getAttack())){
+						if (player.takeDamage(playerCollision[i]->getAttack()))
+						{
 							//GAME OVER
-							std::cout << "Game Over" << std::endl;
+
+							//Death scream
+							sf::Sound deathScream;
+							deathScream.setBuffer(buffer);
+							// Play the sound
+							deathScream.play();
+
+							startGameOverMusic();
+							player.setDead(choice);
+							effect.zoomFreeze(40,5);
+						
+							view1.reset(sf::FloatRect(0,0,winX,winY));
+						
+							textBox2.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
+							
+							int prevNum = randomMessage;
+							randomMessage = rand()%9;
+							//To fix an annoying bug where if the same number was chosen twice, no message would show
+							while(randomMessage == prevNum)
+							{
+								randomMessage = rand()%9; //if it's the same generate a new number
+							}
+
+							//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
+							textBox2.SetCharaterLineLimit(55);
+							textBox2.setMessage(gameOverMessages[randomMessage],window);
+							textBox2.redrawChat(false);//do not redraw textbox
+							
+							yesText.setPosition(sf::Vector2f(winX*0.2f, winY-450.0f));
+							noText.setPosition(sf::Vector2f(winX*0.8f - 150, winY-450.0f));
+							continueText.setPosition(sf::Vector2f(winX*0.33f, winY-750.0f));
+							selectionOutline.setSize(sf::Vector2f(yesText.getGlobalBounds().width+10, yesText.getGlobalBounds().height+5));
+							selectionOutline.setPosition(yesText.getPosition().x - 7, noText.getPosition().y + 7);
+							
+							retryChoice = 1;
+							state = 4;	
 						}
 						std::cout << "ouch!!   Player Health: "<< player.getHealth() << std::endl;
 						effect.blood(player);
@@ -1069,7 +1152,7 @@ int main()
 			}
 			//**END**//
 
-			//window.draw(lightingSprite); //draw lighting/shadow sprite
+			window.draw(lightingSprite); //draw lighting/shadow sprite
 
 			window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
 
@@ -1226,6 +1309,76 @@ int main()
 		textBox.displayMessage(window);
 		
 		window.display();
+	}
+
+	else if(state == 4)//GAME OVER
+	{
+		window.clear();
+		window.draw(selectionOutline);
+		window.draw(yesText);
+		window.draw(noText);
+		window.draw(continueText);
+		textBox2.displayConstantMessage(window);
+		window.display();
+
+		while (window.pollEvent(event))
+		{
+
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+			else if (event.type == sf::Event::KeyPressed)
+			{
+				switch (event.key.code)
+				{
+				//Other Controls
+				case (sf::Keyboard::D )://Change selection - NO
+					selectionOutline.setPosition(noText.getPosition().x - 30, noText.getPosition().y + 7);
+					retryChoice = 0;
+					break;
+
+				case (sf::Keyboard::Right )://Change selection - NO
+					selectionOutline.setPosition(noText.getPosition().x - 30, noText.getPosition().y + 7);
+					retryChoice = 0;
+					break;
+
+				case (sf::Keyboard::A ): //Change selection - YES
+					selectionOutline.setPosition(yesText.getPosition().x - 7, noText.getPosition().y + 7);
+					retryChoice = 1;
+					break;
+
+				case (sf::Keyboard::Left ): //Change selection - YES
+					selectionOutline.setPosition(yesText.getPosition().x - 7, noText.getPosition().y + 7);
+					retryChoice = 1;
+					break;
+
+				case (sf::Keyboard::R): //Select character
+					if(retryChoice == 1)
+					{
+						//will need to reset more values than this
+						state=0;
+						selectionOutline.setSize(sf::Vector2f(warriorBox.getSize().x,warriorBox.getSize().y));
+						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y+7);
+						enemies.clear();
+						startMusic();
+					}
+					//Go back to main menu??
+					else
+					{
+						window.close();
+					}					
+					break;
+				}
+			}
+			window.clear();
+			window.draw(selectionOutline);
+			window.draw(yesText);
+			window.draw(noText);
+			window.draw(continueText);
+			textBox2.displayConstantMessage(window);
+			window.display();
+			}
 		}
 	}
     return 0;

@@ -353,6 +353,18 @@ void Character::setSprite(sf::Sprite sprite)
 	this->sprite = sprite;
 }
 
+void Character::setDead(int choice)
+{
+	if(choice == 0)
+	{
+		sprite.setTextureRect(sf::IntRect((0 * 16) + (1 * 0)+1 ,(4 * 16) + (4 * 1)+1  ,16,16));
+	}
+	else if(choice == 1)
+	{
+		sprite.setTextureRect(sf::IntRect((7 * 16) + (1 * 7)+1 ,(4 * 16) + (4 * 1)+1  ,16,16));
+	}
+}
+
 Character::~Character()
 {
 }

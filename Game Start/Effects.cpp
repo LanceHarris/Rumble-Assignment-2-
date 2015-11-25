@@ -77,7 +77,7 @@ void Effects::draw()
 	_window->clear();
 	lightingSprite.setPosition(_player->getSprite().getPosition().x, _player->getSprite().getPosition().y);
 	_window->draw(_map->getSprite());
-	_map->drawMap(*_window,dungeonStage,shopStage);
+	//_map->drawMap(*_window,dungeonStage,shopStage);
 	_window->draw(lightingSprite);
 	_window->draw(_player->getSprite());
 
@@ -232,7 +232,7 @@ void Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
 				_view->zoom(step);
 				_window->setView(*_view);
 
-				_view->setCenter(_player->getSprite().getPosition().x, _player->getSprite().getPosition().y);
+				_view->setCenter(_player->getSprite().getPosition().x+12, _player->getSprite().getPosition().y+12);
 
 				draw();
 
@@ -251,7 +251,7 @@ void Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
 				_view->zoom(step);
 				_window->setView(*_view);
 
-				_view->setCenter(_player->getSprite().getPosition().x, _player->getSprite().getPosition().y);
+				_view->setCenter(_player->getSprite().getPosition().x+12, _player->getSprite().getPosition().y+12);
 
 				draw();
 
@@ -259,9 +259,8 @@ void Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
 			}
 		}
 	}
-
 	//Helpful to know how long it took to zoom!
-	std::cout << clock2.getElapsedTime().asSeconds() << std::endl;
+	//std::cout << clock2.getElapsedTime().asSeconds() << std::endl;
 }
 
 //Initialises the screen shaking data ready for the update to run

@@ -66,6 +66,8 @@ public:
 
 	int getFacing();
 
+	void setDead(int choice);
+
 	Character(int health, float speed, int stamina);
 	~Character();
 
