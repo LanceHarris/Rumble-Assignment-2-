@@ -659,6 +659,8 @@ int main()
 		{20,4}, //Wave 9
 	};
 
+	int thisRound[2];
+
 	sf::Clock spawnTimer;
 	int SPAWNWAIT = 2000;
 
@@ -819,10 +821,6 @@ int main()
 				case (sf::Keyboard::I): //Debug Information
 					debug = true;
 					break;
-
-				case (sf::Keyboard::M):
-					infinite = true;
-					break;
 				case (sf::Keyboard::P): //Spawn Enemy
 					enemies.push_back(newEnemy_Zombie);
 					break;
@@ -830,7 +828,13 @@ int main()
 				case (sf::Keyboard::Space):
 					if (!(store && roundActive)){
 						roundActive = true;
-						currentRound ++;
+						if (currentRound < 10){
+							currentRound ++;
+							thisRound[1] = rounds[currentRound][1];
+							thisRound[0] = rounds[currentRound][0];
+						}else{
+							infinite = true;
+						}
 					}
 					break;
 				
@@ -940,25 +944,25 @@ int main()
 		if (!infinite){
 			if (spawnTimer.getElapsedTime().asMilliseconds() > SPAWNWAIT && roundActive ) {
 				int i = 0;
-				while (i < SPAWNLOACTIONS && rounds[currentRound][0] > 0){
+				while (i < SPAWNLOACTIONS && thisRound[0] > 0){
 					if (spawnAt == SPAWNLOACTIONS){spawnAt = 0;}
 					newEnemy_Zombie.setPosition(spawnPoints[spawnAt].x,spawnPoints[spawnAt].y);
 					enemies.push_back(newEnemy_Zombie);
-					rounds[currentRound][0] --;
+					thisRound[0] --;
 					i++;
 					spawnAt ++;
 				}
-				while (i < SPAWNLOACTIONS && rounds[currentRound][1] > 0){
+				while (i < SPAWNLOACTIONS && thisRound[1] > 0){
 					if (spawnAt == SPAWNLOACTIONS){spawnAt = 0;}
 					newEnemy_Boss.setPosition(spawnPoints[spawnAt].x,spawnPoints[spawnAt].y);
 					enemies.push_back(newEnemy_Boss);
-					rounds[currentRound][1] --;
+					thisRound[1] --;
 					i++;
 					spawnAt ++;
 				}
 				spawnTimer.restart();
 			}
-			if (enemies.size() == 0 && rounds[currentRound][1] == 0 && rounds[currentRound][1] == 0){
+			if (enemies.size() == 0 && thisRound[1] == 0 && thisRound[1] == 0){
 				roundActive = false;
 			}
 		}else{
