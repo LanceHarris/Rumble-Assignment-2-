@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Character.h"
+#include "Hud.h"
 
 #include <random>
 
@@ -19,7 +20,7 @@ class Coin
 {
 public:
 	void updateCoinDrop(sf::RenderWindow &window, Player & player, int &iterations);
-	void pickedUpCoin(Player & player, sf::Sound &sound);
+	void pickedUpCoin(Player & player, sf::Sound &sound, Hud & hud);
 	bool getConsumed();
 
 	Coin();

@@ -110,9 +110,11 @@ public:
 	void setSprite(int choice);
 	int getChoice();
 	void setChoice(int choice);
+	void fullHealth(int health);
 
 	//Potion stuff//
 	int getHealthPotionNumber();
+	void setHealthPotionNumber(int amount);
 	int getStaminaPotionNumber();
 	void removeHealthPotion();
 	void removeStaminaPotion();
@@ -135,6 +137,7 @@ public:
 
 	//GOLD STASH STUFF
 	int getGoldStash();
+	void setGoldStash(int amount);
 	void increaseGoldStash(int newGold);
 	void decreaseGoldStash(int value);
 

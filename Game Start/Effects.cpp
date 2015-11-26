@@ -125,8 +125,9 @@ void Effects::wait(int seconds)
 
 //Zooms in or out depending on your input when calling the method - freezes the player while doing so
 //interval is by default set to 0.05 (see header file), but can be altered to anything when calling the method (though anything over 0.05 becomes jumpy)
-void Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
+bool Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
 {
+	bool finished = false;
 	sf::Clock clock;
 	sf::Time time = sf::Time::Zero;
 
@@ -239,6 +240,7 @@ void Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
 				clock.restart();
 			}
 		}
+		finished = true;
 	}
 	//Zooming out
 	else if(windowXPercent >= _view->getSize().x && windowYPercent >= _view->getSize().y)
@@ -258,7 +260,9 @@ void Effects::zoomFreeze(float maxZoomPercent, float seconds, float interval)
 				clock.restart();
 			}
 		}
+		finished = true;
 	}
+	return finished;
 	//Helpful to know how long it took to zoom!
 	//std::cout << clock2.getElapsedTime().asSeconds() << std::endl;
 }

@@ -8,7 +8,7 @@
 */
 
 /*
-TO DO: 
+WOULD BE NICE TO HAVE: 
 1. Hub area - interactable character (shopkeep)/shops - requires UI (for all menus), Item(?) and NPC classes
 2. Player - stats/levelling up; Resilience (HP), Endurance (stamina), Toughness (defence), Fastness (speed), Attack (Strength?) - Add to Player class
 3. Enemy experience (based on level) - Add to enemy class
@@ -117,6 +117,20 @@ sf::Sound soundChangeSelection;
 
 sf::SoundBuffer bufferNewGame;
 sf::Sound soundNewGame;
+
+sf::SoundBuffer bufferTakeDamage;
+sf::Sound soundTakeDamage;
+
+sf::SoundBuffer bufferDeathScream;
+sf::Sound soundDeathScream;
+
+sf::SoundBuffer bufferRoundStart;
+sf::Sound soundRoundStart;
+
+//Added but not implemented
+sf::SoundBuffer bufferCrowdMeter;
+sf::Sound soundCrowdMeter;
+
 //**END**//
 
 //**MAPS**//
@@ -310,34 +324,34 @@ void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &w
 	int successful = false;
 	switch(player.getFacing())
 	{
-						case 0:
-							if(map.isTile( player.getRow()-1,(player.getSprite().getPosition().x+13)/24,Map::Tile::oldMan))
-							{
-								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
-								successful = true;
-							}
-							break;
-						case 1:
-							if(map.isTile(player.getRow(),player.getColumn()+1,Map::Tile::oldMan))
-							{
-								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
-								successful = true;
-							}
-							break;
-						case 2:
-							if(map.isTile(player.getRow()+1,player.getColumn(),Map::Tile::oldMan))
-							{
-								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
-								successful = true;
-							}
-							break;
-						case 3:
-							if(map.isTile(player.getRow(),player.getColumn()-1,Map::Tile::oldMan))
-							{
-								textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
-								successful = true;
-							}
-							break;
+		case 0:
+			if(map.isTile( player.getRow()-1,(player.getSprite().getPosition().x+13)/24,Map::Tile::oldMan))
+			{
+				textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+				successful = true;
+			}
+			break;
+		case 1:
+			if(map.isTile(player.getRow(),player.getColumn()+1,Map::Tile::oldMan))
+			{
+				textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+				successful = true;
+			}
+			break;
+		case 2:
+			if(map.isTile(player.getRow()+1,player.getColumn(),Map::Tile::oldMan))
+			{
+				textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+				successful = true;
+			}
+			break;
+		case 3:
+			if(map.isTile(player.getRow(),player.getColumn()-1,Map::Tile::oldMan))
+			{
+				textBox.setMessage(oldManMessages[oldManMessagesIndex],window);
+				successful = true;
+			}
+			break;
 
 	}
 	if(successful)
@@ -411,6 +425,35 @@ void loadSounds()
 	}
 	soundNewGame.setBuffer(bufferNewGame);
 	soundNewGame.setVolume(30);
+
+	if(!bufferDeathScream.loadFromFile("deathscream.ogg"))
+	{
+		cout << "cannot load deathscream.ogg" << endl;
+	}
+
+	soundDeathScream.setBuffer(bufferDeathScream);
+	soundDeathScream.setVolume(30);
+
+	if(!bufferTakeDamage.loadFromFile("takedamage.ogg"))
+	{
+		cout << "cannot load takedamage.ogg" <<endl;
+	}
+	soundTakeDamage.setBuffer(bufferTakeDamage);
+	soundTakeDamage.setVolume(30);
+
+	if(!bufferRoundStart.loadFromFile("roundstart.ogg"))
+	{
+		cout << "cannot load roundstart.ogg" <<endl;
+	}
+	soundRoundStart.setBuffer(bufferRoundStart);
+	soundRoundStart.setVolume(30);
+
+	if(!bufferCrowdMeter.loadFromFile("crowdmeterprogress.ogg"))
+	{
+		cout << "cannot load crowdmeterprogress.ogg" <<endl;
+	}
+	soundCrowdMeter.setBuffer(bufferCrowdMeter);
+	soundCrowdMeter.setVolume(30);
 }
 
 int main()
@@ -550,15 +593,6 @@ int main()
 	int retryChoice = 1;
 	int randomMessage = 0;
 
-	// Declare a new sound buffer
-	sf::SoundBuffer buffer;
-	// Load it from a file
-	if (!buffer.loadFromFile("DeathScream.wav"))
-	{
-		std::cout<< "Error masking image resource DeathScream.wav" <<std::endl;
-	}
-
-
 	//CREATE TEXTBOX FOR DISPLAYING DIALOGUE
 	ChatBox textBox = ChatBox(winX,winY);
 	textBox.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
@@ -665,7 +699,7 @@ int main()
 	int SPAWNWAIT = 2000;
 
 	bool roundActive = false;
-	bool store = false; //is PLayer in store
+	bool store = false; //is Player in store
 
 	bool infinite = false; //infinite spawn mode
 	int infWait = 5000;
@@ -701,7 +735,7 @@ int main()
 	Menu menu(winX, winY);
     while (window.isOpen())
     {
-		//STATE 0 - OPENING MENU SELECTION
+		//STATE -1 - OPENING MENU
 		if(state == -1)
 		{
 			while (window.pollEvent(event))
@@ -740,7 +774,7 @@ int main()
 			}
 			menu.draw(window);
 		}
-		//STATE 0 - OPENING MENU SELECTION
+		//STATE 0 - SELECTION
 		if(state == 0)
 		{
 			while (window.pollEvent(event))
@@ -865,7 +899,10 @@ int main()
 					break;
 
 				case (sf::Keyboard::Space):
+					
 					if (!(store && roundActive)){
+						soundRoundStart.play();
+						//musicCombat.play();
 						roundActive = true;
 						if (currentRound < 10){
 							currentRound ++;
@@ -970,7 +1007,7 @@ int main()
 						}
 						else
 						{
-							std::cout << "Out of stamina!" << std::endl;
+							//std::cout << "Out of stamina!" << std::endl;
 							break;
 						}
 				}
@@ -1062,40 +1099,32 @@ int main()
 				std::cout << "Player facing: " << (player.getFacing()) << std::endl;
 				std::cout << "===============" << std::endl;
 
-				//player.increaseGoldStash(5);
-				//HUD.increaseCrowdMeter(15);
-
-				//SPECIAL EFFECTS// - ambience method needs to be called in the render loop and weaponTrail should be called straight after an attack
-
-				//effect.zoomFreeze(150, 5.0); //Zoom out - you can optionally set the interval. It defaults to 0.05 (ie. it runs the .zoom method every 0.05 seconds)
-				//effect.zoomFreeze(50, 5.0);   //Zoom in
-				//effect.screenShake(1, 20);  //shake screen at power 2 for 20 frames (60 frames = 1 second)
-				//effect.fade(0,0,0,0,300,255); //Lot of variables, but the first 4 are just the colour, then frames, then the final alpha amount you want (255 = opaque, 0 = transparent)
-				//effect.blood(player); //'player' is the target of the blood spray
-				//effect.weaponTrail(); //just sets a bool to true, should be written into the attack section but written here as an example
-
 				debug = false;
 			}
 
 			//**MAP TRANSITIONS**/
-			if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition)  && !(roundActive))
-			{	
-				projectiles.clear();//clear projectiles so they don't appear on the second map
-				window.setView(window.getDefaultView()); //change view back to normal to display the stores properly
-				if(map.getCurrentMap() == 0)
-				{
-					store = true;
-					map.setMap(secondMap,1);
-					player.setPosition(1,17);
-				}
-				else
-				{
-					store = false;
-					map.setMap(mainMap,0);
-					player.setPosition(44,17);
+			//If you're not currently in a round then you can transition
+			if(!roundActive)
+			{
+				if( map.isTile(player.getRow(),player.getColumn(),Map::Tile::transition)  && !(roundActive))
+				{	
+					projectiles.clear();//clear projectiles so they don't appear on the second map
+					window.setView(window.getDefaultView()); //change view back to normal to display the stores properly
+					if(map.getCurrentMap() == 0)
+					{
+						store = true;
+						map.setMap(secondMap,1);
+						player.setPosition(1,17);
+					}
+					else
+					{
+						store = false;
+						map.setMap(mainMap,0);
+						player.setPosition(44,17);
+					}
 				}
 			}
-
+			
 			window.clear();
 
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y); //move shadow/lighting sprite to follow player
@@ -1166,13 +1195,15 @@ int main()
 				{
 					if (droppedCoins[i].getConsumed())
 					{
-						droppedCoins.erase(droppedCoins.begin()+i);
-						
+						droppedCoins.erase(droppedCoins.begin()+i);				
 					}
 					else
 					{
-						droppedCoins[i].updateCoinDrop(window, player, iterations); //Draws the coins
-						droppedCoins[i].pickedUpCoin(player,soundCoin);						//adds the amount to your stash over time
+						if(!store)
+						{
+							droppedCoins[i].updateCoinDrop(window, player, iterations);		//Draws the coins if you aren't in the store area
+						}
+						droppedCoins[i].pickedUpCoin(player,soundCoin, HUD);				//adds the amount to your stash over time * multiplier
 					}
 				}
 			}
@@ -1181,7 +1212,6 @@ int main()
 			window.draw(player.getSprite()); //draw player sprite
 			effect.bloodUpdate(TimePerFrame);
 			effect.weaponTrailUpdate(projectiles, player);
-			//effect.ambience();
 			effect.screenShakeUpdate();
 
 			//**RUN / DRAW AI**//
@@ -1199,7 +1229,7 @@ int main()
 					{
 						Coin newCoin = Coin(enemies[eLoop], dropCoinTexture);
 						enemies.erase(enemies.begin()+eLoop);
-						HUD.increaseCrowdMeter(15);
+						HUD.increaseCrowdMeter(30);
 						droppedCoins.push_back(newCoin);
 					}
 					else
@@ -1258,48 +1288,50 @@ int main()
 						{
 							//GAME OVER
 
-							//Death scream
-							sf::Sound deathScream;
-							deathScream.setBuffer(buffer);
-							// Play the sound
-
 							musicAmbient.stop();
-							deathScream.play();
+							soundDeathScream.play();
 							musicGameOver.play();
 
 							player.setDead(choice);
-							effect.zoomFreeze(40,5);
-						
-							view1.reset(sf::FloatRect(0,0,winX,winY));
-						
-							textBox2.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
-							
-							int prevNum = randomMessage;
-							randomMessage = rand()%9;
-							//To fix an annoying bug where if the same number was chosen twice, no message would show
-							while(randomMessage == prevNum)
+							if(effect.zoomFreeze(40,5))
 							{
-								randomMessage = rand()%9; //if it's the same generate a new number
-							}
+								view1.reset(sf::FloatRect(0,0,winX,winY));
+						
+								textBox2.setTextSettings("Retro Computer_DEMO.ttf", 19, sf::Color::White);
+							
+								int prevNum = randomMessage;
+								randomMessage = rand()%9;
 
-							//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
-							textBox2.SetCharaterLineLimit(55);
-							textBox2.setMessage(gameOverMessages[randomMessage],window);
-							textBox2.redrawChat(false);//do not redraw textbox
+								//To fix an annoying bug where if the same number was chosen twice, no message would show
+								while(randomMessage == prevNum)
+								{
+									randomMessage = rand()%9; //if it's the same generate a new number
+								}
+
+								//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
+								textBox2.SetCharaterLineLimit(55);
+								textBox2.setMessage(gameOverMessages[randomMessage],window);
+								textBox2.redrawChat(false);//do not redraw textbox
 							
-							yesText.setPosition(sf::Vector2f(winX*0.2f, winY-450.0f));
-							noText.setPosition(sf::Vector2f(winX*0.8f - 150, winY-450.0f));
-							continueText.setPosition(sf::Vector2f(winX*0.33f, winY-750.0f));
-							selectionOutline.setSize(sf::Vector2f(yesText.getGlobalBounds().width+10, yesText.getGlobalBounds().height+5));
-							selectionOutline.setPosition(yesText.getPosition().x - 7, noText.getPosition().y + 7);
+								yesText.setPosition(sf::Vector2f(winX*0.2f, winY-450.0f));
+								noText.setPosition(sf::Vector2f(winX*0.8f - 150, winY-450.0f));
+								continueText.setPosition(sf::Vector2f(winX*0.33f, winY-750.0f));
+								selectionOutline.setSize(sf::Vector2f(yesText.getGlobalBounds().width+10, yesText.getGlobalBounds().height+5));
+								selectionOutline.setPosition(yesText.getPosition().x - 7, yesText.getPosition().y + 7);
 							
-							retryChoice = 1;
-							state = 4;	
+								retryChoice = 1;
+								state = 4;	
+							}
 						}
-						std::cout << "ouch!!   Player Health: "<< player.getHealth() << std::endl;
-						effect.blood(player);
-						player.knockback(map,iterations,playerCollision[i]->getFacing());
-						playerCollision[i]->attackTimer = 30;
+						else
+						{
+							soundTakeDamage.play();
+							std::cout << "ouch!!   Player Health: "<< player.getHealth() << std::endl;
+							effect.blood(player);
+							player.knockback(map,iterations,playerCollision[i]->getFacing());
+							playerCollision[i]->attackTimer = 30;
+						}
+
 					}	
 				}
 				i++;
@@ -1335,6 +1367,7 @@ int main()
 			//**END**//
 
 			window.draw(lightingSprite); //draw lighting/shadow sprite
+			effect.ambience();
 
 			window.setView(window.getDefaultView()); //change view back to normal so that chatBoxes and HUD elements don't scroll aswell
 
@@ -1567,12 +1600,39 @@ int main()
 					{
 						soundNewGame.play();
 						//will need to reset more values than this
-						state=0;
+
+						speed = 3;
+						attack = 1;
+						health = 50;
+						stamina = 30;
+						choice = 1;
+
+						roundActive = false;
+						store = false; //is Player in store
+
+						infinite = false; //infinite spawn mode
+						infWait = 5000;
+						infRound = 1;
+
+						player.setPosition(23,16);//player starting position
+						player.setGoldStash(0);
+						HUD.getCrowdDial().setRotation(0.06);
+						player.fullHealth(health);
+						player.setHealthPotionNumber(1);
+
 						selectionOutline.setSize(sf::Vector2f(warriorBox.getSize().x,warriorBox.getSize().y));
 						selectionOutline.setPosition(wizardLoc.x - 10, wizardLoc.y+7);
+
 						enemies.clear();
+						droppedCoins.clear();
+						projectiles.clear();
+
+						currentRound = 0;
+
 						musicAmbient.play();
 						musicGameOver.stop();
+						
+						state=0;
 					}
 					//Go back to main menu??
 					else

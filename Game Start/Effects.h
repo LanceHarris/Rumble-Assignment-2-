@@ -27,7 +27,7 @@ public:
 	~Effects(void);
 
 	void wait(int seconds);
-	void zoomFreeze(float maxZoom, float seconds, float interval = 0.05);
+	bool zoomFreeze(float maxZoom, float seconds, float interval = 0.05);
 
 	void screenShake(int power, float shakeFrames);
 	void screenShakeUpdate();

@@ -33,7 +33,7 @@ Player::Player(int &health, float &speed, int &stamina, int choice, sf::Texture 
 	staminaVitaminNumber = 0;
 
 	//gold
-	goldStash = 9123;
+	goldStash = 0;
 	choice = 1;
 
 	sprite.setTexture(texture);
@@ -102,6 +102,11 @@ int Player::getGoldStash()
 	return goldStash;
 }
 
+void Player::setGoldStash(int amount)
+{
+	this->goldStash = amount;
+}
+
 void Player::increaseGoldStash(int newGold)
 {
 	goldStash += newGold;
@@ -131,6 +136,11 @@ void Player::useStaminaVitamin()
 int Player::getHealthPotionNumber()
 {
 	return healthPotionNumber;
+}
+
+void Player::setHealthPotionNumber(int amount)
+{
+	this->healthPotionNumber = amount;
 }
 
 int Player::getStaminaPotionNumber()
@@ -229,6 +239,11 @@ int Player::getChoice()
 void Player::setChoice(int choice)
 {
 	this->choice = choice;
+}
+
+void Player::fullHealth(int health)
+{
+	this->health = health;
 }
 
 Player::~Player()
