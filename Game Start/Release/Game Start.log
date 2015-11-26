@@ -1,17 +1,17 @@
-﻿Build started 26/11/2015 6:03:10 PM.
-     1>Project "C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
+﻿Build started 26/11/2015 8:13:29 p.m..
+     1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Link:
          All outputs are up-to-date.
-         Game Start.vcxproj -> C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Release\Game Start.exe
+         Game Start.vcxproj -> C:\Temp\Rumble-Assignment-2-\Release\Game Start.exe
        FinalizeBuildStatus:
          Deleting file "Release\Game Start.unsuccessfulbuild".
          Touching "Release\Game Start.lastbuildstate".
-     1>Done Building Project "C:\Users\Justin\Documents\GitHub\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.11
+Time Elapsed 00:00:00.29

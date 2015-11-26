@@ -35,7 +35,7 @@ Player size after 1.5 scaling: 24
 #include "Effects.h"
 #include "Particle.h"
 #include "Coin.h"
-
+#include "menu.h"
 #include <list>
 #include <cmath>
 
@@ -84,7 +84,7 @@ int iterations; //used to control speed of animation
 //**END**//
 
 //**GAME STATE**//
-int state = 0;
+int state = -1;
 int characterSelection; //to record character choice
 //**END**//
 
@@ -698,9 +698,48 @@ int main()
 	musicAmbient.play();
 
 	sf::Event event;
-
+	Menu menu(winX, winY);
     while (window.isOpen())
     {
+		//STATE 0 - OPENING MENU SELECTION
+		if(state == -1)
+		{
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+				}
+				else if (event.type == sf::Event::KeyPressed)
+				{
+					switch (event.key.code)
+					{
+					//Other Controls
+					case (sf::Keyboard::W )://Change selection
+						menu.Move();
+						break;
+
+					case (sf::Keyboard::Up )://Change selection
+						menu.Move();
+						break;
+
+					case (sf::Keyboard::S): //Change selection
+						menu.Move();
+						break;
+
+					case (sf::Keyboard::Down ): //Change selection
+						menu.Move();
+						break;
+
+					case (sf::Keyboard::R): //Select character
+						menu.selectOption(state, window);
+						break;
+
+					}
+				}
+			}
+			menu.draw(window);
+		}
 		//STATE 0 - OPENING MENU SELECTION
 		if(state == 0)
 		{
