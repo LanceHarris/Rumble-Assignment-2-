@@ -117,19 +117,46 @@ void Player::decreaseGoldStash(int value)
 	goldStash -= value;
 }
 
-void Player::useStrengthVitamin()
+bool Player::useStrengthVitamin()
 {
-	attack += 1;
+	if(strengthVitaminNumber > 0)
+	{
+		attack += 1;
+		removeStrengthVitamin();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
-void Player::useHealthVitamin()
+bool Player::useHealthVitamin()
 {
-	health += 10;
+	if(healthVitaminNumber > 0)
+	{
+		health += 10;
+		removeHealthVitamin();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
-void Player::useStaminaVitamin()
+bool Player::useStaminaVitamin()
 {
-	stamina += 10;
+	if(staminaVitaminNumber > 0)
+	{
+		stamina += 10;
+		removeStaminaVitamin();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 //Potion methods

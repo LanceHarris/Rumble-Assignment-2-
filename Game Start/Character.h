@@ -131,9 +131,10 @@ public:
 	void giveStrengthVitamin();
 	void giveHealthVitamin();
 	void giveStaminaVitamin();
-	void useStrengthVitamin();
-	void useHealthVitamin();
-	void useStaminaVitamin();
+
+	bool useStrengthVitamin();
+	bool useHealthVitamin();
+	bool useStaminaVitamin();
 
 	//GOLD STASH STUFF
 	int getGoldStash();

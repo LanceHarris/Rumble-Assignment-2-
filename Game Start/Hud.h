@@ -88,7 +88,6 @@ public:
 	//Potions
 	bool useHealthPotion(int potionLevel, Player &player);
 	bool useStaminaPotion(int potionLevel, Player &player);
-	void increaseRegenSpeed();
 
 	//Crowd Meter
 	sf::Sprite & getCrowdDial();

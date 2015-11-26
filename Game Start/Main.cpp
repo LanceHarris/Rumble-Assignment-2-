@@ -30,7 +30,6 @@ Player size after 1.5 scaling: 24
 #include "Character.h"
 #include "Projectile.h"
 #include "Hud.h"
-#include "Item.h"
 #include "Store.h"
 #include "Effects.h"
 #include "Particle.h"
@@ -44,7 +43,7 @@ string introductionMessage = "Welcome to Rumble! \n\nPlease choose a character a
 string itemNotificationMessage = "You recieved a "; //prefix for recieving an item
 string gameOverMessages[10] = {"Black Knight: 'Tis but a scratch.\nKing Arthur: A scratch? Your arm's off!", "Your mother was a hamster and your father smelt\nof elderberries!","Bring out yer dead.","King Arthur: Look, you stupid bastard, you've got no arms!\nBlack Knight: Yes I have.\nKing Arthur: Look!\nBlack Knight: It's just a flesh wound.","Please! This is supposed to be a happy occasion.\nLet's not bicker and argue over who killed who.","Look, that rabbit's got a vicious streak a mile wide!\nIt's a killer!","Dennis: Come and see the violence inherent in the system.\nHelp! Help! I'm being repressed!\nKing Arthur: Bloody peasant!","We are now the Knights who say...\n\"Ekki-ekki-ekki-ekki-PTANG. Zoom-Boing, z'nourrwringmm.\"","King Arthur: Who are you who can summon fire\nwithout flint or tinder?\nTim: There are some who call me... Tim.","On second thought, let's not go to Camelot. It is a silly place."};
 
-string oldManMessages[4] = {"Greetings, young one. What brings you down here?","Perhaps you're lost?","The only way out of here is to defeat all the enemies.","Here's a little something to help you with your efforts."};
+string oldManMessages[4] = {"Greetings, young one. What brings you down here?","Perhaps you're lost?","The only way out of here is to defeat all the enemies. Press [SPACE BAR] to spawn a new wave when in the other room.","Here's a little something to help you with your efforts."};
 int oldManMessagesIndex = 0; //used to determine which message is being displayed
 bool oldManItemRecieved = false; //whether or not the player has recieved the old man's item (stamina vitamin)
 
@@ -253,72 +252,6 @@ void startMusic()
 		musicCombat.setLoop(true);         //set music to loop
 }
 
-void drawWallTiles(Map &map, sf::RenderWindow &window, sf::Texture *wall,sf::Texture *wallTorch, sf::Texture *itemWallFront, sf::Texture *statsWallFront, sf::Texture *aBarrel, sf::Texture *topPillar, sf::Texture *bottomPillar, sf::Texture *aDoor, sf::Texture *oldMan)
-{
-
-	for (int row = 0; row < map.COLUMN_COUNT; row++)
-	{
-		for (int col = 0; col < map.ROW_COUNT; col++)
-		{
-			Map::Tile tile = map.getTile(col, row);
-			if (tile != Map::Tile::TileEmpty)
-			{
-				sf::RectangleShape rectangle;
-				rectangle.setPosition(row * 24, col * 24);
-				rectangle.setSize(sf::Vector2f(24, 24));
-
-				if(tile == Map::Tile::TileWall || tile == Map::Tile::statStore || tile == Map::Tile::itemStore)
-				{
-					rectangle.setFillColor(sf::Color::Black);
-				}
-				else if(tile == Map::Tile::tileWallFront)
-				{
-					rectangle.setTexture(wall);
-				}
-				else if(tile == Map::Tile::tileWallFrontTorch)
-				{
-					rectangle.setTexture(wallTorch);
-				}
-				else if(tile == Map::Tile::itemFrontWall)
-				{
-					rectangle.setTexture(itemWallFront);
-				}
-				else if(tile == Map::Tile::statWallFront)
-				{
-					rectangle.setTexture(statsWallFront);
-				}
-				else if(tile == Map::Tile::barrel)
-				{
-					rectangle.setTexture(aBarrel);
-				}
-				else if(tile == Map::Tile::pillarTop)
-				{
-					rectangle.setTexture(topPillar);
-				}
-				else if(tile == Map::Tile::pillarBottom)
-				{
-					rectangle.setTexture(bottomPillar);
-				}
-				else if(tile == Map::Tile::door)
-				{
-					rectangle.setTexture(aDoor);
-				}
-				else if(tile == Map::Tile::oldMan)
-				{
-					rectangle.setTexture(oldMan);
-					rectangle.setScale(1.2,1.2);
-				}
-					
-				//Don't draw rectangles for empty cells, figuren this might reduce lag a little
-				if(tile != Map::Tile::TileEmpty && tile != Map::Tile::transition)
-				{
-					window.draw(rectangle);
-				}
-			}
-		}
-	}
-}
-
 void talkToOldMan(Player &player, ChatBox &textBox, Map map, sf::RenderWindow &window, ChatBox &itemBox)
 {
 	int successful = false;
@@ -490,62 +423,6 @@ int main()
 	sf::Sprite shopStage;
 	shopStage.setTexture(shopMap);
 	//**END**//
-
-	//**WALL SEGMENT LOAD**//
-	sf::Texture wallFront;
-	if(!wallFront.loadFromFile("wallFront.jpg"))
-	{
-		std::cout<<"Error loading resource wallFront.jpg"<<std::endl; //error
-	}
-
-	//**GOATFENNEC OLDMAN**//
-	sf::Texture oldMan;
-	if(!oldMan.loadFromFile("goatFennecOldMan.png"))
-	{
-		std::cout<<"Error loading resource goatFennecOldMan.png"<<std::endl; //error
-	}
-
-	sf::Texture door;
-	if(!door.loadFromFile("door.png"))
-	{
-		std::cout<<"Error loading resource door.png"<<std::endl; //error
-	}
-
-	sf::Texture pillarTop;
-	if(!pillarTop.loadFromFile("pillarTop.jpg"))
-	{
-		std::cout<<"Error loading resource pillarTop.jpg"<<std::endl; //error
-	}
-
-	sf::Texture pillarBottom;
-	if(!pillarBottom.loadFromFile("pillarBottom.png"))
-	{
-		std::cout<<"Error loading resource pillarBottom.png"<<std::endl; //error
-	}
-
-	sf::Texture itemWallFront;
-	if(!itemWallFront.loadFromFile("itemFrontWall.jpg"))
-	{
-		std::cout<<"Error loading resource itemFrontWall.jpg"<<std::endl; //error
-	}
-
-	sf::Texture barrel;
-	if(!barrel.loadFromFile("barrel.png"))
-	{
-		std::cout<<"Error loading resource barrel.png"<<std::endl; //error
-	}
-
-	sf::Texture statsWallFront;
-	if(!statsWallFront.loadFromFile("statsFrontWall.jpg"))
-	{
-		std::cout<<"Error loading resource statsFrontWall.jpg"<<std::endl; //error
-	}
-
-	sf::Texture wallTorch;
-	if(!wallTorch.loadFromFile("wallFrontTorchOff.jpg"))
-	{
-		std::cout<<"Error loading resource wallFrontTorchOff.jpg"<<std::endl; //error
-	}
 
 	//**LIGHTING TEST**//
 	sf::Texture lighting;
@@ -728,11 +605,19 @@ int main()
 	}
 	std::vector<Coin> droppedCoins;
 
+	//store mangement variables
+	Store *currentStore;
+	int storeType;
+
+	//load sounds and start music
 	loadSounds();
 	musicAmbient.play();
 
 	sf::Event event;
+
+	//main menu object (new game, exit)
 	Menu menu(winX, winY);
+
     while (window.isOpen())
     {
 		//STATE -1 - OPENING MENU
@@ -751,22 +636,27 @@ int main()
 					//Other Controls
 					case (sf::Keyboard::W )://Change selection
 						menu.Move();
+						soundChangeSelection.play();
 						break;
 
 					case (sf::Keyboard::Up )://Change selection
 						menu.Move();
+						soundChangeSelection.play();
 						break;
 
 					case (sf::Keyboard::S): //Change selection
 						menu.Move();
+						soundChangeSelection.play();
 						break;
 
 					case (sf::Keyboard::Down ): //Change selection
 						menu.Move();
+						soundChangeSelection.play();
 						break;
 
 					case (sf::Keyboard::R): //Select character
 						menu.selectOption(state, window);
+						soundNewGame.play();
 						break;
 
 					}
@@ -836,6 +726,10 @@ int main()
 						player.setStamina(stamina);
 						player.setHealth(health);
 						*/
+
+						//intial greeting message
+						textBox.setMessage("Welcome to my dungeon. The only way to escape here is to defeat all my minions! Press [SPACE BAR] to spawn a new wave of enemies when you are ready to begin. You will find stores to the right where you can spend the gold you gather from vaquishing foes. I'm nothing if not sporting. Nyheheheh.",window);
+						textBox.redrawChat(true);
 						break;
 					}
 				}
@@ -919,7 +813,6 @@ int main()
 					break;
 
 				case (sf::Keyboard::Num1): //Use health potion
-					
 					if(HUD.useHealthPotion(1,player))
 						soundPotion.play();
 					else
@@ -935,11 +828,9 @@ int main()
 
 					//**VITAMIN USAGE KEYBINDINGS**//
 				case (sf::Keyboard::Num3): //Use health vitamin
-					if(player.getHealthVitaminNumber() > 0)
+					if(player.useHealthVitamin())
 					{
 						HUD.increaseMaxHP(10);
-						player.useHealthVitamin();
-						player.removeHealthVitamin();
 						soundVitamin.play();
 					}
 					else
@@ -949,12 +840,9 @@ int main()
 					break;
 
 				case (sf::Keyboard::Num4): //Use stamina vitamin
-					if(player.getStaminaVitaminNumber() > 0)
+					if(player.useStaminaVitamin())
 					{
 						HUD.increaseMaxSta(10);
-						player.useStaminaVitamin();
-						player.removeStaminaVitamin();
-						HUD.increaseRegenSpeed();
 						soundVitamin.play();
 					}
 					else
@@ -964,10 +852,8 @@ int main()
 					break;
 
 				case (sf::Keyboard::Num5): //Use strength vitamin
-					if(player.getStrengthVitaminNumber() > 0)
+					if(player.useStrengthVitamin())
 					{
-						player.useStrengthVitamin();
-						player.removeStrengthVitamin();
 						soundVitamin.play();
 					}
 					else
@@ -1002,7 +888,6 @@ int main()
 								soundAxe.play();
 							else
 								soundFireball.play();
-
 							break;
 						}
 						else
@@ -1015,7 +900,7 @@ int main()
         }
 
 
-		//SPAWN ENEMIES
+		//**SPAWN ENEMIES**//
 		int spawnAt = std::rand() % SPAWNLOACTIONS;
 		if (!infinite){
 			if (spawnTimer.getElapsedTime().asMilliseconds() > SPAWNWAIT && roundActive ) {
@@ -1062,6 +947,7 @@ int main()
 				if (infWait > 500){infWait -= 50;}; //speed things up :)
 			}
 		}
+		//**END**//
 
 		sf::Time elapsedTime = timer.restart();
 		timeSinceLastUpdate += elapsedTime;
@@ -1070,7 +956,7 @@ int main()
 			timeSinceLastUpdate -= TimePerFrame;
 			iterations++; //keeps track of how many screen draw iterations have happened
 			
-			view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y);
+			view1.setCenter(player.getSprite().getPosition().x, player.getSprite().getPosition().y); //make view follow player
 			
 			HUD.updateStamina();
 			HUD.updateCrowdMeter();
@@ -1124,35 +1010,38 @@ int main()
 					}
 				}
 			}
-			
+			//**END**//
+
 			window.clear();
 
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y); //move shadow/lighting sprite to follow player
 
-			//Check to see if player is entering a store
-			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) ) //for item store
+			//**CHECK IF ENTERING STORE**//
+			if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore) || map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore)) //for item store
 			{
+				//determine what store type is being entered
+				if(map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::itemStore))
+				{
+					currentStore = &itemStore;
+					storeType = 0;
+				}
+				else
+				{
+					currentStore = &vitaminStore;
+					storeType = 1;
+				}
+
+				//stop ambient music and start store music
 				musicAmbient.stop();
 				musicStore.play();
-				if(itemStoreFirstVisit == true)
+
+				//check if first visit to store, if so display unique one time message, if not display random message from array not including first message at 0 index
+				if(itemStoreFirstVisit == true && storeType == 0)
 				{
 					textBox.setMessage(itemStoreMessages[0],window);
 					itemStoreFirstVisit = false;
 				}
-				else
-				{
-					int randonNumber = rand()%(5-1)+1;
-					textBox.setMessage(itemStoreMessages[randonNumber],window);
-					
-				}
-				textBox.redrawChat(true);
-				state = 2;
-			}
-			else if( map.isTile( player.getRow()-1,player.getColumn(),Map::Tile::statStore) ) //for item store
-			{
-				musicAmbient.stop();
-				musicStore.play();
-				if(vitStoreFirstVisit == true)
+				else if(vitStoreFirstVisit == true && storeType == 1)
 				{
 					textBox.setMessage(vitaminStoreMessages[0],window);
 					vitStoreFirstVisit = false;
@@ -1160,33 +1049,34 @@ int main()
 				else
 				{
 					int randonNumber = rand()%(5-1)+1;
-					textBox.setMessage(vitaminStoreMessages[randonNumber],window);
+					if(storeType == 0)
+						textBox.setMessage(itemStoreMessages[randonNumber],window);
+					else
+						textBox.setMessage(vitaminStoreMessages[randonNumber],window);
 					
 				}
-				textBox.redrawChat(true);
-				state = 3;
+				textBox.redrawChat(true); //set textBox to be redrawn by game loop
+				state = 2; //switch to store state
 			}
+			//**END**//
 
 			//**DRAW GAME ELEMENTS**//
 			window.draw(map.getSprite());
 
-			//drawWallTiles(map,window,&wallFront,&wallTorch,&itemWallFront,&statsWallFront,&barrel,&pillarTop,&pillarBottom,&door,&oldMan); //uncomment this to edit stage layout
-
 			//dungeon map/main stage
-
 			map.drawMap(window,dungeonStage,shopStage); //draw stage sprite overlay
 
 			//Victory messages stuff
 			if(!firstRoundDone && roundActive) //whether or not first round has begun
 				firstRoundDone = true;
 
+			//if no enemies, roundMessages message at current index hasn't been displayed (not 1) and the first round has already happened, display message
 			if(enemies.size() == 0 && roundMessages[currentRound] == 0 && firstRoundDone)
 			{
 				textBox.setMessage(victoryMessages[currentRound],window);
 				textBox.redrawChat(true);
 				roundMessages[currentRound] = 1;
 			}
-			//Victory messages stuff end
 
 			//**ENEMY DROPS**//
 			for(int i = 0; i < droppedCoins.size(); i ++)
@@ -1215,7 +1105,6 @@ int main()
 			effect.screenShakeUpdate();
 
 			//**RUN / DRAW AI**//
-
 			enemyTree.clear();
 			if (enemies.size() > 0)
 			{
@@ -1336,7 +1225,6 @@ int main()
 				}
 				i++;
 			}
-
 			//**END**//
 
 			//**DRAW PROJECTILES**//
@@ -1412,33 +1300,40 @@ int main()
 
 						//Other Controls
 						case(sf::Keyboard::S):
-							itemStore.moveSelection(1);
+							currentStore->moveSelection(1);
 							soundChangeSelection.play();
 							break;
 
 						case(sf::Keyboard::W):
-							itemStore.moveSelection(0);
+							currentStore->moveSelection(0);
 							soundChangeSelection.play();
 							break;
 
 						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
 							state = 1;
 							textBox.redrawChat(false);
-							player.setPosition(11,12);
+
+							if(storeType == 0)
+								player.setPosition(11,11);
+							else
+								player.setPosition(32,11);
+
 							player.turn(2);
+
+							//stop store music and resume ambient music on exit
 							musicStore.stop();
 							musicAmbient.play();
 							break;
 
 						case (sf::Keyboard::R): //Chat box
-							if(itemStore.purchaseItem(player))
+							if(currentStore->purchaseItem(player))
 								soundNewGame.play();
 							else
 								soundError.play();
 							break;
 
 						case (sf::Keyboard::X):
-							textBox.setMessage(itemStore.getInfo(),window);
+							textBox.setMessage(currentStore->getInfo(),window);
 							textBox.redrawChat(true);
 							break;
 
@@ -1462,91 +1357,16 @@ int main()
 			if (timeSinceLastUpdate > timePerBlink)
 			{
 				timeSinceLastUpdate -= timePerBlink;
-				itemStore.blink(0);
+				currentStore->blink(storeType);
 			}
 
 			window.clear();
 
-			itemStore.displayStore(0,window,player.getGoldStash());
+			currentStore->displayStore(storeType,window,player.getGoldStash());
 			textBox.displayMessage(window);
 		
 			window.display();
 		
-	}
-	else if (state == 3)//stats store
-	{
-		while (window.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-				{
-					window.close();
-				}
-				else if (event.type == sf::Event::KeyPressed)
-				{
-					if(textBox.getRedraw() == false)
-					{
-						switch (event.key.code)
-						{
-						//Other Controls
-						case(sf::Keyboard::S):
-							vitaminStore.moveSelection(1);
-							soundChangeSelection.play();
-							break;
-
-						case(sf::Keyboard::W):
-							vitaminStore.moveSelection(0);
-							soundChangeSelection.play();
-							break;
-
-						case (sf::Keyboard::Escape): //exit shop, returns player to state 1 map
-							state = 1;
-							textBox.redrawChat(false);
-							player.setPosition(32,12);
-							player.turn(2);
-							musicStore.stop();
-							musicAmbient.play();
-							break;
-
-						case (sf::Keyboard::R): //Chat box
-							if(vitaminStore.purchaseItem(player))
-								soundNewGame.play();
-							else
-								soundError.play();
-							break;
-
-						case (sf::Keyboard::X):
-							textBox.setMessage(vitaminStore.getInfo(),window);
-							textBox.redrawChat(true);
-							break;
-						}
-					}
-					else
-					{
-						switch (event.key.code)
-						{
-						case (sf::Keyboard::R): //Chat box
-							soundChangeSelection.play();
-							textBox.setNext(true);
-							break;
-						}
-					}
-				}
-			}
-
-		sf::Time elapsedTime = timer.restart();
-		timeSinceLastUpdate += elapsedTime;
-		if (timeSinceLastUpdate > timePerBlink)
-		{
-			timeSinceLastUpdate -= timePerBlink;
-			vitaminStore.blink(1); //store type, 0 = item store, 1 = vitamin store. Determines which sprite is drawn
-		}
-
-		window.clear();
-
-		vitaminStore.displayStore(1,window,player.getGoldStash());
-		textBox.displayMessage(window);
-		
-		window.display();
 	}
 
 	else if(state == 4)//GAME OVER
@@ -1628,11 +1448,12 @@ int main()
 						projectiles.clear();
 
 						currentRound = 0;
+						textBox.setNext(true);
 
 						musicAmbient.play();
 						musicGameOver.stop();
 						
-						state=0;
+						state=-1;
 					}
 					//Go back to main menu??
 					else

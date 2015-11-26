@@ -75,15 +75,17 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 
 	int count = 0;
 	int lineCount = 0;
+	numOfBoxes = 0;
 
 	for(unsigned int i = 0; i < message.length();i++)
 	{
 		//IF STRING CONTAINS 3 LINES, INSERT (BREAK) SO THEY CAN BE BROKEN INTO SEPARATE CHATBOXES LATER
 		if(lineCount == 3)
 		{
-			messageLine += "^(BREAK)";
+			messageLine += "^";
 			lineCount = 0;
 			i-=1;
+			numOfBoxes+=1;
 		}
 		//LINECOUNT STILL LESS THAN MAXIMUM OF 3
 		else 
@@ -93,9 +95,10 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 			{
 				while(message[i] != ' ')
 				{
-					messageLine.erase(i,i);
+					messageLine.erase(i+numOfBoxes,i+numOfBoxes);
 					i-=1;
 				}
+
 				messageLine += "\n";
 				lineCount++;
 				count = 0;
@@ -111,6 +114,7 @@ void ChatBox::setMessage(string aMessage, sf::RenderWindow &window)
 
 	//SET MESSAGE TO MESSAGELINE. "\n and (BREAK)" ADDED
 	message = messageLine;
+	cout << message << endl;
 }
 
 void ChatBox::displayMessage(sf::RenderWindow &window)
@@ -132,7 +136,7 @@ void ChatBox::displayMessage(sf::RenderWindow &window)
 		if(boxesDone > 1)
 		{
 				//FIND LOCATION OF INSERTED (BREAK)'S
-				loc = message.find( "^(BREAK)", 0 );
+				loc = message.find( "^", 0 );
 
 				//SET TEXT TO SUBSTR OF TEXT FROM BEGINNING TO FIRST (BREAK)
 				text.setString(message.substr(0,loc));
@@ -145,7 +149,7 @@ void ChatBox::displayMessage(sf::RenderWindow &window)
 					cout << boxesDone << endl;
 
 					//ERASE PREVIOUSLY DRAWN TEXT AND MOVE ONTO NEXT ONE (+7 IS TO ALSO DELETE THE (BREAK) )
-					message.erase(0,loc+8);
+					message.erase(0,loc+1);
 					next = false;
 				}
 		}

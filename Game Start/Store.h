@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 
-#include "Item.h"
 #include "Character.h"
 
 using namespace std;
@@ -32,9 +31,6 @@ public:
 	sf::Texture aVitStoreKeeperBlinkTexture;
 
 	sf::Texture aBackground;
-
-	//item list array
-	std::vector<Item> storeInventory;
 
 	string storeName;
 	std::ostringstream gold;

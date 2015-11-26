@@ -11,8 +11,8 @@ Menu::Menu(float width, float hieght)
 
 	newGame.setColor(sf::Color::Yellow);
 	newGame.setString("New Game");
-	newGame.setCharacterSize(30);
-	newGame.setPosition((width/2), hieght-400);
+	newGame.setCharacterSize(50);
+	newGame.setPosition((width/2)-150, (hieght/2)-50);
 	newGame.setFont(font);
 
 	/*menu[1].setColor(sf::Color::White);
@@ -21,8 +21,8 @@ Menu::Menu(float width, float hieght)
 
 	Exit.setColor(sf::Color::White);
 	Exit.setString("Exit");
-	Exit.setCharacterSize(30);
-	Exit.setPosition(width/2 , hieght-300);
+	Exit.setCharacterSize(50);
+	Exit.setPosition((width/2)-150, (hieght/2)+50);
 	Exit.setFont(font);
 
 }

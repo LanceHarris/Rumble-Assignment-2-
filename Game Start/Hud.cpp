@@ -382,8 +382,8 @@ void Hud::increaseMaxHP(int newHP)
 void Hud::increaseMaxSta(int newSta)
 {
 	this->max_Sta += newSta;
-
 	maxSLength = (max_Sta*3); //stamina regens on its own, no need to restore it :)
+	regenSpeed+=0.01; //increase regen too so you don't have to wait forever! :)
 
 	/*std::cout << "Max Sta: " << max_Sta << std::endl;
 	std::cout << "Current Sta :" << current_Sta << std::endl;
@@ -457,11 +457,6 @@ bool Hud::useStaminaPotion(int potionLevel, Player &player)
 		return false;
 	}
 	return true;
-}
-
-void Hud::increaseRegenSpeed()
-{
-	regenSpeed+=0.01;
 }
 
 void Hud::setStaminaBarAttributes(int choice)
