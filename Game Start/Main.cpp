@@ -801,7 +801,7 @@ int main()
 
 				case (sf::Keyboard::Space):
 					
-					if (!(store && roundActive)){
+					if (!(store && roundActive) && map.getCurrentMap() == 0){
 						soundRoundStart.play();
 						//musicCombat.play();
 						roundActive = true;
@@ -1273,7 +1273,7 @@ int main()
 			HUD.updateActionbar(player.getHealthPotionNumber(),player.getStaminaPotionNumber(),player.getHealthVitaminNumber(),player.getStaminaVitaminNumber(),player.getStrengthVitaminNumber());
 
 			//Display message informing player how to progress to next round
-			if(!roundActive)
+			if(!roundActive && map.getCurrentMap() == 0)
 				window.draw(spaceBarNotice);
 
 			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX

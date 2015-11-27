@@ -1,4 +1,4 @@
-﻿Build started 27/11/2015 3:29:12 PM.
+﻿Build started 27/11/2015 3:34:54 PM.
      1>Project "C:\Temp\Rumble-Assignment-2-\Game Start\Game Start.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\Game Start.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -88,4 +88,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.30
+Time Elapsed 00:00:03.36
