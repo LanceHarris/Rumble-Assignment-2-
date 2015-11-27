@@ -1,3 +1,12 @@
+/*
+*	menu.h
+*	Rumble
+*
+*	Created by: Reuben Dales, Lance Donnell, Lance Harris, Josh Prow.
+*	Dated: 12 November 2015
+*
+*/
+
 #pragma once
 #include "SFML/Graphics.hpp"
 

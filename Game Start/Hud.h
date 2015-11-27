@@ -68,7 +68,11 @@ private:
 	int coinHeight;
 	sf::Texture coinTexture;
 	sf::Text goldCount;
-	sf::Font goldFont;	
+	sf::Font goldFont;
+
+	//====SCORE====
+	sf::Text playerScore;
+	int red, green, blue;
 
 public:
 	Hud(Player &player, sf::RenderWindow &window);
@@ -97,6 +101,10 @@ public:
 
 	string NumberToString( int Number); //for conversion of int to strings
 	void updateActionbar(int healthPot, int stamPot, int healthVit, int stamVit, int strVit);
+
+	//Player Score
+	void updatePlayersScore(Player &player, sf::RenderWindow &window);
+	void popPlayerScore();
 
 	~Hud(void);
 };

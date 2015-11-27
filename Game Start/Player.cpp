@@ -35,6 +35,7 @@ Player::Player(int &health, float &speed, int &stamina, int choice, sf::Texture 
 	//gold
 	goldStash = 0;
 	choice = 1;
+	score = 0;
 
 	sprite.setTexture(texture);
 	sprite.setTextureRect(sf::IntRect(SPRITEGAP,SPRITEGAP,SPRITEWIDTH,SPRITEHEIGHT));
@@ -271,6 +272,21 @@ void Player::setChoice(int choice)
 void Player::fullHealth(int health)
 {
 	this->health = health;
+}
+
+int Player::getScore()
+{
+	return score;
+}
+
+void Player::setScore(int score)
+{
+	this->score = score;
+}
+
+void Player::increaseScore(int amount)
+{
+	this->score += amount;
 }
 
 Player::~Player()

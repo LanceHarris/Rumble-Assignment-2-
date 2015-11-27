@@ -53,7 +53,7 @@ int vitStoreFirstVisit = true; //whether or not it's the player's first visit, u
 string itemStoreMessages[5] = {"Hello, stranger, it's unusual to see your kind around here... Whatever, This is the item store. Buy something or get out.","This is the item store. Buy something or get out.","My sister keeps bringing me over homemade sweets, I really don't like sweet things but I don't want to hurt her feelings.","You're looking a little beat up, how about buying a health potion?","What do you want?"};
 int itemStoreFirstVisit = true; //whether or not it's the player's first visit, used to display a unique greeting message at index 0
 
-string victoryMessages[10] = {"Good job, Hero. But this is the first of many battles.","Your fight has only just begun, Hero. There are many more battles ahead. Many more opportunities for you to die.","You are powerful, Hero. I can admit that much, but no matter how powerful you are, all humans must grow weary.","Are you tiring of this yet, Hero?","Is it me, or are you slowing down? Nheheheh!","You're starting to annoy me, Hero. Why won't you just die?","Why do you struggle so? Wouldn't it be easier to just... Let go?","There is no end to my minions, Hero. Eventually, one of these times, you WILL fall.","DIE, HERO! JUST DIE! YOU WILL DIE EVEN IF I HAVE TO PUT YOU DOWN MYSELF!","How... Could you... Defeat... Everyone of my..."};
+string victoryMessages[10] = {"Good job, Hero. But this is the first of many battles.","Your fight has only just begun, Hero. There are many more battles ahead. Many more opportunities for you to die.","You are powerful, Hero. I can admit that much, but no matter how powerful you are, all humans must grow weary.","Are you tiring of this yet, Hero?","Is it me, or are you slowing down? Nheheheh!","You're starting to annoy me, Hero. Why won't you just die?","Why do you struggle so? Wouldn't it be easier to just... Let go?","There is no end to my minions, Hero. Eventually, one of these times, you WILL fall.","DIE, HERO! JUST DIE! YOU WILL DIE EVEN IF I HAVE TO PUT YOU DOWN MYSELF!","How... Could you... Defeat... Every one of my..."};
 //**END**//
 
 int roundMessages[10] = {0,0,0,0,0,0,0,0,0,0};
@@ -129,6 +129,9 @@ sf::Sound soundRoundStart;
 //Added but not implemented
 sf::SoundBuffer bufferCrowdMeter;
 sf::Sound soundCrowdMeter;
+
+sf::SoundBuffer bufferDyingGrunt;
+sf::Sound soundDyingGrunt;
 
 //**END**//
 
@@ -244,11 +247,11 @@ void startMusic()
 		musicGameOver.setVolume(20);         //set music volume
 		musicGameOver.setLoop(true);         //set music to loop
 
-		if(!musicCombat.openFromFile("DST-TheDying.ogg"))
+		if(!musicCombat.openFromFile("DST-DrumNBasic.ogg"))
 		{
-			std::cout<<"Could not load DST-TheDying"<<std::endl;
+			std::cout<<"Could not load DST-DrumNBasic"<<std::endl;
 		}
-		musicCombat.setVolume(20);         //set music volume
+		musicCombat.setVolume(40);         //set music volume
 		musicCombat.setLoop(true);         //set music to loop
 }
 
@@ -387,6 +390,13 @@ void loadSounds()
 	}
 	soundCrowdMeter.setBuffer(bufferCrowdMeter);
 	soundCrowdMeter.setVolume(30);
+
+	if(!bufferDyingGrunt.loadFromFile("dyinggrunt.ogg"))
+	{
+		cout << "cannot load dyinggrunt.ogg" <<endl;
+	}
+	soundDyingGrunt.setBuffer(bufferDyingGrunt);
+	soundDyingGrunt.setVolume(30);
 }
 
 int main()
@@ -625,6 +635,9 @@ int main()
 	spaceBarNotice.setPosition(winX/2-290,winY-130);
 	spaceBarNotice.setCharacterSize(15);
 
+	float volume;
+	bool musicPlaying = false;
+
     while (window.isOpen())
     {
 		//STATE -1 - OPENING MENU
@@ -719,23 +732,22 @@ int main()
 						player.setSprite(choice);
 						player.setChoice(choice);
 						HUD.setStaminaBarAttributes(choice);
-						/*
-						if(choice == 0)
+
+						//More mana less health!
+						if(choice == 1)
 						{
-							health = 60;
-							stamina = 30;
+							HUD.increaseMaxSta(20);
+							player.setHealth(40);
 						}
-						else
+
+						//More health less stamina!
+						else if(choice == 0)
 						{
-							health = 40;
-							stamina = 50;
+							player.setHealth(70);
 						}
-						player.setStamina(stamina);
-						player.setHealth(health);
-						*/
 
 						//intial greeting message
-						textBox.setMessage("Welcome to my dungeon. The only way to escape here is to defeat all my minions! You will find stores to the right where you can spend the gold you gather from vaquishing foes. I'm nothing if not sporting. Nyheheheh.",window);
+						textBox.setMessage("Welcome to my dungeon. The only way to escape here is to defeat all my minions! You will find stores to the right where you can spend the gold you gather from vanquishing foes. I'm nothing if not sporting. Nyheheheh.",window);
 						textBox.redrawChat(true);
 						break;
 					}
@@ -771,7 +783,7 @@ int main()
 				switch (event.key.code)
 				{
 				case (sf::Keyboard::LShift):
-					player.setSpeed(6);
+					//player.setSpeed(6);
 					break;
 
 				//Other Controls
@@ -793,18 +805,20 @@ int main()
 					break;
 
 				case (sf::Keyboard::I): //Debug Information
-					debug = true;
+					//debug = true;
 					break;
 				case (sf::Keyboard::P): //Spawn Enemy
-					enemies.push_back(newEnemy_Zombie);
+					//enemies.push_back(newEnemy_Zombie);
 					break;
 
 				case (sf::Keyboard::Space):
 					
-					if (!(store && roundActive) && map.getCurrentMap() == 0){
+					if (!store && !roundActive && map.getCurrentMap() == 0){
 						soundRoundStart.play();
-						//musicCombat.play();
+						musicCombat.setVolume(40); 
+						musicCombat.play();
 						roundActive = true;
+						musicPlaying = true;
 						if (currentRound < 10){
 							currentRound ++;
 							thisRound[1] = rounds[currentRound][1];
@@ -875,7 +889,7 @@ int main()
 				switch (event.key.code)
 				{
 				case (sf::Keyboard::LShift):
-					player.setSpeed(3);
+					//player.setSpeed(3);
 					break;
 				}
 			}
@@ -1020,6 +1034,24 @@ int main()
 			}
 			//**END**//
 
+			//if the round is over but the music is still playing
+			if(!roundActive && musicPlaying && iterations >= 10)
+			{
+				//fade out music
+				volume = musicCombat.getVolume();
+				if(volume >= 0)
+				{
+					volume -= 2.5;
+					musicCombat.setVolume(volume);
+				}
+				if(volume <= 0)
+				{
+					musicCombat.stop();
+					musicCombat.setVolume(40);
+					musicPlaying = false;
+				}
+			}
+
 			window.clear();
 
 			lightingSprite.setPosition(player.getSprite().getPosition().x,player.getSprite().getPosition().y); //move shadow/lighting sprite to follow player
@@ -1128,6 +1160,9 @@ int main()
 						enemies.erase(enemies.begin()+eLoop);
 						HUD.increaseCrowdMeter(30);
 						droppedCoins.push_back(newCoin);
+						HUD.popPlayerScore();
+						soundDyingGrunt.play();
+						player.increaseScore(20 * HUD.calculateMultiplier());
 					}
 					else
 					{
@@ -1186,6 +1221,7 @@ int main()
 							//GAME OVER
 
 							musicAmbient.stop();
+							musicCombat.stop();
 							soundDeathScream.play();
 							musicGameOver.play();
 
@@ -1205,10 +1241,9 @@ int main()
 									randomMessage = rand()%9; //if it's the same generate a new number
 								}
 
-								//NUMBER OF CHARCTERS PER LINE, WILL DIFFER DEPENDING ON FONT
 								textBox2.SetCharaterLineLimit(55);
 								textBox2.setMessage(gameOverMessages[randomMessage],window);
-								textBox2.redrawChat(false);//do not redraw textbox
+								textBox2.redrawChat(false);
 							
 								yesText.setPosition(sf::Vector2f(winX*0.2f, winY-450.0f));
 								noText.setPosition(sf::Vector2f(winX*0.8f - 150, winY-450.0f));
@@ -1271,6 +1306,7 @@ int main()
 			HUD.drawHUD();
 			HUD.updateCoin(iterations);
 			HUD.updateActionbar(player.getHealthPotionNumber(),player.getStaminaPotionNumber(),player.getHealthVitaminNumber(),player.getStaminaVitaminNumber(),player.getStrengthVitaminNumber());
+			HUD.updatePlayersScore(player, window);
 
 			//Display message informing player how to progress to next round
 			if(!roundActive && map.getCurrentMap() == 0)
@@ -1430,13 +1466,13 @@ int main()
 					if(retryChoice == 1)
 					{
 						soundNewGame.play();
-						//will need to reset more values than this
 
 						speed = 3;
 						attack = 1;
 						health = 50;
 						stamina = 30;
 						choice = 1;
+						player.setScore(0);
 
 						roundActive = false;
 						store = false; //is Player in store
@@ -1466,7 +1502,6 @@ int main()
 						
 						state=-1;
 					}
-					//Go back to main menu??
 					else
 					{
 						window.close();

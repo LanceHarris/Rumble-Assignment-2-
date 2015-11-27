@@ -10,7 +10,6 @@ Coin::Coin(Enemy &enemy, sf::Texture coinTexture)
 
 	this->coinTexture = coinTexture;
 	coin.setTexture(coinTexture);
-	coin.setScale(0.5,0.5);
 	coin.setPosition(sf::Vector2f(enemy.getPosition().x, enemy.getPosition().y));
 	coin.setTextureRect(sf::IntRect((coinXPos * coinWidth) + (coinGap * coinXPos)+coinGap, 0, coinWidth, coinHeight));
 	
@@ -20,12 +19,14 @@ Coin::Coin(Enemy &enemy, sf::Texture coinTexture)
 
 	if(enemy.type == Enemy::ZOMBIE)
 	{
+		coin.setScale(0.5,0.5);
 		amount = (rand()%50)+25; //Between 25 and 75
 	}
 
 	//Bosses give you more gold!
 	else if(enemy.type == Enemy::BOSS)
 	{
+		coin.setScale(0.7,0.7);
 		amount = (rand()%300)+50; //Between 50 and 350
 	}
 }

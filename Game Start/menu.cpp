@@ -1,5 +1,13 @@
-#include "menu.h"
+/*
+*	menu.cpp
+*	Rumble
+*
+*	Created by: Reuben Dales, Lance Donnell, Lance Harris, Josh Prow.
+*	Dated: 12 November 2015
+*
+*/
 
+#include "menu.h"
 
 Menu::Menu(float width, float hieght)
 {

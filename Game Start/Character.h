@@ -142,6 +142,11 @@ public:
 	void increaseGoldStash(int newGold);
 	void decreaseGoldStash(int value);
 
+	//PLAYER SCORE
+	int getScore();
+	void setScore(int score);
+	void increaseScore(int amount);
+
 protected:
 	int strengthVitaminNumber;
 	int healthVitaminNumber;
@@ -150,6 +155,7 @@ protected:
 	int staminaPotionNumber;
 	int choice;
 	int goldStash;
+	int score;
 };
 
 class Enemy: public Character{

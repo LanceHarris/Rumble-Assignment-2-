@@ -164,6 +164,17 @@ Hud::Hud(Player &player, sf::RenderWindow &window)
 	itemAmountsHealthVit.setString("0");
 	itemAmountsStamVit.setString("0");
 	itemAmountsStrVit.setString("0");
+
+	playerScore.setFont(goldFont);
+	playerScore.setColor(sf::Color::White);
+
+	std::ostringstream buff2;
+	buff2 << player.getScore();
+	playerScore.setString(buff2.str());
+
+	red = 255;
+	green = 255;
+	blue = 255;
 }
 
 void Hud::updateActionbar(int healthPot, int stamPot, int healthVit, int stamVit, int strVit)
@@ -233,7 +244,7 @@ void Hud::increaseCrowdMeter(int amount)
 float Hud::calculateMultiplier()
 {
 	float degrees = this->crowdDial.getRotation();
-	float multiplier = 0;
+	float multiplier = 1;
 
 	if(degrees > 0.05 && degrees < 90)
 	{
@@ -294,6 +305,7 @@ void Hud::drawHUD()
 	_window->draw(itemAmountsStrVit);
 
 	_window->draw(actionBarSprite);
+	_window->draw(playerScore);
 }
 
 //CONSTANTLY INCREASES STAMINA AND CHECKS IF ALL STAMINA HAS BEEN USED UP
@@ -472,6 +484,32 @@ void Hud::setStaminaBarAttributes(int choice)
 	{
 		this->staminaBar.setFillColor(sf::Color(103,164,245,180));
 	}
+}
+
+void Hud::updatePlayersScore(Player &player, sf::RenderWindow &window)
+{
+	if(green < 255)
+	{
+		green++;
+	}
+	if(blue < 255)
+	{
+		blue++;
+	}
+
+	playerScore.setColor(sf::Color(red,green,blue,255));
+
+	std::ostringstream buff;
+	buff << player.getScore();
+	this->playerScore.setString(buff.str());
+	this->playerScore.setPosition(window.getSize().x - playerScore.getGlobalBounds().width - 10, window.getSize().y - playerScore.getGlobalBounds().height - 10);
+}
+
+void Hud::popPlayerScore()
+{
+	green = 247;
+	blue = 0;
+	playerScore.setColor(sf::Color(red,green,blue,255));
 }
 
 Hud::~Hud(void)
