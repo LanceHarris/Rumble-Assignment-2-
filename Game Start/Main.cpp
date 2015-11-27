@@ -618,6 +618,13 @@ int main()
 	//main menu object (new game, exit)
 	Menu menu(winX, winY);
 
+
+	sf::Text spaceBarNotice;
+	spaceBarNotice.setFont(gameOverFont);
+	spaceBarNotice.setString("Press [SPACE BAR] to begin the next round");
+	spaceBarNotice.setPosition(winX/2-290,winY-130);
+	spaceBarNotice.setCharacterSize(15);
+
     while (window.isOpen())
     {
 		//STATE -1 - OPENING MENU
@@ -728,7 +735,7 @@ int main()
 						*/
 
 						//intial greeting message
-						textBox.setMessage("Welcome to my dungeon. The only way to escape here is to defeat all my minions! Press [SPACE BAR] to spawn a new wave of enemies when you are ready to begin. You will find stores to the right where you can spend the gold you gather from vaquishing foes. I'm nothing if not sporting. Nyheheheh.",window);
+						textBox.setMessage("Welcome to my dungeon. The only way to escape here is to defeat all my minions! You will find stores to the right where you can spend the gold you gather from vaquishing foes. I'm nothing if not sporting. Nyheheheh.",window);
 						textBox.redrawChat(true);
 						break;
 					}
@@ -1009,6 +1016,7 @@ int main()
 						player.setPosition(44,17);
 					}
 				}
+				
 			}
 			//**END**//
 
@@ -1264,8 +1272,11 @@ int main()
 			HUD.updateCoin(iterations);
 			HUD.updateActionbar(player.getHealthPotionNumber(),player.getStaminaPotionNumber(),player.getHealthVitaminNumber(),player.getStaminaVitaminNumber(),player.getStrengthVitaminNumber());
 
-			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
+			//Display message informing player how to progress to next round
+			if(!roundActive)
+				window.draw(spaceBarNotice);
 
+			//DISPLAY CHATBOX IF REDRAWCHAT IS SET TO TRUE, IGNORE IF SET TO FALSE. REDRAW AUTOMATICALLY SET TO FALSE WHEN PLAYER CLOSES LAST CHATBOX
 			if(textBox.getRedraw() == false)
 			{
 				itemNotificationBox.displayMessage(window);
